@@ -55,7 +55,8 @@ void baseEnemyShip::calculateDamage()
 
 void baseEnemyShip::setPositionAndVelocity(D3DXVECTOR3 pos, D3DXVECTOR3 vel)
 {
-
+	pos = position;
+	vel = velocity;
 }
 
 void baseEnemyShip::destroyShip()
