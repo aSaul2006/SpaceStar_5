@@ -3,7 +3,8 @@
 #include "CrudeTimer.h"
 #include "..\EntityManager\EntityManager.h"
 #include "MessageTypes.h"
-#include "EntityNames.h"
+#include "..\EntityNames.h"
+
 
 #include <iostream>
 using std::cout;

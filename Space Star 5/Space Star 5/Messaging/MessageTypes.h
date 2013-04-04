@@ -7,11 +7,11 @@
 //will need to have message that weapon has been fired
 //enemy has been destroyed, player destroyed.
 //may not even use a messaging system who knows.
-/*
+
 enum message_type
 {
-  Msg_HiHoneyImHome,
-  Msg_StewReady,
+  shootAtEnemy,
+  shootAtPlayer,
 };
 
 
@@ -19,18 +19,18 @@ inline std::string MsgToStr(int msg)
 {
   switch (msg)
   {
-  case Msg_HiHoneyImHome:
+  /*case Msg_HiHoneyImHome:
     
     return "HiHoneyImHome"; 
 
   case Msg_StewReady:
     
-    return "StewReady";
+    return "StewReady";*/
 
   default:
 
     return "Not recognized!";
   }
-}*/
+}
 
 #endif

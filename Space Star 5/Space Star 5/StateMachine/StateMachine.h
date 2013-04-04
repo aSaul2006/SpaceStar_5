@@ -1,3 +1,4 @@
+#pragma once
 #ifndef STATEMACHINE_H
 #define STATEMACHINE_H
 

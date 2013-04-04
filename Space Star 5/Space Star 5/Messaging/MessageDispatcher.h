@@ -11,7 +11,7 @@
 #pragma warning (disable:4786)
 
 #include <set>
-
+#include "..\BaseGameEntity.h"
 #include "ConsoleUtils.h"
 #include "Telegram.h"
 
@@ -27,7 +27,7 @@ private:
 
 	//calls the message handling member function of the receiving entity, pReceiver
 	//with the newly created telegram
-	void Discharge(Entity* pReceiver, const Telegram& msg);
+	void Discharge(BaseGameEntity* pReceiver, const Telegram& msg);
 
 	MessageDispatcher(){}
 
@@ -36,9 +36,10 @@ public:
 	static MessageDispatcher* Instance();
 	
 	//send a message to another agent
-	void Dispatchmessage(double delay, int sender, int receiver, int msg, void* ExtraInfo);
+	void DispatchMessage(double delay, int sender, int receiver, int msg, void* ExtraInfo);
 	
 	//send out any delayed messages. should be called in main loop
 	void DispatchDelayedMessages();	
 };
 
+#endif

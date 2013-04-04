@@ -1,5 +1,5 @@
 #ifndef _Telegram_H
-#def	_Telegram_H
+#define	_Telegram_H
 //------------------------------------------------------------------------
 //
 //  Name:   Telegram.h
@@ -14,25 +14,44 @@
 
 struct Telegram
 {
-	//The entity that sent this message
-	int				Sender;
-	//The entity to receive message
-	int				Receiver;
-	//The message being sent
-	int				Msg;
-	//Message can be dispatched immediately or delayed for a specified amout
-	//of time.  if a delay is necessary, make a time stamp
-	double 			DispatchTime;
-	//Additional information if needed
-	void* 			AdditionalInfo;
-	
-	Telegram() : DispatchTime(-1),Sender(-1),Receiver(-1),Msg(-1){}
-	
-	Telegram(double time, int sender, int receiver, int msg, void* info = NULL)
-		: DispatchTime(time),Sender(sender),Receiver(receiver),Msg(msg),ExtraInfo(info){} 
-	
-};
+  //the entity that sent this telegram
+  int          Sender;
 
+  //the entity that is to receive this telegram
+  int          Receiver;
+
+  //the message itself. These are all enumerated in the file
+  //"MessageTypes.h"
+  int          Msg;
+
+  //messages can be dispatched immediately or delayed for a specified amount
+  //of time. If a delay is necessary this field is stamped with the time 
+  //the message should be dispatched.
+  double       DispatchTime;
+
+  //any additional information that may accompany the message
+  void*        ExtraInfo;
+
+
+  Telegram():DispatchTime(-1),
+                  Sender(-1),
+                  Receiver(-1),
+                  Msg(-1)
+  {}
+
+
+  Telegram(double time,
+           int    sender,
+           int    receiver,
+           int    msg,
+           void*  info = NULL): DispatchTime(time),
+                               Sender(sender),
+                               Receiver(receiver),
+                               Msg(msg),
+                               ExtraInfo(info)
+  {}
+ 
+};
 
 //Telegrams will be stored in a priority queue.  Therefore the >
 //operator needs to be overloaded so that the PQ can sort the telegrams
@@ -42,10 +61,10 @@ const double SmallestDelay = 0.25;
 
 inline bool operator==(const Telegram& t1, const Telegram& t2)
 {
-	return (fabs(t1.DispatchTime-t2.DispatchTime) < SmallestDelay)
-		(t1.Sender == t2.Sender)		&&
-		(t1.Reciever == t2.Receiver)    &&
-		(t1.Msg	== t2.Msg);
+  return ( fabs(t1.DispatchTime-t2.DispatchTime) < SmallestDelay) &&
+          (t1.Sender == t2.Sender)        &&
+          (t1.Receiver == t2.Receiver)    &&
+          (t1.Msg == t2.Msg);
 }
 
 inline bool operator<(const Telegram& t1, const Telegram& t2)

@@ -66,9 +66,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="BaseGameEntity.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
+    <ClCompile Include="EntityManager\EntityManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Messaging\CrudeTimer.cpp" />
+    <ClCompile Include="Messaging\MessageDispatcher.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Skybox.cpp" />
@@ -78,13 +82,23 @@
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="EnemyShip.h" />
+    <ClInclude Include="EntityManager\EntityManager.h" />
+    <ClInclude Include="EntityNames.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Messaging\ConsoleUtils.h" />
+    <ClInclude Include="Messaging\CrudeTimer.h" />
+    <ClInclude Include="Messaging\MessageDispatcher.h" />
+    <ClInclude Include="Messaging\MessageTypes.h" />
+    <ClInclude Include="Messaging\Telegram.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpaceStar5.h" />
+    <ClInclude Include="StateMachine\State.h" />
+    <ClInclude Include="StateMachine\StateMachine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

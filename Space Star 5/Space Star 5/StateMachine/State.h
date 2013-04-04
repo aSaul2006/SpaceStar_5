@@ -1,5 +1,6 @@
 #ifndef STATE_H
 #define STATE_H
+#pragma once
 //------------------------------------------------------------------------
 //
 //  Name:   State.h

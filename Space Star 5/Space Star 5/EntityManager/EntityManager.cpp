@@ -1,5 +1,5 @@
 #include "EntityManager.h"
-#include "BaseGameEntity.h"
+#include "..\BaseGameEntity.h"
 
 
 //--------------------------- Instance ----------------------------------------
@@ -15,7 +15,7 @@ EntityManager* EntityManager::Instance()
 
 //------------------------- GetEntityFromID -----------------------------------
 //-----------------------------------------------------------------------------
-BaseGameEntity* EntityManager::GetEntityFromID(int id)const
+BaseGameEntity* EntityManager::GetEntityFromID(int id) const
 {
   //find the entity
   EntityMap::const_iterator ent = m_EntityMap.find(id);

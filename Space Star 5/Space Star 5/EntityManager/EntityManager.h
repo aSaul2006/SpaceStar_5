@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------
 #include <map>
 #include <cassert>
+#include "..\BaseGameEntity.h"
 
 
 class EntityManager
@@ -30,7 +31,7 @@ private:
 	EntityManager& operator=(const EntityManager&);
 	
 public:
-	static EntityManager* instance();
+	static EntityManager* Instance();
 	
 	//This method stores a pointer to the entity in the std::vector
 	//m_Entities at the index pos indicated by the entity's ID
