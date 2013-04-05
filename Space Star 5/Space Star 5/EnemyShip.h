@@ -1,7 +1,10 @@
 #pragma once
+#ifndef _ENEMYSHIP_H
+#define _ENEMYSHIP_H
 
 #include <d3d9.h>
 #include <d3dx9.h>
+#include "State, Message, and Entity Systems\State.h"
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
@@ -47,17 +50,32 @@ public:
 };
 
 //define states for ships to use for example pursuePlayer, avoidTarget.
-/*class pursuePlayer : public State
+class attackPlayer1 : public State<baseEnemyShip>
 {
 private:
 	
 public:
-}
+};
 
-class avoidTarget : public State
+class attackPlayer2 : public State<baseEnemyShip>
 {
 private:
 	
 public:
-}*/
+};
+
+class attackPlayer3 : public State<baseEnemyShip>
+{
+private:
+
+public:
+};
+
+class avoidPlayer1 : public State<baseEnemyShip>
+{
+private:
+public:
+};
 //create ship classes that derive baseEnemyShip
+
+#endif

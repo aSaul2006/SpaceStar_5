@@ -1,9 +1,9 @@
+#pragma once
 #ifndef _BASE_GAME_ENTITY_H
 #define _BASE_GAME_ENTITY_H
 #include <string>
 
-#include "Messaging\Telegram.h"
-
+#include "State, Message, and Entity Systems\Telegram.h"
 
 class BaseGameEntity
 {

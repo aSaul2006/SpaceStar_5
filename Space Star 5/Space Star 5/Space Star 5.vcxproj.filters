@@ -14,16 +14,34 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Header Files\AI">
-      <UniqueIdentifier>{456b2584-1f49-4c4a-9d69-cc5039a18038}</UniqueIdentifier>
+      <UniqueIdentifier>{cda930a0-adee-4b87-a24f-79aaf89941c0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\AI">
-      <UniqueIdentifier>{fc30f05c-4022-405d-866a-ff4f0f836744}</UniqueIdentifier>
+      <UniqueIdentifier>{ca42180f-1d59-4945-b965-a1043f73388d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Messaging">
-      <UniqueIdentifier>{17eb7ac4-2c28-4d83-9109-a75af511c2d1}</UniqueIdentifier>
+    <Filter Include="Header Files\AI\State">
+      <UniqueIdentifier>{82cec376-4976-4f22-a411-1c7c4221985e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Messaging">
-      <UniqueIdentifier>{1d2f93a6-be73-494e-842f-d3b63ac5b18e}</UniqueIdentifier>
+    <Filter Include="Header Files\AI\Message">
+      <UniqueIdentifier>{0cf4ca09-f791-4869-ae78-693c876541ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AI\Entity">
+      <UniqueIdentifier>{3b950954-9e98-468c-aab8-7c5dfd5e1cd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI\Message">
+      <UniqueIdentifier>{3443348e-3fab-42b5-8ad5-6054d4c4919e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI\Entity">
+      <UniqueIdentifier>{d11448be-0bcb-4990-a27a-d5313a2b9c4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI\State">
+      <UniqueIdentifier>{7555a83b-65b8-4e44-822a-96ee8096870d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AI\Misc">
+      <UniqueIdentifier>{35fe38fc-5525-43ff-bbd8-af81a492da5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI\Misc">
+      <UniqueIdentifier>{24acc6e0-7f1e-4a0d-826d-d4535029cd71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,17 +72,29 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EntityManager\EntityManager.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Messaging\CrudeTimer.cpp">
-      <Filter>Source Files\Messaging</Filter>
-    </ClCompile>
-    <ClCompile Include="Messaging\MessageDispatcher.cpp">
-      <Filter>Source Files\Messaging</Filter>
-    </ClCompile>
     <ClCompile Include="BaseGameEntity.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Steering Behaviors\misc\Cgdi.cpp">
+      <Filter>Source Files\AI\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="State, Message, and Entity Systems\State.cpp">
+      <Filter>Source Files\AI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="State, Message, and Entity Systems\Entity.cpp">
+      <Filter>Source Files\AI\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="State, Message, and Entity Systems\EntityGenerator.cpp">
+      <Filter>Source Files\AI\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="State, Message, and Entity Systems\EntityManager.cpp">
+      <Filter>Source Files\AI\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="State, Message, and Entity Systems\Timer.cpp">
+      <Filter>Source Files\AI\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="State, Message, and Entity Systems\MessageSystem.cpp">
+      <Filter>Source Files\AI\Message</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,35 +125,41 @@
     <ClInclude Include="Projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StateMachine\State.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="StateMachine\StateMachine.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityManager\EntityManager.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Messaging\ConsoleUtils.h">
-      <Filter>Header Files\Messaging</Filter>
-    </ClInclude>
-    <ClInclude Include="Messaging\CrudeTimer.h">
-      <Filter>Header Files\Messaging</Filter>
-    </ClInclude>
-    <ClInclude Include="Messaging\MessageDispatcher.h">
-      <Filter>Header Files\Messaging</Filter>
-    </ClInclude>
-    <ClInclude Include="Messaging\MessageTypes.h">
-      <Filter>Header Files\Messaging</Filter>
-    </ClInclude>
-    <ClInclude Include="Messaging\Telegram.h">
-      <Filter>Header Files\Messaging</Filter>
-    </ClInclude>
     <ClInclude Include="BaseGameEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EntityNames.h">
-      <Filter>Header Files\AI</Filter>
+    <ClInclude Include="State, Message, and Entity Systems\State.h">
+      <Filter>Header Files\AI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="State, Message, and Entity Systems\StateMachine.h">
+      <Filter>Header Files\AI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="State, Message, and Entity Systems\Timer.h">
+      <Filter>Header Files\AI\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="State, Message, and Entity Systems\MessageSystem.h">
+      <Filter>Header Files\AI\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="State, Message, and Entity Systems\Entity.h">
+      <Filter>Header Files\AI\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="State, Message, and Entity Systems\EntityGenerator.h">
+      <Filter>Header Files\AI\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="State, Message, and Entity Systems\EntityManager.h">
+      <Filter>Header Files\AI\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Steering Behaviors\misc\Cgdi.h">
+      <Filter>Header Files\AI\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Steering Behaviors\misc\Stream_Utility_Functions.h">
+      <Filter>Header Files\AI\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Steering Behaviors\misc\utils.h">
+      <Filter>Header Files\AI\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="State, Message, and Entity Systems\Telegram.h">
+      <Filter>Header Files\AI\Message</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
