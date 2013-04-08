@@ -19,7 +19,7 @@ class baseEnemyShip //: BaseGameEntity
 private:
 
 	D3DXMATRIX scaleMat, rotateMat, translateMat, worldMat;
-	D3DXVECTOR3 position, velocity;
+	D3DXVECTOR3 m_position;
 	ID3DXMesh*	mesh;
 	LPDIRECT3DTEXTURE9* texture;
 	ID3DXBuffer* materialBuff;
@@ -27,7 +27,7 @@ private:
 	D3DXMATERIAL* D3DXMaterial;
 	D3DMATERIAL9* modelMaterial;
 	int health, maxHealth;
-	float rotateAngle;
+	float m_speed, m_fireRate, m_rotateAngle;
 	AABB meshBox;	// mesh's collision box
 	//All enemies will need to have a pointer to an instance of a state
 	//State* 		m_pCurrentState;
@@ -43,77 +43,18 @@ public:
 	void update(float dt); 
 	virtual void calculateDamage();
 	virtual void destroyShip();
-	virtual void setPositionAndVelocity(D3DXVECTOR3 position, D3DXVECTOR3 velocity);
 	void Render(ID3DXEffect* shader);
 	virtual ~baseEnemyShip();
 	void Shutdown();
-	
+	baseEnemyShip();
+
+	void setPosition(D3DXVECTOR3 position);
+	void setSpeed(float speed);
+	void setFireRate(float rate);
 	//methods required for default enemy ship state behavior
 	//virtual void ChangeState(State* pNewState);
 };
 
-//define states for ships to use for example pursuePlayer, avoidTarget.
-class attackPlayer1 : public State<baseEnemyShip>
-{
-private:
-	attackPlayer1(){}
-	//copy ctor and assignment 
-	attackPlayer1(const attackPlayer1&);
-	attackPlayer1 & operator=(const attackPlayer1&);
-public:
-	//will always be a singleton class
-	static attackPlayer1* Instance();
-	void Enter(baseEnemyShip* baseEnemy);
-	bool Execute(baseEnemyShip* baseEnemy);
-	void Exit(baseEnemyShip* baseEnemy);
-	bool OnMessage(baseEnemyShip* agent, const Message& msg);
-};
 
-class attackPlayer2 : public State<baseEnemyShip>
-{
-private:
-	attackPlayer2(){}
-	//copy ctor and assignment 
-	attackPlayer2(const attackPlayer2&);
-	attackPlayer2 & operator=(const attackPlayer2&);
-public:
-	//will always be a singleton class
-	static attackPlayer2* Instance();
-	void Enter(baseEnemyShip* baseEnemy);
-	bool Execute(baseEnemyShip* baseEnemy);
-	void Exit(baseEnemyShip* baseEnemy);
-	bool OnMessage(baseEnemyShip* agent, const Message& msg);
-};
-
-class attackPlayer3 : public State<baseEnemyShip>
-{
-private:
-	attackPlayer3(){}
-	//copy ctor and assignment 
-	attackPlayer3(const attackPlayer3&);
-	attackPlayer3 & operator=(const attackPlayer3&);
-public:
-	//will always be a singleton class
-	static attackPlayer3* Instance();
-	void Enter(baseEnemyShip* baseEnemy);
-	bool Execute(baseEnemyShip* baseEnemy);
-	void Exit(baseEnemyShip* baseEnemy);
-	bool OnMessage(baseEnemyShip* agent, const Message& msg);
-};
-
-class avoidPlayer1 : public State<baseEnemyShip>
-{
-private:
-	avoidPlayer1(){}
-	avoidPlayer1(const avoidPlayer1&);
-	avoidPlayer1 & operator=(const avoidPlayer1&);
-public:
-	static avoidPlayer1* Instance();
-	void Enter(baseEnemyShip* baseEnemy);
-	bool Execute(baseEnemyShip* baseEnemy);
-	void Exit(baseEnemyShip* baseEnemy);
-	bool OnMessage(baseEnemyShip* agent, const Message& msg);
-};
-//create ship classes that derive baseEnemyShip
 
 #endif

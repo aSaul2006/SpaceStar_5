@@ -108,6 +108,9 @@
     <ClCompile Include="Steering Behaviors\Graph\Path.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
+    <ClCompile Include="BaseEnemyOwnedStates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SpaceStar5.h">
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="Steering Behaviors\Graph\Path.h">
       <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseEnemyOwnedStates.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

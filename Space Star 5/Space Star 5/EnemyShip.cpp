@@ -9,6 +9,11 @@ baseEnemyShip::~baseEnemyShip()
 	Shutdown();
 }
 
+baseEnemyShip::baseEnemyShip()
+{
+
+}
+
 void baseEnemyShip::initializeEnemyShip(IDirect3DDevice9* m_pD3DDevice, LPCWSTR fileName)
 {
 	// Load the mesh
@@ -97,10 +102,10 @@ void baseEnemyShip::fireWeapon(int fireRate)
 
 void baseEnemyShip::update(float dt)
 {
-	position.x = 100;
-	position.y = 100;
-	position.z = 0;
-	D3DXMatrixTranslation(&translateMat, position.x, position.y, position.z);
+	m_position.x = 100;
+	m_position.y = 100;
+	m_position.z = 0;
+	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
 }
 
 void baseEnemyShip::calculateDamage()
@@ -108,10 +113,20 @@ void baseEnemyShip::calculateDamage()
 
 }
 
-void baseEnemyShip::setPositionAndVelocity(D3DXVECTOR3 pos, D3DXVECTOR3 vel)
+void baseEnemyShip::setPosition(D3DXVECTOR3 pos)
 {
-	pos = position;
-	vel = velocity;
+	pos = m_position;
+	
+}
+
+void baseEnemyShip::setSpeed(float speed)
+{
+	speed = m_speed;
+}
+
+void baseEnemyShip::setFireRate(float rate)
+{
+	rate = m_fireRate;
 }
 
 void baseEnemyShip::destroyShip()
@@ -135,119 +150,3 @@ void baseEnemyShip::Shutdown()
 
 
 
-//Enemy State Movement Behaviors
-//attackPlayer1
-attackPlayer1* attackPlayer1::Instance()
-{
-	static attackPlayer1 instance;
-	return &instance;
-}
-
-void attackPlayer1::Enter(baseEnemyShip* pEnemyShip)
-{
-	//behavior for player attacking state1
-	
-}
-
-bool attackPlayer1::Execute(baseEnemyShip* pEnemyShip)
-{
-	//Execute this state
-	return true;
-}
-
-void attackPlayer1::Exit(baseEnemyShip* pEnemyShip)
-{
-
-}
-
-bool attackPlayer1::OnMessage(baseEnemyShip* agent, const Message& msg)
-{
-	return true;
-}
-
-//attackPlayer2
-attackPlayer2* attackPlayer2::Instance()
-{
-	static attackPlayer2 instance;
-	return &instance;
-}
-
-void attackPlayer2::Enter(baseEnemyShip* pEnemyShip)
-{
-	//behavior for player attacking state1
-	
-}
-
-bool attackPlayer2::Execute(baseEnemyShip* pEnemyShip)
-{
-	//Execute this state
-	return true;
-}
-
-void attackPlayer2::Exit(baseEnemyShip* pEnemyShip)
-{
-	//exit the state
-}
-
-bool attackPlayer2::OnMessage(baseEnemyShip* agent, const Message& msg)
-{
-	return true;
-}
-
-//attackPlayer3
-attackPlayer3* attackPlayer3::Instance()
-{
-	static attackPlayer3 instance;
-	return &instance;
-}
-
-void attackPlayer3::Enter(baseEnemyShip* pEnemyShip)
-{
-	//behavior for player attacking state1
-	
-}
-
-bool attackPlayer3::Execute(baseEnemyShip* pEnemyShip)
-{
-	//Execute this state
-	return true;
-}
-
-void attackPlayer3::Exit(baseEnemyShip* pEnemyShip)
-{
-
-}
-
-bool attackPlayer3::OnMessage(baseEnemyShip* agent, const Message& msg)
-{
-	return true;
-}
-
-//avoidPlayer1
-avoidPlayer1* avoidPlayer1::Instance()
-{
-	static avoidPlayer1 instance;
-	return &instance;
-}
-
-void avoidPlayer1::Enter(baseEnemyShip* pEnemyShip)
-{
-	//behavior for player avoiding state1
-	
-}
-
-bool avoidPlayer1::Execute(baseEnemyShip* pEnemyShip)
-{
-	//Execute this state
-	return true;
-}
-
-void avoidPlayer1::Exit(baseEnemyShip* pEnemyShip)
-{
-
-}
-
-bool avoidPlayer1::OnMessage(baseEnemyShip* agent, const Message& msg)
-{
-	return true;
-}

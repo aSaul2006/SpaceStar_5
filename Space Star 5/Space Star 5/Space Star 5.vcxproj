@@ -66,6 +66,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="BaseEnemyOwnedStates.cpp" />
     <ClCompile Include="BaseGameEntity.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
@@ -88,6 +89,7 @@
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="BaseEnemyOwnedStates.h" />
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="EnemyShip.h" />
