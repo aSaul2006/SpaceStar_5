@@ -1,13 +1,3 @@
-/************************************************************************
-*  Program Name:		EntityGenerator.h								*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Header class for EntityGenerator				*
-*						Creates new entities for EntityManager			*
-*						Singleton design								*
-*  Update:																*
-*																		*
-************************************************************************/
 
 #pragma once
 

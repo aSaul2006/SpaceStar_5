@@ -2,23 +2,7 @@
 
 #ifndef CGDI_H
 #define CGDI_H
-/************************************************************************
-*  Program Name:		Cgdi.h											*
-*  Name:				James B. Strickler II							*
-*  Date:				January 25, 2013								*
-*  Description:			Header for the Cgdi class.						*
-*																		*
-*						A singleton class to help alleviate the			*
-*						tedium of using the GDI. Call each method		*
-*						using the #define for gdi->						*
-*						eg gdi->Line(10, 20, 300, 300)					*
-*																		*
-*						You must always call gdi->StartDrawing()		*
-*						prior to any rendering, and isComplete any		*
-*						rendering with gdi->StopDrawing()				*
-*  Update:																*
-*																		*
-************************************************************************/
+
 #include <windows.h>
 #include <string>
 #include <vector>

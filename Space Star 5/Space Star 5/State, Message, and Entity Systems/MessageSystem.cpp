@@ -1,13 +1,3 @@
-/************************************************************************
-*  Program Name:		MessageSystem.cpp								*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Code file for MessageSystem class				*
-*						Allows for the creation and sending of messages	*
-*						Singleton design								*
-*  Update:																*
-*																		*
-************************************************************************/
 
 //-----------------------------------------------------------------------
 // Include files

@@ -1,13 +1,3 @@
-/************************************************************************
-*  Program Name:		State.h											*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Header file for State classes					*
-*						Controls what the AI does in each state			*
-*						All state sub classes use singleton design		*
-*  Update:																*
-*																		*
-************************************************************************/
 
 #pragma once
 

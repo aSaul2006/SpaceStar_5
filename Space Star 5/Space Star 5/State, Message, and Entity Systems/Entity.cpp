@@ -1,13 +1,3 @@
-/************************************************************************
-*  Program Name:		Entity.cpp										*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Code file for Entity classes					*
-*						Stores health, position, rotation, type, ID,	*
-*						and a state machine for each entity				*
-*  Update:																*
-*																		*
-************************************************************************/
 
 //-----------------------------------------------------------------------
 // Include files

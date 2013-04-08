@@ -1,13 +1,3 @@
-/************************************************************************
-*  Program Name:		EntityGenerator.cpp								*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Code class for EntityGenerator					*
-*						Creates new entities for EntityManager			*
-*						Singleton design								*
-*  Update:																*
-*																		*
-************************************************************************/
 
 //-----------------------------------------------------------------------
 // Include files

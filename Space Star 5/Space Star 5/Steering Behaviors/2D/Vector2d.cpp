@@ -1,12 +1,4 @@
-/************************************************************************
-*  Program Name:		Vector2d.cpp									*
-*  Name:				James B. Strickler II							*
-*  Date:				January 25, 2013								*
-*  Description:			Vector2d class used  							*
-*						to create 2D vector struct						*
-*  Update:																*
-*																		*
-************************************************************************/
+
 #include "Vector2D.h"
 #include <fstream>
 

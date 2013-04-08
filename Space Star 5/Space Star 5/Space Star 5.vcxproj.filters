@@ -43,6 +43,12 @@
     <Filter Include="Source Files\AI\Misc">
       <UniqueIdentifier>{24acc6e0-7f1e-4a0d-826d-d4535029cd71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\AI\2D">
+      <UniqueIdentifier>{a4dfdd4e-a419-4b93-b24c-80bb73a2570d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI\2D">
+      <UniqueIdentifier>{c7305183-5da8-48ff-ba2d-e8419bca3900}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SpaceStar5.cpp">
@@ -95,6 +101,12 @@
     </ClCompile>
     <ClCompile Include="State, Message, and Entity Systems\MessageSystem.cpp">
       <Filter>Source Files\AI\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Steering Behaviors\2D\Vector2d.cpp">
+      <Filter>Source Files\AI\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Steering Behaviors\Graph\Path.cpp">
+      <Filter>Source Files\AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +172,15 @@
     </ClInclude>
     <ClInclude Include="State, Message, and Entity Systems\Telegram.h">
       <Filter>Header Files\AI\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Steering Behaviors\2D\Transformations.h">
+      <Filter>Header Files\AI\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Steering Behaviors\2D\Vector2D.h">
+      <Filter>Header Files\AI\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Steering Behaviors\Graph\Path.h">
+      <Filter>Header Files\AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

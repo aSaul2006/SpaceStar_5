@@ -1,13 +1,4 @@
-/************************************************************************
-*  Program Name:		MessageSystem.h									*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Header file for MessageDispatcher class			*
-*						Allows for the creation and sending of messages	*
-*						Singleton design								*
-*  Update:																*
-*																		*
-************************************************************************/
+
 
 #pragma once
 

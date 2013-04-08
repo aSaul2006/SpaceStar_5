@@ -1,14 +1,7 @@
 #pragma once
 #ifndef UTILS_H
 #define UTILS_H
-/************************************************************************
-*  Program Name:		utils.h											*
-*  Name:				James B. Strickler II							*
-*  Date:				January 25, 2013								*
-*  Description:			Misc utility functions and constants			*
-*  Update:																*
-*																		*
-************************************************************************/
+
 #include <math.h>
 #include <sstream>
 #include <string>

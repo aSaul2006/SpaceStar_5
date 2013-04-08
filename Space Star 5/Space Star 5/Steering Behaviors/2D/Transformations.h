@@ -1,15 +1,7 @@
 #pragma once
 #ifndef TRANSFORMATIONS_H
 #define TRANSFORMATIONS_H
-/************************************************************************
-*  Program Name:		Transformations.h								*
-*  Name:				James B. Strickler II							*
-*  Date:				January 25, 2013								*
-*  Description:			Functions for converting 2D vectors between		*
-*						World and Local space							*
-*  Update:																*
-*																		*
-************************************************************************/
+
 #include <vector>
 
 #include "Vector2D.h"

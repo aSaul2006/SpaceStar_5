@@ -1,14 +1,3 @@
-/************************************************************************
-*  Program Name:		EntityManager.h									*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Header file for EntityManager class				*
-*						Keeps track of and stores all entities			*
-*						Singleton design								*
-*  Update:																*
-*																		*
-************************************************************************/
-
 #pragma once
 
 //-----------------------------------------------------------------------

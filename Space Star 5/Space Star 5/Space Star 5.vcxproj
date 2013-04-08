@@ -37,7 +37,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\Bounds Detection;$(ProjectDir)\Steering Behaviors;$(ProjectDir)\State, Message, and Entity Systems;$(ProjectDir)\Steering Behaviors\2D;$(ProjectDir)\Steering Behaviors\misc;$(ProjectDir)\Steering Behaviors\Graph;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -80,6 +80,8 @@
     <ClCompile Include="State, Message, and Entity Systems\MessageSystem.cpp" />
     <ClCompile Include="State, Message, and Entity Systems\State.cpp" />
     <ClCompile Include="State, Message, and Entity Systems\Timer.cpp" />
+    <ClCompile Include="Steering Behaviors\2D\Vector2d.cpp" />
+    <ClCompile Include="Steering Behaviors\Graph\Path.cpp" />
     <ClCompile Include="Steering Behaviors\misc\Cgdi.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -102,6 +104,9 @@
     <ClInclude Include="State, Message, and Entity Systems\StateMachine.h" />
     <ClInclude Include="State, Message, and Entity Systems\Telegram.h" />
     <ClInclude Include="State, Message, and Entity Systems\Timer.h" />
+    <ClInclude Include="Steering Behaviors\2D\Transformations.h" />
+    <ClInclude Include="Steering Behaviors\2D\Vector2D.h" />
+    <ClInclude Include="Steering Behaviors\Graph\Path.h" />
     <ClInclude Include="Steering Behaviors\misc\Cgdi.h" />
     <ClInclude Include="Steering Behaviors\misc\Stream_Utility_Functions.h" />
     <ClInclude Include="Steering Behaviors\misc\utils.h" />

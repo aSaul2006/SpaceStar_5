@@ -1,15 +1,7 @@
 #pragma once
 #ifndef STREAM_UTILITY_FUNCTIONS
 #define STREAM_UTILITY_FUNCTIONS
-/************************************************************************
-*  Program Name:		Stream_Utility_Functions.h						*
-*  Name:				James B. Strickler II							*
-*  Date:				January 25, 2013								*
-*  Description:			Various useful functions that operate			*
-*						on or with streams								*
-*  Update:																*
-*																		*
-************************************************************************/
+
 #include <sstream>
 #include <string>
 #include <iomanip>

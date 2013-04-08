@@ -1,13 +1,3 @@
-/************************************************************************
-*  Program Name:		Entity.h										*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Header file for Entity classes					*
-*						Stores health, position, rotation, type, ID,	*
-*						and a state machine for each entity				*
-*  Update:																*
-*																		*
-************************************************************************/
 
 #pragma once
 

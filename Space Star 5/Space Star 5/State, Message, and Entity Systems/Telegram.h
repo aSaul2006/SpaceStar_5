@@ -8,8 +8,7 @@
 //          records information required to dispatch messages. Messages 
 //          are used by game agents to communicate with each other.
 //
-//  Author: Mat Buckland (fup@ai-junkie.com)
-//
+//  //
 //------------------------------------------------------------------------
 #include <iostream>
 #include <math.h>

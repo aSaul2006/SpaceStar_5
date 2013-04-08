@@ -1,13 +1,3 @@
-/************************************************************************
-*  Program Name:		EntityManager.cpp								*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Code file for EntityManager class				*
-*						Keeps track of and stores all entities			*
-*						Singleton design								*
-*  Update:																*
-*																		*
-************************************************************************/
 
 //-----------------------------------------------------------------------
 // Include files

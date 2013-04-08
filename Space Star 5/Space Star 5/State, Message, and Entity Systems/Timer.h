@@ -1,13 +1,4 @@
-/************************************************************************
-*  Program Name:		Timer.h											*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Header file for Timer class						*
-*						Keeps track of current time for messages		*
-*						Singleton design								*
-*  Update:																*
-*																		*
-************************************************************************/
+
 
 #pragma once
 

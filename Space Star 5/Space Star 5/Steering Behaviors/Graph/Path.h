@@ -1,16 +1,7 @@
 #pragma once
 #ifndef PATH_H
 #define PATH_H
-/************************************************************************
-*  Program Name:		Path.h											*
-*  Name:				James B. Strickler II							*
-*  Date:				January 25, 2013								*
-*  Description:			Header for the Pathing class used to  			*
-*						define, manage, and traverse a path  			*
-*						(defined by a series of 2D vectors)				*
-*  Update:																*
-*																		*
-************************************************************************/
+
 #include <list>
 #include <cassert>
 

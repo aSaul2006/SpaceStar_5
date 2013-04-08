@@ -1,12 +1,4 @@
-/************************************************************************
-*  Program Name:		StateMachine.h									*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Header file for StateMachine class				*
-*						Runs the State logic							*
-*  Update:																*
-*																		*
-************************************************************************/
+
 
 #pragma once
 

@@ -1,18 +1,3 @@
-/************************************************************************
-*  Program Name:		Cgdi.cpp										*
-*  Name:				James B. Strickler II							*
-*  Date:				January 25, 2013								*
-*  Description:			A singleton class to help alleviate the			*
-*						tedium of using the GDI. Call each method		*
-*						using the #define for gdi->						*
-*						eg gdi->Line(10, 20, 300, 300)					*
-*																		*
-*						You must always call gdi->StartDrawing()		*
-*						prior to any rendering, and isComplete any		*
-*						rendering with gdi->StopDrawing()				*
-*  Update:																*
-*																		*
-************************************************************************/
 #include "Cgdi.h"
 
 

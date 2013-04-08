@@ -1,13 +1,3 @@
-/************************************************************************
-*  Program Name:		Timer.cpp										*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Code file for Timer class						*
-*						Keeps track of current time for messages		*
-*						Singleton design								*
-*  Update:																*
-*																		*
-************************************************************************/
 
 //-----------------------------------------------------------------------
 // Include files

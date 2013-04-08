@@ -1,15 +1,9 @@
 #pragma once
 #ifndef S2DVECTOR_H
 #define S2DVECTOR_H
-/************************************************************************
-*  Program Name:		Vector2D.h										*
-*  Name:				James B. Strickler II							*
-*  Date:				January 25, 2013								*
-*  Description:			Header for the Vector2d class used  			*
-*						to create 2D vector struct						*
-*  Update:																*
-*																		*
-************************************************************************/
+
+
+
 #include <math.h>
 #include <windows.h>
 #include <iosfwd>

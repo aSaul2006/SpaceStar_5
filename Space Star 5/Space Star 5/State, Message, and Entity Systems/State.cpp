@@ -1,14 +1,3 @@
-/************************************************************************
-*  Program Name:		State.cpp										*
-*  Name:				Thomas Culp										*
-*  Date:				January 25, 2013								*
-*  Description:			Code file for State classes						*
-*						Controls what the AI does in each state			*
-*						All sub state classes are singleton design		*
-*  Update:																*
-*																		*
-************************************************************************/
-
 //-----------------------------------------------------------------------
 // Include files
 //-----------------------------------------------------------------------

@@ -1,13 +1,3 @@
-/************************************************************************
-*  Program Name:		Path.cpp										*
-*  Name:				James B. Strickler II							*
-*  Date:				January 25, 2013								*
-*  Description:			Pathing class used to define, manage,  			*
-*						and traverse a path  							*
-*						(defined by a series of 2D vectors)				*
-*  Update:																*
-*																		*
-************************************************************************/
 #include "Path.h"
 #include "misc/utils.h"
 #include "misc/Cgdi.h"
