@@ -65,7 +65,8 @@ void SpaceStar5::Init(HWND hWnd, HINSTANCE hInstance, bool bWindowed)
 
 	// Initialize the player
 	player.Initialize(m_pD3DDevice);
-	baseEnemy.initializeEnemyShip(m_pD3DDevice,L"viperShip.x");
+	//player2.Initialize2(m_pD3DDevice,L"fighterShip.x");
+	baseEnemy.initializeEnemyShip(m_pD3DDevice,L"fighterShip.x");
 	
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -91,6 +92,7 @@ void SpaceStar5::Update(float dt)
 	InputManager::GetInstance()->Update();
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
+	baseEnemy.update(dt);
 }
 
 /// Render Game
@@ -121,6 +123,8 @@ void SpaceStar5::Render()
 
 	// Render player ship
 	player.Render(shader);
+	//player2.Render(shader);
+	baseEnemy.Render(shader);
 
 	m_pD3DDevice->EndScene();
 	m_pD3DDevice->Present(0, 0, 0, 0);

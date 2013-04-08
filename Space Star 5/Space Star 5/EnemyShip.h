@@ -5,6 +5,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "State, Message, and Entity Systems\State.h"
+#include "AABB.h"
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
@@ -26,6 +27,8 @@ private:
 	D3DXMATERIAL* D3DXMaterial;
 	D3DMATERIAL9* modelMaterial;
 	int health, maxHealth;
+	float rotateAngle;
+	AABB meshBox;	// mesh's collision box
 	//All enemies will need to have a pointer to an instance of a state
 	//State* 		m_pCurrentState;
 
@@ -41,7 +44,7 @@ public:
 	virtual void calculateDamage();
 	virtual void destroyShip();
 	virtual void setPositionAndVelocity(D3DXVECTOR3 position, D3DXVECTOR3 velocity);
-	
+	void Render(ID3DXEffect* shader);
 	virtual ~baseEnemyShip();
 	void Shutdown();
 	

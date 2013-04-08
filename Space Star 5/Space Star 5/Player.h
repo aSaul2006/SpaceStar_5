@@ -30,6 +30,7 @@ public:
 	~Player(void);
 
 	void Initialize(IDirect3DDevice9* m_pD3DDevice);
+	void Initialize2(IDirect3DDevice9* m_pD3DDevice,  LPCWSTR fileName);
 	void Update(float dt);
 	void Render(ID3DXEffect* shader);
 	void Shutdown();

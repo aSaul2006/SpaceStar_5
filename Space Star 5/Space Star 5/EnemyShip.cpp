@@ -1,5 +1,5 @@
 #include "EnemyShip.h"
-
+#include "Camera.h"
 
 baseEnemyShip::~baseEnemyShip()
 {
@@ -36,8 +36,57 @@ void baseEnemyShip::initializeEnemyShip(IDirect3DDevice9* m_pD3DDevice, LPCWSTR 
 			delete[] ucString;
 		}
 	}
+
+	// build bounding box for the mesh
+	BYTE* vertices = NULL;
+	mesh->LockVertexBuffer(D3DLOCK_READONLY, (LPVOID*)&vertices);
+	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, mesh->GetNumVertices(),
+		D3DXGetFVFVertexSize(mesh->GetFVF()), &meshBox.minPt, &meshBox.maxPt);
+	mesh->UnlockVertexBuffer();
 }
 
+void baseEnemyShip::Render(ID3DXEffect* shader)
+{
+	D3DXMATRIX worldMat, WVPMat, WITMat;
+
+	// Scale, Rotate, and translate the model's worldMat
+	worldMat = scaleMat * rotateMat * translateMat;
+
+	WVPMat = worldMat * Camera::GetInstance()->GetViewMat() * 
+		Camera::GetInstance()->GetProjMat();
+
+	D3DXMatrixInverse(&WITMat, 0, &worldMat);
+	D3DXMatrixTranspose(&WITMat, &WITMat);
+
+	//shader->SetTexture("tex", player.GetTexture());
+	shader->SetMatrix("worldViewProjectionMatrix", &WVPMat);
+	shader->SetMatrix("worldInverseTransposeMatrix", &WITMat);
+	shader->SetMatrix("worldMatrix", &worldMat);
+	shader->SetValue("eyePos", &Camera::GetInstance()->GetEyePos(), 
+		sizeof(D3DXVECTOR3));
+
+	// all of our draw calls go here
+	shader->SetTechnique("tech0");
+	UINT numPasses = 0;
+	shader->Begin(&numPasses, 0);
+	for(UINT i = 0; i < numPasses; i++)
+	{
+		shader->BeginPass(i);
+		for(DWORD j = 0; j < numMaterials; j++)
+		{
+			shader->SetValue("ambientMaterial", &modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
+			shader->SetValue("diffuseMaterial", &modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
+			shader->SetValue("specularMaterial", &modelMaterial[j].Specular, sizeof(D3DXCOLOR));
+			shader->SetFloat("specularPower", modelMaterial[j].Power);
+			shader->SetTexture("tex", texture[j]);
+			shader->SetBool("usingTexture", true);
+			shader->CommitChanges();
+			mesh->DrawSubset(j);
+		}
+		shader->EndPass();
+	}
+	shader->End();
+}
 void baseEnemyShip::fireWeapon(int fireRate)
 {
 
@@ -45,7 +94,10 @@ void baseEnemyShip::fireWeapon(int fireRate)
 
 void baseEnemyShip::update(float dt)
 {
-
+	position.x = 100;
+	position.y = 100;
+	position.z = 0;
+	D3DXMatrixTranslation(&translateMat, position.x, position.y, position.z);
 }
 
 void baseEnemyShip::calculateDamage()

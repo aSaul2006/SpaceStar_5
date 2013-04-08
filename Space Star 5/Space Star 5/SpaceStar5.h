@@ -38,7 +38,7 @@ private:
 	ID3DXEffect* shader;
 	ID3DXBuffer* errorCheck;
 
-	Player player;
+	Player player,player2;
 	baseEnemyShip baseEnemy;
 
 	Skybox skybox;
