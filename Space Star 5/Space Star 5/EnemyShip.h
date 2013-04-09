@@ -16,7 +16,7 @@
 
 class baseEnemyShip //: BaseGameEntity
 {
-private:
+protected:
 
 	D3DXMATRIX scaleMat, rotateMat, translateMat, worldMat;
 	D3DXVECTOR3 m_position, m_velocity;
