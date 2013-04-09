@@ -65,9 +65,8 @@ void SpaceStar5::Init(HWND hWnd, HINSTANCE hInstance, bool bWindowed)
 
 	// Initialize the player
 	player.Initialize(m_pD3DDevice);
-	//player2.Initialize2(m_pD3DDevice,L"fighterShip.x");
-	baseEnemy.initializeEnemyShip(m_pD3DDevice,L"fighterShip.x");
-	
+	baseEnemy.initializeEnemyShip(m_pD3DDevice,L"viperShip.x");
+
 
 	//////////////////////////////////////////////////////////////////////////////
 	//// Camera Test - Initialize Object for testing
@@ -79,11 +78,14 @@ void SpaceStar5::Init(HWND hWnd, HINSTANCE hInstance, bool bWindowed)
 	{
 		MessageBoxA(0,(char*)errorCheck->GetBufferPointer(), 0, 0);
 	}
-	
+
 	SAFE_RELEASE(errorCheck);
 
 	// Create Skybox
 	skybox.BuildSkybox(m_pD3DDevice, (float)screenWidth, (float)screenHeight);
+
+	// initialize enemy
+	enemy.initializeEnemyShip(m_pD3DDevice, L"viperShip.x");
 }
 
 /// Update Game
@@ -92,7 +94,31 @@ void SpaceStar5::Update(float dt)
 	InputManager::GetInstance()->Update();
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
-	baseEnemy.update(dt);
+
+	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_SPACE))
+	{
+		pList.push_back(new Projectile());
+		pList.back()->SetPosition(player.GetPosition());
+		pList.back()->SetStartPosition(player.GetPosition());
+		pList.back()->SetDirection(D3DXVECTOR3(10.0f, 0, 0));
+		pList.back()->Initialize(m_pD3DDevice);
+	}
+
+	if(pList.size() > 0)
+	{
+		for(list<Projectile*>::const_iterator i = pList.begin(), end = pList.end(); i != end;)
+		{
+			(*i)->Update(dt);
+
+			if((*i)->CheckObject())
+			{
+				delete (*i);
+				i = pList.erase(i);
+			}
+			else
+				i++;
+		}
+	}
 }
 
 /// Render Game
@@ -123,8 +149,18 @@ void SpaceStar5::Render()
 
 	// Render player ship
 	player.Render(shader);
-	//player2.Render(shader);
-	baseEnemy.Render(shader);
+
+	// render enemy
+	enemy.Render(shader);
+
+	// Render projectiles
+	if(pList.size() > 0)
+	{
+		for(list<Projectile*>::const_iterator i = pList.begin(), end = pList.end(); i != end; i++)
+		{
+			(*i)->Render(shader);
+		}
+	}
 
 	m_pD3DDevice->EndScene();
 	m_pD3DDevice->Present(0, 0, 0, 0);
@@ -141,4 +177,13 @@ void SpaceStar5::Shutdown()
 
 	// Delete Test variables
 	SAFE_RELEASE(shader);
+
+	if(pList.size() > 0)
+	{
+		for(list<Projectile*>::const_iterator i = pList.begin(), end = pList.end(); i != end; )
+		{
+			delete (*i);
+			i = pList.erase(i);
+		}
+	}
 }

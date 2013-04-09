@@ -3,20 +3,20 @@
 
 Projectile::Projectile(void)
 {
-	position = D3DXVECTOR3(0, 0, 0);
+	position = direction = startPosition = D3DXVECTOR3(0, 0, 0);
 	mesh = NULL;
 	texture = NULL;
 	D3DXMatrixScaling(&scaleMat, 0.1f, 0.1f, 0.1f);
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
+	destroyObject = false;
 }
 
-Projectile::Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction,
-	IDirect3DDevice9* m_pD3DDevice)
+Projectile::Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction)
 {
-	position = spawnPosition;
+	position = startPosition = spawnPosition;
 	this->direction = direction;
 	D3DXMatrixScaling(&scaleMat, 0.1f, 0.1f, 0.1f);
-
-	Initialize(m_pD3DDevice);
+	destroyObject = false;
 }
 
 Projectile::~Projectile(void)
@@ -66,6 +66,17 @@ void Projectile::Initialize(IDirect3DDevice9* m_pD3DDevice)
 	
 void Projectile::Update(float dt)
 {
+	// Update the bullet's position
+	position += direction * dt;
+
+	// Check when the bullet has traveled a certain distance
+	// either on the x-asix or y-axis
+	if(position.x - startPosition.x >= 10.0f ||
+		position.y - startPosition.y >= 10.0f)
+	{
+ 		destroyObject = true;
+	}
+
 	D3DXMatrixTranslation(&translateMat, position.x, position.y, position.z);
 }
 

@@ -3,15 +3,20 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <time.h>
+#include <list>
 #include "AudioManager.h"
 #include "InputManager.h"
 #include "Camera.h"
 #include "Player.h"
 #include "EnemyShip.h"
 #include "Skybox.h"
+#include "Projectile.h"
+#include "EnemyShip.h"
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
+
+using namespace std;
 
 // safe release macro
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -38,10 +43,13 @@ private:
 	ID3DXEffect* shader;
 	ID3DXBuffer* errorCheck;
 
-	Player player,player2;
+	Player player;
 	baseEnemyShip baseEnemy;
 
 	Skybox skybox;
+
+	list<Projectile*> pList;
+	Enemy enemy;
 public:
 	SpaceStar5(void);
 	~SpaceStar5(void);

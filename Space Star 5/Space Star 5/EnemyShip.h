@@ -19,7 +19,7 @@ class baseEnemyShip //: BaseGameEntity
 private:
 
 	D3DXMATRIX scaleMat, rotateMat, translateMat, worldMat;
-	D3DXVECTOR3 m_position;
+	D3DXVECTOR3 m_position, m_velocity;
 	ID3DXMesh*	mesh;
 	LPDIRECT3DTEXTURE9* texture;
 	ID3DXBuffer* materialBuff;
@@ -40,14 +40,12 @@ public:
 	virtual void fireWeapon(int fireRate);
 	//Make updateAI and updatePhysics overridable but leave
 	//default update() the same...May not work right ha
-	void update(float dt); 
+	virtual void update(float dt); 
 	virtual void calculateDamage();
 	virtual void destroyShip();
-	void Render(ID3DXEffect* shader);
 	virtual ~baseEnemyShip();
 	void Shutdown();
 	baseEnemyShip();
-
 	void setPosition(D3DXVECTOR3 position);
 	void setSpeed(float speed);
 	void setFireRate(float rate);
@@ -55,6 +53,15 @@ public:
 	//virtual void ChangeState(State* pNewState);
 };
 
+//create ship classes that derive baseEnemyShip
+class Enemy : public baseEnemyShip
+{
+private:
+public:
+	Enemy();
+	~Enemy();
 
+	void Render(ID3DXEffect* shader);
+};
 
 #endif

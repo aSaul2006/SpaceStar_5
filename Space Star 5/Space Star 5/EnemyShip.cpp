@@ -53,7 +53,80 @@ void baseEnemyShip::initializeEnemyShip(IDirect3DDevice9* m_pD3DDevice, LPCWSTR 
 	mesh->UnlockVertexBuffer();
 }
 
-void baseEnemyShip::Render(ID3DXEffect* shader)
+void baseEnemyShip::fireWeapon(int fireRate)
+{
+
+}
+
+void baseEnemyShip::update(float dt)
+{
+	m_position.x = 100;
+	m_position.y = 100;
+	m_position.z = 0;
+	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
+}
+
+void baseEnemyShip::calculateDamage()
+{
+
+}
+
+void baseEnemyShip::setPosition(D3DXVECTOR3 pos)
+{
+	m_position = pos;
+	
+}
+
+void baseEnemyShip::setSpeed(float speed)
+{
+	m_speed = speed;
+}
+
+void baseEnemyShip::setFireRate(float rate)
+{
+	m_fireRate = rate;
+}
+
+void baseEnemyShip::destroyShip()
+{
+
+}
+
+void baseEnemyShip::Shutdown()
+{
+	SAFE_RELEASE(mesh);
+	if(texture)
+	{
+		for(DWORD i = 0; i < numMaterials; i++)
+		{
+			SAFE_RELEASE(texture[i]);
+		}
+		delete[] texture;
+	}
+	SAFE_RELEASE(materialBuff);
+}
+
+/// Enemy class
+
+Enemy::Enemy()
+{
+	// Initialize variables to 0 or NULL
+	D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
+	D3DXMatrixTranslation(&translateMat, 0, 0, 0);
+	m_position = m_velocity = D3DXVECTOR3(0, 0, 0);
+	mesh = NULL;
+	texture = NULL;
+	health = maxHealth = 0;	// change later if needed
+
+	isHealthZero = false;	// change later if needed
+}
+
+Enemy::~Enemy()
+{
+}
+
+void Enemy::Render(ID3DXEffect* shader)
 {
 	D3DXMATRIX worldMat, WVPMat, WITMat;
 
@@ -95,58 +168,3 @@ void baseEnemyShip::Render(ID3DXEffect* shader)
 	}
 	shader->End();
 }
-void baseEnemyShip::fireWeapon(int fireRate)
-{
-
-}
-
-void baseEnemyShip::update(float dt)
-{
-	m_position.x = 100;
-	m_position.y = 100;
-	m_position.z = 0;
-	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
-}
-
-void baseEnemyShip::calculateDamage()
-{
-
-}
-
-void baseEnemyShip::setPosition(D3DXVECTOR3 pos)
-{
-	pos = m_position;
-	
-}
-
-void baseEnemyShip::setSpeed(float speed)
-{
-	speed = m_speed;
-}
-
-void baseEnemyShip::setFireRate(float rate)
-{
-	rate = m_fireRate;
-}
-
-void baseEnemyShip::destroyShip()
-{
-
-}
-
-void baseEnemyShip::Shutdown()
-{
-	SAFE_RELEASE(mesh);
-	if(texture)
-	{
-		for(DWORD i = 0; i < numMaterials; i++)
-		{
-			SAFE_RELEASE(texture[i]);
-		}
-		delete[] texture;
-	}
-	SAFE_RELEASE(materialBuff);
-}
-
-
-
