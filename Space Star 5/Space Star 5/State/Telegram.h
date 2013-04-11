@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TELEGRAM_H
 #define TELEGRAM_H
 //------------------------------------------------------------------------
@@ -8,7 +9,8 @@
 //          records information required to dispatch messages. Messages 
 //          are used by game agents to communicate with each other.
 //
-//  //
+// 
+//
 //------------------------------------------------------------------------
 #include <iostream>
 #include <math.h>

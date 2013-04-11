@@ -4,8 +4,8 @@
 
 #include <d3d9.h>
 #include <d3dx9.h>
-#include "State, Message, and Entity Systems\State.h"
 #include "AABB.h"
+#include "State\State.h"
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
@@ -36,19 +36,16 @@ protected:
 
 public:
 	//intializes the enemy ship
-	virtual void initializeEnemyShip(IDirect3DDevice9* m_pD3DDevice, LPCWSTR fileName);
-	virtual void fireWeapon(int fireRate);
+	void initializeEnemyShip(IDirect3DDevice9* m_pD3DDevice, LPCWSTR fileName);
+	virtual void fireWeapon(int fireRate)=0;
 	//Make updateAI and updatePhysics overridable but leave
 	//default update() the same...May not work right ha
-	virtual void update(float dt); 
-	virtual void calculateDamage();
-	virtual void destroyShip();
+	virtual void update(float dt)=0; 
+	virtual void calculateDamage()=0;
+	virtual void destroyShip()=0;
 	virtual ~baseEnemyShip();
 	void Shutdown();
 	baseEnemyShip();
-	void setPosition(D3DXVECTOR3 position);
-	void setSpeed(float speed);
-	void setFireRate(float rate);
 	//methods required for default enemy ship state behavior
 	//virtual void ChangeState(State* pNewState);
 };
@@ -62,6 +59,15 @@ public:
 	~Enemy();
 
 	void Render(ID3DXEffect* shader);
+	void setPosition(D3DXVECTOR3 position);
+	void setSpeed(float speed);
+	void setFireRate(float rate);
+
+	//Inherited functions
+	void update(float dt); 
+	void calculateDamage();
+	void destroyShip();
+	void fireWeapon(int fireRate);
 };
 
 #endif

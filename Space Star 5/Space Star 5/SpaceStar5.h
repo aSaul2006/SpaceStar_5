@@ -44,8 +44,7 @@ private:
 	ID3DXBuffer* errorCheck;
 
 	Player player;
-	baseEnemyShip baseEnemy;
-
+	
 	Skybox skybox;
 
 	list<Projectile*> pList;

@@ -1,14 +1,14 @@
 #pragma once
-#ifndef _BASE_ENEMY_OWNED_STATES_H
-#define _BASE_ENEMY_OWNED_STATES_H
+
 
 
 #include "EnemyShip.h"
-#include "State, Message, and Entity Systems\State.h"
+#include "State\State.h"
+#include "State\MessageDispatcher.h"
 
 
 //define states for ships to use for example pursuePlayer, avoidTarget.
-class attackPlayer1 : public State<baseEnemyShip>
+class attackPlayer1 : public State<Enemy>
 {
 private:
 	attackPlayer1(){}
@@ -18,13 +18,13 @@ private:
 public:
 	//will always be a singleton class
 	static attackPlayer1* Instance();
-	void Enter(baseEnemyShip* baseEnemy);
-	bool Execute(baseEnemyShip* baseEnemy);
-	void Exit(baseEnemyShip* baseEnemy);
-	bool OnMessage(baseEnemyShip* agent, const Message& msg);
+	virtual void Enter(Enemy* baseEnemy);
+	virtual void Execute(Enemy* baseEnemy);
+	virtual void Exit(Enemy* baseEnemy);
+	virtual bool OnMessage(Enemy* agent, const Telegram& msg);
 };
 
-class attackPlayer2 : public State<baseEnemyShip>
+class attackPlayer2 : public State<Enemy>
 {
 private:
 	attackPlayer2(){}
@@ -34,13 +34,13 @@ private:
 public:
 	//will always be a singleton class
 	static attackPlayer2* Instance();
-	void Enter(baseEnemyShip* baseEnemy);
-	bool Execute(baseEnemyShip* baseEnemy);
-	void Exit(baseEnemyShip* baseEnemy);
-	bool OnMessage(baseEnemyShip* agent, const Message& msg);
+	virtual void Enter(Enemy* baseEnemy);
+	virtual void Execute(Enemy* baseEnemy);
+	virtual void Exit(Enemy* baseEnemy);
+	virtual bool OnMessage(Enemy* agent, const Telegram& msg);
 };
 
-class attackPlayer3 : public State<baseEnemyShip>
+class attackPlayer3 : public State<Enemy>
 {
 private:
 	attackPlayer3(){}
@@ -50,13 +50,13 @@ private:
 public:
 	//will always be a singleton class
 	static attackPlayer3* Instance();
-	void Enter(baseEnemyShip* baseEnemy);
-	bool Execute(baseEnemyShip* baseEnemy);
-	void Exit(baseEnemyShip* baseEnemy);
-	bool OnMessage(baseEnemyShip* agent, const Message& msg);
+	virtual void Enter(Enemy* baseEnemy);
+	virtual void Execute(Enemy* baseEnemy);
+	virtual void Exit(Enemy* baseEnemy);
+	virtual bool OnMessage(Enemy* agent, const Telegram& msg);
 };
 
-class avoidPlayer1 : public State<baseEnemyShip>
+class avoidPlayer1 : public State<Enemy>
 {
 private:
 	avoidPlayer1(){}
@@ -64,11 +64,9 @@ private:
 	avoidPlayer1 & operator=(const avoidPlayer1&);
 public:
 	static avoidPlayer1* Instance();
-	void Enter(baseEnemyShip* baseEnemy);
-	bool Execute(baseEnemyShip* baseEnemy);
-	void Exit(baseEnemyShip* baseEnemy);
-	bool OnMessage(baseEnemyShip* agent, const Message& msg);
+	virtual void Enter(Enemy* baseEnemy);
+	virtual void Execute(Enemy* baseEnemy);
+	virtual void Exit(Enemy* baseEnemy);
+	virtual bool OnMessage(Enemy* agent, const Telegram& msg);
 };
-//create ship classes that derive baseEnemyShip
-
-#endif
+//create ship classes that derive Enemy

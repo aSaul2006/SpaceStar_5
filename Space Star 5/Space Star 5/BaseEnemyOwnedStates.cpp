@@ -1,8 +1,8 @@
 #include "BaseEnemyOwnedStates.h"
-#include "State, Message, and Entity Systems\State.h"
-#include "State, Message, and Entity Systems\Telegram.h"
-#include "State, Message, and Entity Systems\MessageSystem.h"
-#include "State, Message, and Entity Systems\Timer.h"
+#include "State\State.h"
+#include "State\Telegram.h"
+#include "State\MessageDispatcher.h"
+#include "Misc\CrudeTimer.h"
 
 
 //Enemy State Movement Behaviors
@@ -13,7 +13,7 @@ attackPlayer1* attackPlayer1::Instance()
 	return &instance;
 }
 
-void attackPlayer1::Enter(baseEnemyShip* pEnemyShip)
+void attackPlayer1::Enter(Enemy* pEnemyShip)
 {
 	//behavior for player attacking state1
 	//for now we will define some basic attributes for this attack state
@@ -22,18 +22,18 @@ void attackPlayer1::Enter(baseEnemyShip* pEnemyShip)
 	pEnemyShip->setFireRate(2.0);
 }
 
-bool attackPlayer1::Execute(baseEnemyShip* pEnemyShip)
+void attackPlayer1::Execute(Enemy* pEnemyShip)
 {
 	//Execute this state
-	return true;
+	
 }
 
-void attackPlayer1::Exit(baseEnemyShip* pEnemyShip)
+void attackPlayer1::Exit(Enemy* pEnemyShip)
 {
 
 }
 
-bool attackPlayer1::OnMessage(baseEnemyShip* agent, const Message& msg)
+bool attackPlayer1::OnMessage(Enemy* agent, const Telegram& msg)
 {
 	return true;
 }
@@ -45,24 +45,24 @@ attackPlayer2* attackPlayer2::Instance()
 	return &instance;
 }
 
-void attackPlayer2::Enter(baseEnemyShip* pEnemyShip)
+void attackPlayer2::Enter(Enemy* pEnemyShip)
 {
 	//behavior for player attacking state1
 	
 }
 
-bool attackPlayer2::Execute(baseEnemyShip* pEnemyShip)
+void attackPlayer2::Execute(Enemy* pEnemyShip)
 {
 	//Execute this state
-	return true;
+	
 }
 
-void attackPlayer2::Exit(baseEnemyShip* pEnemyShip)
+void attackPlayer2::Exit(Enemy* pEnemyShip)
 {
 	//exit the state
 }
 
-bool attackPlayer2::OnMessage(baseEnemyShip* agent, const Message& msg)
+bool attackPlayer2::OnMessage(Enemy* agent, const Telegram& msg)
 {
 	return true;
 }
@@ -74,24 +74,24 @@ attackPlayer3* attackPlayer3::Instance()
 	return &instance;
 }
 
-void attackPlayer3::Enter(baseEnemyShip* pEnemyShip)
+void attackPlayer3::Enter(Enemy* pEnemyShip)
 {
 	//behavior for player attacking state1
 	
 }
 
-bool attackPlayer3::Execute(baseEnemyShip* pEnemyShip)
+void attackPlayer3::Execute(Enemy* pEnemyShip)
 {
 	//Execute this state
-	return true;
+	
 }
 
-void attackPlayer3::Exit(baseEnemyShip* pEnemyShip)
+void attackPlayer3::Exit(Enemy* pEnemyShip)
 {
 
 }
 
-bool attackPlayer3::OnMessage(baseEnemyShip* agent, const Message& msg)
+bool attackPlayer3::OnMessage(Enemy* agent, const Telegram& msg)
 {
 	return true;
 }
@@ -103,24 +103,24 @@ avoidPlayer1* avoidPlayer1::Instance()
 	return &instance;
 }
 
-void avoidPlayer1::Enter(baseEnemyShip* pEnemyShip)
+void avoidPlayer1::Enter(Enemy* pEnemyShip)
 {
 	//behavior for player avoiding state1
 	
 }
 
-bool avoidPlayer1::Execute(baseEnemyShip* pEnemyShip)
+void avoidPlayer1::Execute(Enemy* pEnemyShip)
 {
 	//Execute this state
-	return true;
+	
 }
 
-void avoidPlayer1::Exit(baseEnemyShip* pEnemyShip)
+void avoidPlayer1::Exit(Enemy* pEnemyShip)
 {
 
 }
 
-bool avoidPlayer1::OnMessage(baseEnemyShip* agent, const Message& msg)
+bool avoidPlayer1::OnMessage(Enemy* agent, const Telegram& msg)
 {
 	return true;
 }
