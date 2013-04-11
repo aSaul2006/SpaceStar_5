@@ -7,7 +7,7 @@
 //
 //  Desc:   Singleton class to handle the  management of Entities.          
 //
-//  Author: Mat Buckland (fup@ai-junkie.com)
+// 
 //
 //------------------------------------------------------------------------
 #include <map>

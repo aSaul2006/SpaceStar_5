@@ -6,7 +6,7 @@
 //
 //  Desc:   abstract base class to define an interface for a state
 //
-//  Author: Mat Buckland (fup@ai-junkie.com)
+//  
 //
 //------------------------------------------------------------------------
 struct Telegram;

@@ -6,8 +6,7 @@
 //
 //  Desc: misc utility functions and constants
 //
-//  Author: Mat Buckland (fup@ai-junkie.com)
-//
+// 
 //------------------------------------------------------------------------
 #include <math.h>
 #include <sstream>
