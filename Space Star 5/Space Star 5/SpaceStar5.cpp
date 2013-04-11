@@ -65,7 +65,7 @@ void SpaceStar5::Init(HWND hWnd, HINSTANCE hInstance, bool bWindowed)
 
 	// Initialize the player
 	player.Initialize(m_pD3DDevice);
-	baseEnemy.initializeEnemyShip(m_pD3DDevice,L"viperShip.x");
+	
 
 
 	//////////////////////////////////////////////////////////////////////////////

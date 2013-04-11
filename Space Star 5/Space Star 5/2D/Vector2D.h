@@ -1,9 +1,14 @@
-#pragma once
 #ifndef S2DVECTOR_H
 #define S2DVECTOR_H
-
-
-
+//------------------------------------------------------------------------
+//
+//  Name:   Vector2D.h
+//
+//  Desc:   2D vector struct
+//
+//  Author: Mat Buckland (fup@ai-junkie.com)
+//
+//------------------------------------------------------------------------
 #include <math.h>
 #include <windows.h>
 #include <iosfwd>
@@ -421,6 +426,8 @@ inline bool isSecondInFOVOfFirst(Vector2D posFirst,
 
   return facingFirst.Dot(toTarget) >= cos(fov/2.0);
 }
+
+
 
 
 

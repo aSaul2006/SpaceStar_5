@@ -1,12 +1,20 @@
-#pragma once
 #ifndef TRANSFORMATIONS_H
 #define TRANSFORMATIONS_H
-
+//------------------------------------------------------------------------
+//
+//  Name:   Transformations.h
+//
+//  Desc:   Functions for converting 2D vectors between World and Local
+//          space.
+//
+//  Author: Mat Buckland (fup@ai-junkie.com)
+//
+//------------------------------------------------------------------------
 #include <vector>
 
 #include "Vector2D.h"
 #include "C2DMatrix.h"
-
+#include "Transformations.h"
 
 
 

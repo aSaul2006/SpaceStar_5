@@ -1,6 +1,5 @@
 #include "EnemyShip.h"
 #include "Camera.h"
-#include "Steering Behaviors\Graph\Path.h"
 
 
 //Base enemy class.  Any enemy ship class made will derive directly from this class and override some behavior.
@@ -53,44 +52,7 @@ void baseEnemyShip::initializeEnemyShip(IDirect3DDevice9* m_pD3DDevice, LPCWSTR 
 	mesh->UnlockVertexBuffer();
 }
 
-void baseEnemyShip::fireWeapon(int fireRate)
-{
 
-}
-
-void baseEnemyShip::update(float dt)
-{
-	m_position.x = 100;
-	m_position.y = 100;
-	m_position.z = 0;
-	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
-}
-
-void baseEnemyShip::calculateDamage()
-{
-
-}
-
-void baseEnemyShip::setPosition(D3DXVECTOR3 pos)
-{
-	m_position = pos;
-	
-}
-
-void baseEnemyShip::setSpeed(float speed)
-{
-	m_speed = speed;
-}
-
-void baseEnemyShip::setFireRate(float rate)
-{
-	m_fireRate = rate;
-}
-
-void baseEnemyShip::destroyShip()
-{
-
-}
 
 void baseEnemyShip::Shutdown()
 {
@@ -167,4 +129,43 @@ void Enemy::Render(ID3DXEffect* shader)
 		shader->EndPass();
 	}
 	shader->End();
+}
+
+void Enemy::setPosition(D3DXVECTOR3 pos)
+{
+	m_position = pos;
+	
+}
+
+void Enemy::setSpeed(float speed)
+{
+	m_speed = speed;
+}
+
+void Enemy::setFireRate(float rate)
+{
+	m_fireRate = rate;
+}
+
+void Enemy::fireWeapon(int fireRate)
+{
+
+}
+
+void Enemy::update(float dt)
+{
+	m_position.x = 100;
+	m_position.y = 100;
+	m_position.z = 0;
+	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
+}
+
+void Enemy::calculateDamage()
+{
+
+}
+
+void Enemy::destroyShip()
+{
+
 }

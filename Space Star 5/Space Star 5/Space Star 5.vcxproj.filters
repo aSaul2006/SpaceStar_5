@@ -81,35 +81,20 @@
     <ClCompile Include="BaseGameEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Steering Behaviors\misc\Cgdi.cpp">
-      <Filter>Source Files\AI\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="State, Message, and Entity Systems\State.cpp">
-      <Filter>Source Files\AI\State</Filter>
-    </ClCompile>
-    <ClCompile Include="State, Message, and Entity Systems\Entity.cpp">
-      <Filter>Source Files\AI\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="State, Message, and Entity Systems\EntityGenerator.cpp">
-      <Filter>Source Files\AI\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="State, Message, and Entity Systems\EntityManager.cpp">
-      <Filter>Source Files\AI\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="State, Message, and Entity Systems\Timer.cpp">
-      <Filter>Source Files\AI\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="State, Message, and Entity Systems\MessageSystem.cpp">
-      <Filter>Source Files\AI\Message</Filter>
-    </ClCompile>
-    <ClCompile Include="Steering Behaviors\2D\Vector2d.cpp">
-      <Filter>Source Files\AI\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Steering Behaviors\Graph\Path.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
     <ClCompile Include="BaseEnemyOwnedStates.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Misc\CrudeTimer.cpp">
+      <Filter>Source Files\AI\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Misc\FrameCounter.cpp">
+      <Filter>Source Files\AI\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="State\MessageDispatcher.cpp">
+      <Filter>Source Files\AI\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\EntityManager.cpp">
+      <Filter>Source Files\AI\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -143,50 +128,35 @@
     <ClInclude Include="BaseGameEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="State, Message, and Entity Systems\State.h">
-      <Filter>Header Files\AI\State</Filter>
-    </ClInclude>
-    <ClInclude Include="State, Message, and Entity Systems\StateMachine.h">
-      <Filter>Header Files\AI\State</Filter>
-    </ClInclude>
-    <ClInclude Include="State, Message, and Entity Systems\Timer.h">
-      <Filter>Header Files\AI\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="State, Message, and Entity Systems\MessageSystem.h">
-      <Filter>Header Files\AI\Message</Filter>
-    </ClInclude>
-    <ClInclude Include="State, Message, and Entity Systems\Entity.h">
-      <Filter>Header Files\AI\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="State, Message, and Entity Systems\EntityGenerator.h">
-      <Filter>Header Files\AI\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="State, Message, and Entity Systems\EntityManager.h">
-      <Filter>Header Files\AI\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Steering Behaviors\misc\Cgdi.h">
-      <Filter>Header Files\AI\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="Steering Behaviors\misc\Stream_Utility_Functions.h">
-      <Filter>Header Files\AI\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="Steering Behaviors\misc\utils.h">
-      <Filter>Header Files\AI\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="State, Message, and Entity Systems\Telegram.h">
-      <Filter>Header Files\AI\Message</Filter>
-    </ClInclude>
-    <ClInclude Include="Steering Behaviors\2D\Transformations.h">
-      <Filter>Header Files\AI\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Steering Behaviors\2D\Vector2D.h">
-      <Filter>Header Files\AI\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Steering Behaviors\Graph\Path.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
     <ClInclude Include="BaseEnemyOwnedStates.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State\State.h">
+      <Filter>Header Files\AI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="State\StateMachine.h">
+      <Filter>Header Files\AI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="State\MessageDispatcher.h">
+      <Filter>Header Files\AI\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="State\Telegram.h">
+      <Filter>Header Files\AI\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Misc\CrudeTimer.h">
+      <Filter>Header Files\AI\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Misc\FrameCounter.h">
+      <Filter>Header Files\AI\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Misc\utils.h">
+      <Filter>Header Files\AI\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityManager.h">
+      <Filter>Header Files\AI\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityNames.h">
+      <Filter>Header Files\AI\Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
