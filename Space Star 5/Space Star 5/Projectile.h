@@ -12,7 +12,7 @@
 class Projectile
 {
 private:
-	D3DXMATRIX scaleMat, rotateMat, translateMat;
+	D3DXMATRIX scaleMat, rotateMat, translateMat, worldMat;
 	D3DXVECTOR3 position, startPosition, direction;
 	ID3DXMesh*	mesh;
 	LPDIRECT3DTEXTURE9* texture;
@@ -21,8 +21,8 @@ private:
 	D3DXMATERIAL* D3DXMaterial;
 	D3DMATERIAL9* modelMaterial;
 
-	AABB meshBox;
-	bool destroyObject;	// use this bool to determine when to destroy object
+	AABB meshBox;		// mesh's collision box
+	bool destroyObject;	// use this bool to determine when to destroy the object
 public:
 	// Default constructor
 	Projectile(void);
@@ -41,8 +41,20 @@ public:
 	// True - destroy object; False - keep object alive
 	bool CheckObject(void) {return destroyObject;}
 
+	// Accessors
+	AABB GetMeshBox()
+	{
+		AABB out;
+		meshBox.xform(worldMat, out);
+		return out;
+	}							// get collision box
+
+	// Mutators
 	void SetPosition(D3DXVECTOR3 position){ this->position = position;}
 	void SetStartPosition(D3DXVECTOR3 position){startPosition = position;}
 	void SetDirection(D3DXVECTOR3 direction){this->direction = direction;}
+	void Destroy() {destroyObject = true;}
+
+
 };
 

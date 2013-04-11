@@ -16,6 +16,7 @@ Projectile::Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction)
 	position = startPosition = spawnPosition;
 	this->direction = direction;
 	D3DXMatrixScaling(&scaleMat, 0.1f, 0.1f, 0.1f);
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
 	destroyObject = false;
 }
 
@@ -77,23 +78,32 @@ void Projectile::Update(float dt)
  		destroyObject = true;
 	}
 
+	// Set the translate matrix based on the player's current position
 	D3DXMatrixTranslation(&translateMat, position.x, position.y, position.z);
+
+	// Set the world matrix
+	// Note: world = scale * rotate * translate
+	worldMat = scaleMat * rotateMat* translateMat;
+
+	// Set the collision box based on the player's world position
+	//meshBox.xform(worldMat, meshBox);
 }
 
 void Projectile::Render(ID3DXEffect* shader)
 {
-	D3DXMATRIX worldMat, WVPMat, WITMat;
+	// WVPMat - World View Projection Matrix
+	// WITMat - World Inverse Transverse Matrix
+	D3DXMATRIX WVPMat, WITMat;
 
-	// Scale, Rotate, and translate the model's worldMat
-	worldMat = scaleMat * rotateMat * translateMat;
-
+	// Set the WVPMat
 	WVPMat = worldMat * Camera::GetInstance()->GetViewMat() * 
 		Camera::GetInstance()->GetProjMat();
 
+	// Set the WITMat
 	D3DXMatrixInverse(&WITMat, 0, &worldMat);
 	D3DXMatrixTranspose(&WITMat, &WITMat);
 
-	//shader->SetTexture("tex", player.GetTexture());
+	// Set shader variables
 	shader->SetMatrix("worldViewProjectionMatrix", &WVPMat);
 	shader->SetMatrix("worldInverseTransposeMatrix", &WITMat);
 	shader->SetMatrix("worldMatrix", &worldMat);

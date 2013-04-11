@@ -86,6 +86,10 @@ void SpaceStar5::Init(HWND hWnd, HINSTANCE hInstance, bool bWindowed)
 
 	// initialize enemy
 	enemy.initializeEnemyShip(m_pD3DDevice, L"viperShip.x");
+
+	// initialize dummy ship for collision testing
+	dummyShip.Initialize(m_pD3DDevice);
+	dummyShip.SetPosition(D3DXVECTOR3(5.0f, 0.0f, 0.0f));
 }
 
 /// Update Game
@@ -94,6 +98,7 @@ void SpaceStar5::Update(float dt)
 	InputManager::GetInstance()->Update();
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
+	dummyShip.Update(dt);
 
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_SPACE))
 	{
@@ -109,6 +114,12 @@ void SpaceStar5::Update(float dt)
 		for(list<Projectile*>::const_iterator i = pList.begin(), end = pList.end(); i != end;)
 		{
 			(*i)->Update(dt);
+
+			// testing collision
+			if((*i)->GetMeshBox().Intersects(dummyShip.GetMeshBox()))
+			{
+				(*i)->Destroy();
+			}
 
 			if((*i)->CheckObject())
 			{
@@ -152,6 +163,9 @@ void SpaceStar5::Render()
 
 	// render enemy
 	enemy.Render(shader);
+
+	// render dummy ship
+	dummyShip.Render(shader);
 
 	// Render projectiles
 	if(pList.size() > 0)

@@ -14,7 +14,7 @@
 class Player
 {
 private:
-	D3DXMATRIX scaleMat, rotateMat, translateMat;
+	D3DXMATRIX scaleMat, rotateMat, translateMat, worldMat;
 	D3DXVECTOR3 position;
 	ID3DXMesh*	mesh;
 	LPDIRECT3DTEXTURE9* texture;
@@ -36,13 +36,23 @@ public:
 	void Shutdown();
 
 	// Accessors
-	D3DXVECTOR3 GetPosition() {return position;}
-	ID3DXMesh* GetMesh() {return mesh;}
-	LPDIRECT3DTEXTURE9* GetTexture() {return texture;}
-	D3DXMATRIX GetScaleMat() {return scaleMat;}
-	D3DXMATRIX GetRotateMat() {return rotateMat;}
-	D3DXMATRIX GetTranslateMat() {return translateMat;}
-	DWORD GetNumMaterials() {return numMaterials;}
-	D3DMATERIAL9* GetModelMaterial() {return modelMaterial;}
+	D3DXVECTOR3 GetPosition() {return position;}				// get position
+	ID3DXMesh* GetMesh() {return mesh;}							// get mesh
+	LPDIRECT3DTEXTURE9* GetTexture() {return texture;}			// get texture
+	D3DXMATRIX GetWorldMatrix() {return worldMat;}				// get world matrix
+	DWORD GetNumMaterials() {return numMaterials;}				// get number of materials
+	D3DMATERIAL9* GetModelMaterial() {return modelMaterial;}	// get model material
+	
+	// get collision box
+	AABB GetMeshBox()
+	{
+		AABB out;
+		meshBox.xform(worldMat, out);
+		return out;
+	}
+
+	// Dummy ship functions for collision testing
+	// Delete after testing collision
+	void SetPosition(D3DXVECTOR3 pos) {position = pos;}
 };
 

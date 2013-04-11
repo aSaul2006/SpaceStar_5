@@ -50,6 +50,9 @@ private:
 
 	list<Projectile*> pList;
 	Enemy enemy;
+
+	// Dummy ship for collision testing
+	Player dummyShip;
 public:
 	SpaceStar5(void);
 	~SpaceStar5(void);

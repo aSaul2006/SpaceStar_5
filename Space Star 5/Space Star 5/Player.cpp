@@ -93,6 +93,7 @@ void Player::Initialize2(IDirect3DDevice9* m_pD3DDevice, LPCWSTR fileName)
 		D3DXGetFVFVertexSize(mesh->GetFVF()), &meshBox.minPt, &meshBox.maxPt);
 	mesh->UnlockVertexBuffer();
 }
+
 void Player::Update(float dt)
 {
 	// player's speed
@@ -149,23 +150,32 @@ void Player::Update(float dt)
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
 		D3DXToRadian(180.0f), D3DXToRadian(rotateAngle), 0);
 
+	// Set the translate matrix based on the player's current position
 	D3DXMatrixTranslation(&translateMat, position.x, position.y, position.z);
+
+	// Set the world matrix
+	// Note: world = scale * rotate * translate
+	worldMat = scaleMat * rotateMat* translateMat;
+
+	// Set the collision box based on the player's world position
+	//meshBox.xform(worldMat, meshBox);
 }
 
 void Player::Render(ID3DXEffect* shader)
 {
-	D3DXMATRIX worldMat, WVPMat, WITMat;
+	// WVPMat - World View Projection Matrix
+	// WITMat - World Inverse Transverse Matrix
+	D3DXMATRIX WVPMat, WITMat;
 
-	// Scale, Rotate, and translate the model's worldMat
-	worldMat = scaleMat * rotateMat * translateMat;
-
+	// Set the WVPMat
 	WVPMat = worldMat * Camera::GetInstance()->GetViewMat() * 
 		Camera::GetInstance()->GetProjMat();
 
+	// Set the WITMat
 	D3DXMatrixInverse(&WITMat, 0, &worldMat);
 	D3DXMatrixTranspose(&WITMat, &WITMat);
-
-	//shader->SetTexture("tex", player.GetTexture());
+	
+	// Set shader variables
 	shader->SetMatrix("worldViewProjectionMatrix", &WVPMat);
 	shader->SetMatrix("worldInverseTransposeMatrix", &WITMat);
 	shader->SetMatrix("worldMatrix", &worldMat);
