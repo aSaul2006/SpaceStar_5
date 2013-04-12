@@ -39,6 +39,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,		// Handle to the window
 						LPARAM lparam);	// Message info
 
 
+
 // Initialize window creation
 void InitWindow(void)
 {

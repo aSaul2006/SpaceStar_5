@@ -6,6 +6,9 @@
 #include <d3dx9.h>
 #include "AABB.h"
 #include "State\State.h"
+#include "AttackType.h"
+#include "Projectile.h"
+#include <list>
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
@@ -29,6 +32,7 @@ protected:
 	int health, maxHealth;
 	float m_speed, m_fireRate, m_rotateAngle;
 	AABB meshBox;	// mesh's collision box
+	AttackType m_attackType;
 	//All enemies will need to have a pointer to an instance of a state
 	//State* 		m_pCurrentState;
 
@@ -62,12 +66,22 @@ public:
 	void setPosition(D3DXVECTOR3 position);
 	void setSpeed(float speed);
 	void setFireRate(float rate);
+	void setAttackType(AttackType at) { m_attackType = at;}
+	
 
 	//Inherited functions
 	void update(float dt); 
 	void calculateDamage();
 	void destroyShip();
 	void fireWeapon(int fireRate);
+
+	// get collision box
+	AABB GetMeshBox()
+	{
+		AABB out;
+		meshBox.xform(worldMat, out);
+		return out;
+	}
 };
 
 #endif

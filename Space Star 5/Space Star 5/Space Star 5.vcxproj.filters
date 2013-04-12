@@ -158,5 +158,8 @@
     <ClInclude Include="Entity\EntityNames.h">
       <Filter>Header Files\AI\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="AttackType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,5 +1,9 @@
 #include "EnemyShip.h"
 #include "Camera.h"
+#include <math.h>
+#include <list>
+ 
+
 
 
 //Base enemy class.  Any enemy ship class made will derive directly from this class and override some behavior.
@@ -80,9 +84,10 @@ Enemy::Enemy()
 	mesh = NULL;
 	texture = NULL;
 	health = maxHealth = 0;	// change later if needed
-
 	isHealthZero = false;	// change later if needed
+
 }
+
 
 Enemy::~Enemy()
 {
@@ -154,9 +159,29 @@ void Enemy::fireWeapon(int fireRate)
 
 void Enemy::update(float dt)
 {
-	m_position.x = 100;
-	m_position.y = 100;
-	m_position.z = 0;
+	
+	// player's rotation speed
+	float rotateSpeed = 0.2f;
+
+	// check if the player needs to rotate
+	bool rotate = false;
+
+	switch(m_attackType)
+	{
+	case ATTACK1:
+
+			m_position.x -= m_speed * dt;
+			fireWeapon(m_fireRate);
+
+		break;
+	case ATTACK2:
+		m_position.x -= m_speed * dt;
+		m_position.y += 1.0 * dt;
+		break;
+	case ATTACK3:
+		break;
+	}	
+	
 	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
 }
 

@@ -1,6 +1,5 @@
 #include "SpaceStar5.h"
 
-
 SpaceStar5::SpaceStar5(void):
 m_pD3DObject(0),
 	m_pD3DDevice(0),
@@ -86,6 +85,9 @@ void SpaceStar5::Init(HWND hWnd, HINSTANCE hInstance, bool bWindowed)
 
 	// initialize enemy
 	enemy.initializeEnemyShip(m_pD3DDevice, L"viperShip.x");
+	enemy.setSpeed(5.0);
+	enemy.setPosition(D3DXVECTOR3(10.0f,0.0f, 0.0f));
+	enemy.setAttackType(ATTACK1);
 
 	// initialize dummy ship for collision testing
 	dummyShip.Initialize(m_pD3DDevice);
@@ -99,6 +101,7 @@ void SpaceStar5::Update(float dt)
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
 	dummyShip.Update(dt);
+	enemy.update(dt);
 
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_SPACE))
 	{
@@ -120,16 +123,17 @@ void SpaceStar5::Update(float dt)
 			{
 				(*i)->Destroy();
 			}
-
+			
 			if((*i)->CheckObject())
 			{
 				delete (*i);
 				i = pList.erase(i);
 			}
 			else
-				i++;
+				i++;		
 		}
 	}
+	
 
 
 }

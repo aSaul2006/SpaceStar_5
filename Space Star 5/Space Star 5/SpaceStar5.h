@@ -12,6 +12,7 @@
 #include "Skybox.h"
 #include "Projectile.h"
 #include "EnemyShip.h"
+#include "AttackType.h"
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")

@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="AttackType.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BaseEnemyOwnedStates.h" />
     <ClInclude Include="BaseGameEntity.h" />
