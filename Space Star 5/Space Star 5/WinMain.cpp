@@ -38,10 +38,6 @@ LRESULT CALLBACK WndProc(HWND hWnd,		// Handle to the window
 						WPARAM wparam,	// Message info
 						LPARAM lparam);	// Message info
 
-// timer stuff
-int NumFrames = 0;
-LARGE_INTEGER TimerStart, TimerEnd, TimerFreq;
-LPDIRECT3DDEVICE9       pd3dDevice;
 
 // Initialize window creation
 void InitWindow(void)
@@ -83,11 +79,7 @@ int WINAPI wWinMain(HINSTANCE hInstance,		// Handle to the app
 {
 	g_hInst = hInstance;
 	g_bWindowed = true;
-	LPD3DXFONT pFont;
-	char fpsStr[256] = "\0";
-	char s[128];
-	RECT fpsRect = {0, 0, 300, 200};
-
+	
 	// initialize the window
 	InitWindow();
 
@@ -106,10 +98,6 @@ int WINAPI wWinMain(HINSTANCE hInstance,		// Handle to the app
 	_int64 prevTimeStamp = 0;
 	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
 
-	// Create a D3DX font object
-    D3DXCreateFont( pd3dDevice, 18, 0, FW_BOLD, 0, FALSE,
-        DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Arial",
-        &pFont );
 
 	// windows message loop / game loop
 	while(msg.message != WM_QUIT)
@@ -132,20 +120,6 @@ int WINAPI wWinMain(HINSTANCE hInstance,		// Handle to the app
 		// prepare the timer for the next iteration (prev = curr)
 		prevTimeStamp = currentTimeStamp;
 
-		if (NumFrames % 100 == 0) 
-		{
-            float fps;
-            QueryPerformanceCounter(&TimerEnd);
-            fps = NumFrames * TimerFreq.QuadPart / (float)(TimerEnd.QuadPart - TimerStart.QuadPart);
-
-            sprintf(s, "Frame Rate: %.2f fps", fps);
-            strcpy(fpsStr, s);
-        }
-
-        pFont->DrawTextA(NULL, fpsStr, (int)strlen(fpsStr), &fpsRect, 0,
-            D3DCOLOR_ARGB(255, 0, 255, 0));
-
-		NumFrames ++;
 	}
 
 	// shutdown the game (occurs once)

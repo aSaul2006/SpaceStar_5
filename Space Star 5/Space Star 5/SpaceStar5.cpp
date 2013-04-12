@@ -130,6 +130,8 @@ void SpaceStar5::Update(float dt)
 				i++;
 		}
 	}
+
+
 }
 
 /// Render Game
