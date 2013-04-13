@@ -7,6 +7,7 @@
 
 #include "Camera.h"
 #include "InputManager.h"
+#include "Initializer.h"
 
 // safe release macro
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -28,9 +29,8 @@ public:
 	Skybox(void);
 	~Skybox(void);
 
-	void BuildSkybox(IDirect3DDevice9* m_pD3DDevice, float screenWidth,
-		float screenHeight);
-	void Render(IDirect3DDevice9* m_pD3DDevice);
+	void BuildSkybox(float screenWidth, float screenHeight);
+	void Render();
 	void Shutdown();
 };
 

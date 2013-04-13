@@ -11,8 +11,7 @@ Skybox::~Skybox(void)
 	Shutdown();
 }
 
-void Skybox::BuildSkybox(IDirect3DDevice9* m_pD3DDevice, float screenWidth,
-	float screenHeight)
+void Skybox::BuildSkybox(float screenWidth, float screenHeight)
 {
 	TVertex skyboxMesh[24] = 
 	{
@@ -53,7 +52,7 @@ void Skybox::BuildSkybox(IDirect3DDevice9* m_pD3DDevice, float screenWidth,
 		{ 10.0f, -10.0f,  10.0f,  1.0f, 0.0f }
 	};
 
-	m_pD3DDevice->CreateVertexBuffer(sizeof(TVertex) * 24,
+	Initializer::GetInstance()->GetDevice()->CreateVertexBuffer(sizeof(TVertex) * 24,
 		0,
 		FVF_FLAGS,
 		D3DPOOL_MANAGED,
@@ -65,32 +64,32 @@ void Skybox::BuildSkybox(IDirect3DDevice9* m_pD3DDevice, float screenWidth,
 	vertexBuffer->Unlock();
 
 	// setting the textures for the skybox, order is important
-	D3DXCreateTextureFromFile(m_pD3DDevice, L"spacey front.png" , &skyTextures[0] );
-	D3DXCreateTextureFromFile(m_pD3DDevice, L"spacey back.png"  , &skyTextures[1] );
-	D3DXCreateTextureFromFile(m_pD3DDevice, L"spacey left.png"  , &skyTextures[2] );
-	D3DXCreateTextureFromFile(m_pD3DDevice, L"spacey right.png" , &skyTextures[3] );
-	D3DXCreateTextureFromFile(m_pD3DDevice, L"spacey top.png"   , &skyTextures[4] );
-	D3DXCreateTextureFromFile(m_pD3DDevice, L"spacey bottom.png", &skyTextures[5] );
+	D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(), L"spacey front.png" , &skyTextures[0] );
+	D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(), L"spacey back.png"  , &skyTextures[1] );
+	D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(), L"spacey left.png"  , &skyTextures[2] );
+	D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(), L"spacey right.png" , &skyTextures[3] );
+	D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(), L"spacey top.png"   , &skyTextures[4] );
+	D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(), L"spacey bottom.png", &skyTextures[5] );
 
 	// Set up render states for the sky box
-	m_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
-	m_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	Initializer::GetInstance()->GetDevice()->SetRenderState(D3DRS_ZWRITEENABLE, false);
+	Initializer::GetInstance()->GetDevice()->SetRenderState(D3DRS_LIGHTING, false);
 
 	// set up a projection matrix
 	D3DXMATRIX projectionMat;
 	D3DXMatrixPerspectiveFovLH(&projectionMat, D3DXToRadian(45.0f),
 		screenWidth / screenHeight, 0.1f, 100.0f);
-	m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projectionMat);
+	Initializer::GetInstance()->GetDevice()->SetTransform(D3DTS_PROJECTION, &projectionMat);
 
 	D3DXMATRIX worldMat;
 	D3DXMatrixIdentity(&worldMat);
-	m_pD3DDevice->SetTransform(D3DTS_WORLD, &worldMat);
+	Initializer::GetInstance()->GetDevice()->SetTransform(D3DTS_WORLD, &worldMat);
 
-	m_pD3DDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-	m_pD3DDevice->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+	Initializer::GetInstance()->GetDevice()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+	Initializer::GetInstance()->GetDevice()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 }
 
-void Skybox::Render(IDirect3DDevice9* m_pD3DDevice)
+void Skybox::Render()
 {
 	D3DXMATRIX viewMat;
 	viewMat = Camera::GetInstance()->GetViewMat();
@@ -113,15 +112,15 @@ void Skybox::Render(IDirect3DDevice9* m_pD3DDevice)
 
 	D3DXMatrixRotationYawPitchRoll(&viewMat, D3DXToRadian(rotateY), 0, 0);
 
-	m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
+	Initializer::GetInstance()->GetDevice()->SetTransform(D3DTS_VIEW, &viewMat);
 
-	m_pD3DDevice->SetFVF(FVF_FLAGS);
-	m_pD3DDevice->SetStreamSource(0, vertexBuffer, 0, sizeof(TVertex));
+	Initializer::GetInstance()->GetDevice()->SetFVF(FVF_FLAGS);
+	Initializer::GetInstance()->GetDevice()->SetStreamSource(0, vertexBuffer, 0, sizeof(TVertex));
 
 	for(UINT i = 0; i < 6; i++)
 	{
-		m_pD3DDevice->SetTexture(0, skyTextures[i]);
-		m_pD3DDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, i * 4, 2);
+		Initializer::GetInstance()->GetDevice()->SetTexture(0, skyTextures[i]);
+		Initializer::GetInstance()->GetDevice()->DrawPrimitive(D3DPT_TRIANGLESTRIP, i * 4, 2);
 	}
 }
 

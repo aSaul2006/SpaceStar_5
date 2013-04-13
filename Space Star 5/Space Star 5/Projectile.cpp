@@ -18,6 +18,8 @@ Projectile::Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction)
 	D3DXMatrixScaling(&scaleMat, 0.1f, 0.1f, 0.1f);
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
 	destroyObject = false;
+
+	Initialize();
 }
 
 Projectile::~Projectile(void)
@@ -26,10 +28,11 @@ Projectile::~Projectile(void)
 	Shutdown();
 }
 
-void Projectile::Initialize(IDirect3DDevice9* m_pD3DDevice)
+void Projectile::Initialize()
 {
 	// Load the mesh
-	D3DXLoadMeshFromX(L"sphere.x", D3DXMESH_MANAGED, m_pD3DDevice, 
+	D3DXLoadMeshFromX(L"sphere.x", D3DXMESH_MANAGED, 
+		Initializer::GetInstance()->GetDevice(), 
 		NULL, &materialBuff, NULL, &numMaterials, &mesh);
 
 	D3DXMaterial = (D3DXMATERIAL*) materialBuff->GetBufferPointer();
@@ -52,7 +55,8 @@ void Projectile::Initialize(IDirect3DDevice9* m_pD3DDevice)
 			wchar_t *ucString = new wchar_t[len];
 			mbstowcs(ucString, D3DXMaterial[i].pTextureFilename, len);
 			LPCWSTR filename = (LPCWSTR)ucString;
-			D3DXCreateTextureFromFile(m_pD3DDevice, filename, &texture[i]);
+			D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(),
+				filename, &texture[i]);
 			delete[] ucString;
 		}
 	}

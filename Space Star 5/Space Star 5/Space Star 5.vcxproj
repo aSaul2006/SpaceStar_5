@@ -72,6 +72,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="Entity\EntityManager.cpp" />
+    <ClCompile Include="Initializer.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Misc\CrudeTimer.cpp" />
     <ClCompile Include="Misc\FrameCounter.cpp" />
@@ -92,6 +93,7 @@
     <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="Entity\EntityManager.h" />
     <ClInclude Include="Entity\EntityNames.h" />
+    <ClInclude Include="Initializer.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Misc\CrudeTimer.h" />
     <ClInclude Include="Misc\FrameCounter.h" />

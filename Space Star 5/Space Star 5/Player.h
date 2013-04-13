@@ -4,6 +4,7 @@
 #include <d3dx9.h>
 #include "InputManager.h"
 #include "Camera.h"
+#include "Initializer.h"
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
@@ -29,8 +30,8 @@ public:
 	Player(void);
 	~Player(void);
 
-	void Initialize(IDirect3DDevice9* m_pD3DDevice);
-	void Initialize2(IDirect3DDevice9* m_pD3DDevice,  LPCWSTR fileName);
+	void Initialize();
+	void Initialize2(LPCWSTR fileName);
 	void Update(float dt);
 	void Render(ID3DXEffect* shader);
 	void Shutdown();

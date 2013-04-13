@@ -43,7 +43,7 @@ protected:
 
 public:
 	//intializes the enemy ship
-	void initializeEnemyShip(IDirect3DDevice9* m_pD3DDevice, LPCWSTR fileName);
+	void initializeEnemyShip(LPCWSTR fileName);
 	//virtual void fireWeapon(int fireRate)=0;
 	//Make updateAI and updatePhysics overridable but leave
 	//default update() the same...May not work right ha
@@ -76,10 +76,10 @@ public:
 	
 
 	//Inherited functions
-	void update(float dt, Player *player,IDirect3DDevice9*	m_pD3DDevice); 
+	void update(float dt, Player *player); 
 	void calculateDamage();
 	void destroyShip();
-	void fireWeapon(int fireRate, IDirect3DDevice9*	m_pD3DDevice, Player* player);
+	void fireWeapon(int fireRate, Player* player);
 	void renderBullet(ID3DXEffect* shader);
 
 	D3DXVECTOR3 getPosition(){return m_position;}

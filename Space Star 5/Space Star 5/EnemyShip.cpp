@@ -2,7 +2,7 @@
 #include "Camera.h"
 #include <math.h>
 #include <list>
- 
+
 
 
 
@@ -17,10 +17,11 @@ baseEnemyShip::baseEnemyShip()
 
 }
 
-void baseEnemyShip::initializeEnemyShip(IDirect3DDevice9* m_pD3DDevice, LPCWSTR fileName)
+void baseEnemyShip::initializeEnemyShip(LPCWSTR fileName)
 {
 	// Load the mesh
-	D3DXLoadMeshFromX(fileName, D3DXMESH_MANAGED, m_pD3DDevice, 
+	D3DXLoadMeshFromX(fileName, D3DXMESH_MANAGED, 
+		Initializer::GetInstance()->GetDevice(), 
 		NULL, &materialBuff, NULL, &numMaterials, &mesh);
 
 	D3DXMaterial = (D3DXMATERIAL*) materialBuff->GetBufferPointer();
@@ -43,7 +44,8 @@ void baseEnemyShip::initializeEnemyShip(IDirect3DDevice9* m_pD3DDevice, LPCWSTR 
 			wchar_t *ucString = new wchar_t[len];
 			mbstowcs(ucString, D3DXMaterial[i].pTextureFilename, len);
 			LPCWSTR filename = (LPCWSTR)ucString;
-			D3DXCreateTextureFromFile(m_pD3DDevice, filename, &texture[i]);
+			D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(),
+				filename, &texture[i]);
 			delete[] ucString;
 		}
 	}
@@ -139,7 +141,7 @@ void Enemy::Render(ID3DXEffect* shader)
 void Enemy::setPosition(D3DXVECTOR3 pos)
 {
 	m_position = pos;
-	
+
 }
 
 void Enemy::setSpeed(float speed)
@@ -152,33 +154,24 @@ void Enemy::setFireRate(float rate)
 	m_fireRate = rate;
 }
 
-void Enemy::fireWeapon(int fireRate, IDirect3DDevice9*	m_pD3DDevice, Player* player)
+void Enemy::fireWeapon(int fireRate, Player* player)
 {
-	enemyBullet.push_back(new Projectile());
-	enemyBullet.back()->SetPosition(m_position);
-	enemyBullet.back()->SetStartPosition(m_position);
-	enemyBullet.back()->SetDirection(D3DXVECTOR3(-10.0f,0.0,0.0));
-	enemyBullet.back()->Initialize(m_pD3DDevice);
-
-
+	enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(-10.0f,0.0,0.0)));
 }
 
 void Enemy::renderBullet(ID3DXEffect* shader)
 {
-		// Render projectiles
-	if(enemyBullet.size() > 0)
+	// Render projectiles
+	for each(Projectile* projectile in enemyBullet)
 	{
-		for(std::list<Projectile*>::const_iterator i = enemyBullet.begin(), end = enemyBullet.end(); i != end; i++)
-		{
-			(*i)->Render(shader);
-		}
+		projectile->Render(shader);
 	}
 }
 
-void Enemy::update(float dt, Player * player,IDirect3DDevice9* m_pD3DDevice)
+void Enemy::update(float dt, Player * player)
 {
 	D3DXVECTOR3 playerPos = player->GetPosition();
-	
+
 	// player's rotation speed
 	float rotateSpeed = 0.2f;
 
@@ -209,33 +202,33 @@ void Enemy::update(float dt, Player * player,IDirect3DDevice9* m_pD3DDevice)
 	}	
 
 	if(track % 600 == 0)
-		fireWeapon(2,m_pD3DDevice,player);
+		fireWeapon(2,player);
 
-	if(enemyBullet.size() > 0)
+	for each (Projectile* projectile in enemyBullet)
 	{
-		for(std::list<Projectile*>::const_iterator i = enemyBullet.begin(), end = enemyBullet.end(); i != end;)
-		{
-			(*i)->Update(dt);
+		projectile->Update(dt);
 
-			// testing collision
-			if((*i)->GetMeshBox().Intersects(player->GetMeshBox()))
-			{
-				(*i)->Destroy();
-			}
-			
-			if((*i)->CheckObject())
-			{
-				delete (*i);
-				i = enemyBullet.erase(i);
-			}
-			else
-				i++;		
+		// testing collision
+		if(projectile->GetMeshBox().Intersects(player->GetMeshBox()))
+		{
+			projectile->Destroy();
 		}
 	}
-	
+
+	for(std::list<Projectile*>::const_iterator i = enemyBullet.begin(), end = enemyBullet.end(); i != end;)
+	{	
+		if((*i)->CheckObject())
+		{
+			delete (*i);
+			i = enemyBullet.erase(i);
+		}
+		else
+			i++;		
+	}
+
 	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
 
-	
+
 	track ++;
 	if(track == 600)
 		track = 0;

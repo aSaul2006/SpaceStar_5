@@ -29,7 +29,7 @@ private:
 
 	/// D3D9 Variables
 	IDirect3D9*			m_pD3DObject;	// Direct3D9 Object
-	IDirect3DDevice9*	m_pD3DDevice;	// Direct3D9 Device
+	//IDirect3DDevice9*	m_pD3DDevice;	// Direct3D9 Device
 	D3DCAPS9			m_D3DCaps;		// find the capabilities of graphics card
 
 	// applications variables
@@ -50,9 +50,6 @@ private:
 
 	list<Projectile*> pList;
 	Enemy enemy;
-
-	// Dummy ship for collision testing
-	Player dummyShip;
 public:
 	SpaceStar5(void);
 	~SpaceStar5(void);

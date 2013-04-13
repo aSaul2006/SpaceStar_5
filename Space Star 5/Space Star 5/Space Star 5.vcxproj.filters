@@ -96,6 +96,9 @@
     <ClCompile Include="Entity\EntityManager.cpp">
       <Filter>Source Files\AI\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Initializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SpaceStar5.h">
@@ -159,6 +162,9 @@
       <Filter>Header Files\AI\Entity</Filter>
     </ClInclude>
     <ClInclude Include="AttackType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Initializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

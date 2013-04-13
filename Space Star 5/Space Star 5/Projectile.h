@@ -5,6 +5,7 @@
 #pragma comment(lib, "d3dx9.lib")
 
 #include "Camera.h"
+#include "Initializer.h"
 
 // safe release macro
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -32,7 +33,7 @@ public:
 	Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction);
 	~Projectile(void);
 
-	void Initialize(IDirect3DDevice9* m_pD3DDevice);
+	void Initialize();
 	void Update(float dt);
 	void Render(ID3DXEffect* shader);
 	void Shutdown();

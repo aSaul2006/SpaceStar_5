@@ -16,10 +16,11 @@ Player::~Player(void)
 	Shutdown();
 }
 
-void Player::Initialize(IDirect3DDevice9* m_pD3DDevice)
+void Player::Initialize()
 {
 	// Load the mesh
-	D3DXLoadMeshFromX(L"frigate.x", D3DXMESH_MANAGED, m_pD3DDevice, 
+	D3DXLoadMeshFromX(L"frigate.x", D3DXMESH_MANAGED, 
+		Initializer::GetInstance()->GetDevice(), 
 		NULL, &materialBuff, NULL, &numMaterials, &mesh);
 
 	D3DXMaterial = (D3DXMATERIAL*) materialBuff->GetBufferPointer();
@@ -42,7 +43,8 @@ void Player::Initialize(IDirect3DDevice9* m_pD3DDevice)
 			wchar_t *ucString = new wchar_t[len];
 			mbstowcs(ucString, D3DXMaterial[i].pTextureFilename, len);
 			LPCWSTR filename = (LPCWSTR)ucString;
-			D3DXCreateTextureFromFile(m_pD3DDevice, filename, &texture[i]);
+			D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(),
+				filename, &texture[i]);
 			delete[] ucString;
 		}
 	}
@@ -55,10 +57,11 @@ void Player::Initialize(IDirect3DDevice9* m_pD3DDevice)
 	mesh->UnlockVertexBuffer();
 }
 	
-void Player::Initialize2(IDirect3DDevice9* m_pD3DDevice, LPCWSTR fileName)
+void Player::Initialize2(LPCWSTR fileName)
 {
 	// Load the mesh
-	D3DXLoadMeshFromX(fileName, D3DXMESH_MANAGED, m_pD3DDevice, 
+	D3DXLoadMeshFromX(fileName, D3DXMESH_MANAGED, 
+		Initializer::GetInstance()->GetDevice(), 
 		NULL, &materialBuff, NULL, &numMaterials, &mesh);
 
 	D3DXMaterial = (D3DXMATERIAL*) materialBuff->GetBufferPointer();
@@ -81,7 +84,8 @@ void Player::Initialize2(IDirect3DDevice9* m_pD3DDevice, LPCWSTR fileName)
 			wchar_t *ucString = new wchar_t[len];
 			mbstowcs(ucString, D3DXMaterial[i].pTextureFilename, len);
 			LPCWSTR filename = (LPCWSTR)ucString;
-			D3DXCreateTextureFromFile(m_pD3DDevice, filename, &texture[i]);
+			D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(),
+				filename, &texture[i]);
 			delete[] ucString;
 		}
 	}
