@@ -8,10 +8,13 @@
 #include "State\State.h"
 #include "AttackType.h"
 #include "Projectile.h"
+#include "Player.h"
 #include <list>
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
+
+
 
 // safe release macro
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -41,10 +44,10 @@ protected:
 public:
 	//intializes the enemy ship
 	void initializeEnemyShip(IDirect3DDevice9* m_pD3DDevice, LPCWSTR fileName);
-	virtual void fireWeapon(int fireRate)=0;
+	//virtual void fireWeapon(int fireRate)=0;
 	//Make updateAI and updatePhysics overridable but leave
 	//default update() the same...May not work right ha
-	virtual void update(float dt)=0; 
+	//virtual void update(float dt)=0; 
 	virtual void calculateDamage()=0;
 	virtual void destroyShip()=0;
 	virtual ~baseEnemyShip();
@@ -58,6 +61,9 @@ public:
 class Enemy : public baseEnemyShip
 {
 private:
+	std::list<Projectile*> enemyBullet;
+	int track;
+	bool moveDir;
 public:
 	Enemy();
 	~Enemy();
@@ -70,11 +76,13 @@ public:
 	
 
 	//Inherited functions
-	void update(float dt); 
+	void update(float dt, Player *player,IDirect3DDevice9*	m_pD3DDevice); 
 	void calculateDamage();
 	void destroyShip();
-	void fireWeapon(int fireRate);
+	void fireWeapon(int fireRate, IDirect3DDevice9*	m_pD3DDevice, Player* player);
+	void renderBullet(ID3DXEffect* shader);
 
+	D3DXVECTOR3 getPosition(){return m_position;}
 	// get collision box
 	AABB GetMeshBox()
 	{

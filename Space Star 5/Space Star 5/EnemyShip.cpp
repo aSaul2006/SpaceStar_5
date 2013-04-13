@@ -83,8 +83,8 @@ Enemy::Enemy()
 	m_position = m_velocity = D3DXVECTOR3(0, 0, 0);
 	mesh = NULL;
 	texture = NULL;
-	health = maxHealth = 0;	// change later if needed
-	isHealthZero = false;	// change later if needed
+	track = health = maxHealth = 0;	// change later if needed
+	moveDir = isHealthZero = false;	// change later if needed
 
 }
 
@@ -152,13 +152,32 @@ void Enemy::setFireRate(float rate)
 	m_fireRate = rate;
 }
 
-void Enemy::fireWeapon(int fireRate)
+void Enemy::fireWeapon(int fireRate, IDirect3DDevice9*	m_pD3DDevice, Player* player)
 {
+	enemyBullet.push_back(new Projectile());
+	enemyBullet.back()->SetPosition(m_position);
+	enemyBullet.back()->SetStartPosition(m_position);
+	enemyBullet.back()->SetDirection(D3DXVECTOR3(-10.0f,0.0,0.0));
+	enemyBullet.back()->Initialize(m_pD3DDevice);
+
 
 }
 
-void Enemy::update(float dt)
+void Enemy::renderBullet(ID3DXEffect* shader)
 {
+		// Render projectiles
+	if(enemyBullet.size() > 0)
+	{
+		for(std::list<Projectile*>::const_iterator i = enemyBullet.begin(), end = enemyBullet.end(); i != end; i++)
+		{
+			(*i)->Render(shader);
+		}
+	}
+}
+
+void Enemy::update(float dt, Player * player,IDirect3DDevice9* m_pD3DDevice)
+{
+	D3DXVECTOR3 playerPos = player->GetPosition();
 	
 	// player's rotation speed
 	float rotateSpeed = 0.2f;
@@ -169,20 +188,58 @@ void Enemy::update(float dt)
 	switch(m_attackType)
 	{
 	case ATTACK1:
-
-			m_position.x -= m_speed * dt;
-			fireWeapon(m_fireRate);
-
+		m_position.x -= m_speed * dt;
 		break;
 	case ATTACK2:
 		m_position.x -= m_speed * dt;
 		m_position.y += 1.0 * dt;
 		break;
 	case ATTACK3:
+		m_position.x -= m_speed * dt;
+
+		if(playerPos.y < m_position.y)
+		{
+			m_position.y -= m_speed * dt;
+		}
+		if(playerPos.y > m_position.y)
+		{
+			m_position.y += m_speed * dt;
+		}
 		break;
 	}	
+
+	if(track % 600 == 0)
+		fireWeapon(2,m_pD3DDevice,player);
+
+	if(enemyBullet.size() > 0)
+	{
+		for(std::list<Projectile*>::const_iterator i = enemyBullet.begin(), end = enemyBullet.end(); i != end;)
+		{
+			(*i)->Update(dt);
+
+			// testing collision
+			if((*i)->GetMeshBox().Intersects(player->GetMeshBox()))
+			{
+				(*i)->Destroy();
+			}
+			
+			if((*i)->CheckObject())
+			{
+				delete (*i);
+				i = enemyBullet.erase(i);
+			}
+			else
+				i++;		
+		}
+	}
 	
 	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
+
+	
+	track ++;
+	if(track == 600)
+		track = 0;
+
 }
 
 void Enemy::calculateDamage()
