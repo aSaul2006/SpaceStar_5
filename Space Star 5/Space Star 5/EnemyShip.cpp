@@ -97,7 +97,7 @@ Enemy::~Enemy()
 
 void Enemy::Render(ID3DXEffect* shader)
 {
-	D3DXMATRIX worldMat, WVPMat, WITMat;
+	D3DXMATRIX WVPMat, WITMat;
 
 	// Scale, Rotate, and translate the model's worldMat
 	worldMat = scaleMat * rotateMat * translateMat;

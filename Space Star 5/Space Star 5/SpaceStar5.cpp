@@ -41,14 +41,6 @@ void SpaceStar5::Init(HWND hWnd, HINSTANCE hInstance, bool bWindowed)
 	D3Dpp.MultiSampleType				= D3DMULTISAMPLE_NONE;
 
 	//// Create the Direct3D device using the presentation parameters above
-	//m_pD3DObject->CreateDevice(
-	//	D3DADAPTER_DEFAULT,		// Primary Display Device
-	//	D3DDEVTYPE_HAL,			// Device type to use, use HAL
-	//	hWnd,					// handle to the focus window
-	//	D3DCREATE_HARDWARE_VERTEXPROCESSING,	// hardware behavior flags
-	//	&D3Dpp,					// presentation parameters
-	//	&m_pD3DDevice);			// return created D3DDevice
-
 	Initializer::GetInstance()->Initialize(hWnd, m_pD3DObject, D3Dpp);
 
 	// Create your sprite COM object
@@ -63,72 +55,44 @@ void SpaceStar5::Init(HWND hWnd, HINSTANCE hInstance, bool bWindowed)
 	// Initialize the Camera
 	Camera::GetInstance()->Initialize(screenWidth, screenHeight);
 
-	// Initialize the player
-	player.Initialize();
-
-
-
-	//////////////////////////////////////////////////////////////////////////////
-	//// Camera Test - Initialize Object for testing
-	//////////////////////////////////////////////////////////////////////////////
-	D3DXCreateEffectFromFile(Initializer::GetInstance()->GetDevice(),
-		L"lab5.fx", 0, 0, 0, 0, 
-		&shader, &errorCheck);
-
-	if(errorCheck)
-	{
-		MessageBoxA(0,(char*)errorCheck->GetBufferPointer(), 0, 0);
-	}
-
-	SAFE_RELEASE(errorCheck);
-
-	// Create Skybox
-	skybox.BuildSkybox((float)screenWidth, (float)screenHeight);
-
-	// initialize enemy
-	enemy.initializeEnemyShip(L"viperShip.x");
-	enemy.setSpeed(5.0);
-	enemy.setPosition(D3DXVECTOR3(8.0f,0.0f, 0.0f));
-	enemy.setAttackType(ATTACK1);
+	gameState = TitleMenu;
 }
 
 /// Update Game
 void SpaceStar5::Update(float dt)
 {
 	InputManager::GetInstance()->Update();
-	Camera::GetInstance()->Update(dt);
-	player.Update(dt);
-	enemy.update(dt,&player);
 
-	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_SPACE))
+	switch(gameState)
 	{
-		pList.push_front(new Projectile(player.GetPosition(), D3DXVECTOR3(10.0f, 0, 0)));
+	case TitleMenu:
+		if(gameScreen.size() == 0)
+		{
+			gameScreen.push_front(new TitleScreen());
+		}
+		break;
+	case MainMenu:
+		if(gameScreen.front()->GetScreenType() != MainType)
+		{
+			gameScreen.pop_front();
+			gameScreen.push_front(new MainMenuScreen());
+		}
+		break;
+	case Game:
+		if(gameScreen.front()->GetScreenType() != GameType)
+		{
+			gameScreen.pop_front();
+			gameScreen.push_front(new GameScreen());
+		}
+		break;
+	case Exit:
+		PostQuitMessage(0);
+		break;
 	}
 
-	// update the projectiles in pList
-	for each(Projectile* projectile in pList)
+	for each (CScreen* screen in gameScreen)
 	{
-		// update projectile
-		projectile->Update(dt);
-
-		// testing collision
-		if(projectile->GetMeshBox().Intersects(enemy.GetMeshBox()))
-		{
-			projectile->Destroy();
-		}
-	}
-
-	// check for projectiles that need to be removed from the list
-	// and remove them
-	for(list<Projectile*>::const_iterator i = pList.begin(), end = pList.end(); i != end;)
-	{	
-		if((*i)->CheckObject())
-		{
-			delete (*i);
-			i = pList.erase(i);
-		}
-		else
-			i++;		
+		screen->Update(gameState, dt);
 	}
 }
 
@@ -143,35 +107,16 @@ void SpaceStar5::Render()
 	// clear the back buffer, begin the sceen, /* draw */, EndScene, Present
 	Initializer::GetInstance()->GetDevice()->Clear(0, 0, 
 		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 
-		D3DXCOLOR(0.0f, 0.4f, 0.8f, 1.0f), 1.0f, 0);
+		D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f), 1.0f, 0);
 
 	Initializer::GetInstance()->GetDevice()->BeginScene();
 
 	// Enter rendering code here
 
-	// Set Z render state to false to ignore Z-coordinates when
-	// rendering the sky box
-	Initializer::GetInstance()->GetDevice()->SetRenderState(D3DRS_ZWRITEENABLE, false);
-
-	// Render the sky box
-	skybox.Render();
-
-	// Set Z render state to true when finishing rendering 
-	// the sky box
-	Initializer::GetInstance()->GetDevice()->SetRenderState(D3DRS_ZWRITEENABLE, true);
-
-	// Render player ship
-	player.Render(shader);
-
-	for each(Projectile* projectile in pList)
+	for each (CScreen* screen in gameScreen)
 	{
-		projectile->Render(shader);
+		screen->Render();
 	}
-
-	// render enemy
-	enemy.Render(shader);
-
-	enemy.renderBullet(shader);
 
 	Initializer::GetInstance()->GetDevice()->EndScene();
 	Initializer::GetInstance()->GetDevice()->Present(0, 0, 0, 0);
@@ -182,19 +127,17 @@ void SpaceStar5::Render()
 void SpaceStar5::Shutdown()
 {
 	// Shutdown COM objects in the revrse order they were created in
+	if(gameScreen.size() > 0)
+	{
+		for(list<CScreen*>::const_iterator i = gameScreen.begin(), 
+			end = gameScreen.end(); i != end; )
+		{
+			delete (*i);
+			i = gameScreen.erase(i);
+		}
+	}
+
 	SAFE_RELEASE(m_pD3DSprite);
 	//SAFE_RELEASE(m_pD3DDevice);
 	SAFE_RELEASE(m_pD3DObject);
-
-	// Delete Test variables
-	SAFE_RELEASE(shader);
-
-	if(pList.size() > 0)
-	{
-		for(list<Projectile*>::const_iterator i = pList.begin(), end = pList.end(); i != end; )
-		{
-			delete (*i);
-			i = pList.erase(i);
-		}
-	}
 }

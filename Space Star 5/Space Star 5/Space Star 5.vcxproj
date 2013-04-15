@@ -72,15 +72,19 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="Entity\EntityManager.cpp" />
+    <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="Initializer.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="Misc\CrudeTimer.cpp" />
     <ClCompile Include="Misc\FrameCounter.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SpaceStar5.cpp" />
     <ClCompile Include="State\MessageDispatcher.cpp" />
+    <ClCompile Include="TitleScreen.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -93,19 +97,23 @@
     <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="Entity\EntityManager.h" />
     <ClInclude Include="Entity\EntityNames.h" />
+    <ClInclude Include="GameScreen.h" />
     <ClInclude Include="Initializer.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="Misc\CrudeTimer.h" />
     <ClInclude Include="Misc\FrameCounter.h" />
     <ClInclude Include="Misc\utils.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Screen.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpaceStar5.h" />
     <ClInclude Include="State\MessageDispatcher.h" />
     <ClInclude Include="State\State.h" />
     <ClInclude Include="State\StateMachine.h" />
     <ClInclude Include="State\Telegram.h" />
+    <ClInclude Include="TitleScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

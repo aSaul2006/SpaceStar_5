@@ -7,12 +7,9 @@
 #include "AudioManager.h"
 #include "InputManager.h"
 #include "Camera.h"
-#include "Player.h"
-#include "EnemyShip.h"
-#include "Skybox.h"
-#include "Projectile.h"
-#include "EnemyShip.h"
-#include "AttackType.h"
+#include "TitleScreen.h"
+#include "GameScreen.h"
+#include "MainMenuScreen.h"
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
@@ -38,18 +35,8 @@ private:
 	//sprite variables
 	ID3DXSprite*		m_pD3DSprite;
 
-	//////////////////////////////////////////////////////////////////////////////
-	///// Test Variables - Used for testing
-	//////////////////////////////////////////////////////////////////////////////
-	ID3DXEffect* shader;
-	ID3DXBuffer* errorCheck;
-
-	Player player;
-	
-	Skybox skybox;
-
-	list<Projectile*> pList;
-	Enemy enemy;
+	list<CScreen*> gameScreen;
+	GameState gameState;
 public:
 	SpaceStar5(void);
 	~SpaceStar5(void);

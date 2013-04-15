@@ -5,6 +5,7 @@ Initializer* Initializer::instance;
 Initializer::Initializer(void)
 {
 	m_pD3DDevice = NULL;
+	gameFont = NULL;
 }
 
 Initializer::~Initializer(void)
@@ -39,9 +40,17 @@ void Initializer::Initialize(HWND hWnd, IDirect3D9* m_pD3DObject,
 		D3DCREATE_HARDWARE_VERTEXPROCESSING,	// hardware behavior flags
 		&D3Dpp,					// presentation parameters
 		&m_pD3DDevice);			// return created D3DDevice
+
+	// Create Font COM object
+	AddFontResourceEx(L"Spaceracer.ttf", FR_PRIVATE, 0);
+	D3DXCreateFont(m_pD3DDevice, 30, 0, FW_BOLD, 0, false,
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
+		DEFAULT_PITCH | FF_DONTCARE, TEXT("Spaceracer"),
+		&gameFont);
 }
 
 void Initializer::Shutdown()
 {
 	SAFE_RELEASE(m_pD3DDevice);
+	SAFE_RELEASE(gameFont);
 }

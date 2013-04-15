@@ -24,8 +24,6 @@ Projectile::Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction)
 
 Projectile::~Projectile(void)
 {
-	// Shutdown the variables
-	Shutdown();
 }
 
 void Projectile::Initialize()
