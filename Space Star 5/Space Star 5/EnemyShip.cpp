@@ -242,12 +242,21 @@ void Enemy::update(float dt, Player * player,IDirect3DDevice9* m_pD3DDevice)
 
 }
 
-void Enemy::calculateDamage()
+void Enemy::setHealth(int h)
 {
+	health = h;
+}
+
+int Enemy::calculateDamage(int shipPower)
+{
+	int power = shipPower;
+	health -= power;
+
+	return health;
 
 }
 
 void Enemy::destroyShip()
 {
-
+	Enemy::Shutdown();
 }

@@ -49,6 +49,7 @@ private:
 	Skybox skybox;
 
 	list<Projectile*> pList;
+	list<Enemy*> pEnemies;
 	Enemy enemy;
 
 	// Dummy ship for collision testing
@@ -61,6 +62,7 @@ public:
 	void Update(float dt);
 	void Render();
 	void Shutdown();
+	void updateEnemyList();
 
 	void RenderSkybox();
 };

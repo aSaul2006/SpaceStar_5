@@ -48,7 +48,7 @@ public:
 	//Make updateAI and updatePhysics overridable but leave
 	//default update() the same...May not work right ha
 	//virtual void update(float dt)=0; 
-	virtual void calculateDamage()=0;
+	virtual int calculateDamage(int shipPower)=0;
 	virtual void destroyShip()=0;
 	virtual ~baseEnemyShip();
 	void Shutdown();
@@ -77,10 +77,11 @@ public:
 
 	//Inherited functions
 	void update(float dt, Player *player,IDirect3DDevice9*	m_pD3DDevice); 
-	void calculateDamage();
+	int calculateDamage(int shipPower);
 	void destroyShip();
 	void fireWeapon(int fireRate, IDirect3DDevice9*	m_pD3DDevice, Player* player);
 	void renderBullet(ID3DXEffect* shader);
+	void setHealth(int health);
 
 	D3DXVECTOR3 getPosition(){return m_position;}
 	// get collision box

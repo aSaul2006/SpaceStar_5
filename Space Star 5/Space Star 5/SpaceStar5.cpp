@@ -1,5 +1,7 @@
 #include "SpaceStar5.h"
 
+int healthTest = 0;
+
 SpaceStar5::SpaceStar5(void):
 m_pD3DObject(0),
 	m_pD3DDevice(0),
@@ -84,11 +86,14 @@ void SpaceStar5::Init(HWND hWnd, HINSTANCE hInstance, bool bWindowed)
 	skybox.BuildSkybox(m_pD3DDevice, (float)screenWidth, (float)screenHeight);
 
 	// initialize enemy
-	enemy.initializeEnemyShip(m_pD3DDevice, L"viperShip.x");
-	enemy.setSpeed(5.0);
-	enemy.setPosition(D3DXVECTOR3(8.0f,0.0f, 0.0f));
-	enemy.setAttackType(ATTACK1);
+	pEnemies.push_back(new Enemy());
+	pEnemies.back()->initializeEnemyShip(m_pD3DDevice, L"viperShip.x");
+	pEnemies.back()->setSpeed(5.0);
+	pEnemies.back()->setPosition(D3DXVECTOR3(10.0f,0.0f,0.0f));
+	pEnemies.back()->setAttackType(ATTACK3);
+	pEnemies.back()->setHealth(100);
 
+	
 	// initialize dummy ship for collision testing
 	dummyShip.Initialize(m_pD3DDevice);
 	dummyShip.SetPosition(D3DXVECTOR3(5.0f, 0.0f, 0.0f));
@@ -101,7 +106,15 @@ void SpaceStar5::Update(float dt)
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
 	dummyShip.Update(dt);
-	enemy.update(dt,&player, m_pD3DDevice);
+	if(pEnemies.size() > 0 )
+	{
+		for(list<Enemy*>::const_iterator i = pEnemies.begin(), end = pEnemies.end(); i != end;i ++)
+		{
+			(*i)->update(dt,&player, m_pD3DDevice);
+		}
+
+	}
+
 
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_SPACE))
 	{
@@ -122,6 +135,9 @@ void SpaceStar5::Update(float dt)
 			if((*i)->GetMeshBox().Intersects(dummyShip.GetMeshBox()))
 			{
 				(*i)->Destroy();
+				healthTest = enemy.calculateDamage(50);
+				if(healthTest <= 0)
+					enemy.destroyShip();
 			}
 			
 			if((*i)->CheckObject())
@@ -168,7 +184,14 @@ void SpaceStar5::Render()
 	player.Render(shader);
 
 	// render enemy
-	enemy.Render(shader);
+	if(pEnemies.size() > 0)
+	{
+		for(list<Enemy*>::const_iterator i = pEnemies.begin(), end = pEnemies.end(); i != end; i ++)
+		{
+			(*i)->Render(shader);
+			(*i)->renderBullet(shader);
+		}
+	}
 
 	// render dummy ship
 	dummyShip.Render(shader);
@@ -182,7 +205,6 @@ void SpaceStar5::Render()
 		}
 	}
 
-	enemy.renderBullet(shader);
 
 	m_pD3DDevice->EndScene();
 	m_pD3DDevice->Present(0, 0, 0, 0);
