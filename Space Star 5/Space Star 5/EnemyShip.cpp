@@ -154,6 +154,11 @@ void Enemy::setFireRate(float rate)
 	m_fireRate = rate;
 }
 
+void Enemy::setHealth(int enHealth)
+{
+	health = enHealth;
+}
+
 void Enemy::fireWeapon(int fireRate, Player* player)
 {
 	enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(-10.0f,0.0,0.0)));
@@ -244,3 +249,12 @@ void Enemy::destroyShip()
 {
 
 }
+
+//void Enemy::loadEnemies(std::list<Enemy*> pEnemies,int num)
+//{
+//	for(int i = 0; i < num; i ++)
+//	{
+//		pEnemies.push_front(new Enemy());
+//	}
+//
+//}

@@ -81,6 +81,8 @@ public:
 	void destroyShip();
 	void fireWeapon(int fireRate, Player* player);
 	void renderBullet(ID3DXEffect* shader);
+	void setHealth(int shipHealth);
+	//void loadEnemies(std::list<Enemy*> pEnemies, int numberToLoad);
 
 	D3DXVECTOR3 getPosition(){return m_position;}
 	// get collision box

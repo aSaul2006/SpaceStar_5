@@ -38,17 +38,28 @@ void GameScreen::Initialize(void)
 	skybox.BuildSkybox((float)screenWidth, (float)screenHeight);
 
 	// initialize enemy
-	enemy.initializeEnemyShip(L"viperShip.x");
-	enemy.setSpeed(5.0);
-	enemy.setPosition(D3DXVECTOR3(8.0f,0.0f, 0.0f));
-	enemy.setAttackType(ATTACK1);
+	pEnemies.push_front(new Enemy());
+	for each(Enemy* enemy in pEnemies)
+	{
+		enemy->initializeEnemyShip(L"viperShip.x");
+		enemy->setAttackType(ATTACK3);
+		enemy->setPosition(D3DXVECTOR3(10.0f,0.0f,0.0f));
+		enemy->setSpeed(5.0f);
+		enemy->setHealth(100);
+	}
 }
 
 void GameScreen::Update(GameState& gameState, float dt)
 {
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
-	enemy.update(dt,&player);
+
+	for each(Enemy* enemy in pEnemies)
+	{
+		enemy->update(dt,&player);
+	}
+	
+	//enemy.update(dt,&player);
 
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_SPACE))
 	{
@@ -104,9 +115,12 @@ void GameScreen::Render(void)
 	}
 
 	// render enemy
-	enemy.Render(shader);
+	for each(Enemy* enemy in pEnemies)
+	{
+		enemy->Render(shader);
+		enemy->renderBullet(shader);
+	}
 
-	enemy.renderBullet(shader);
 }
 
 void GameScreen::Shutdown(void)
@@ -125,3 +139,4 @@ void GameScreen::Shutdown(void)
 		}
 	}
 }
+

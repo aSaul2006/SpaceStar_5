@@ -21,6 +21,7 @@ private:
 	Skybox skybox;
 
 	list<Projectile*> pList;
+	list<Enemy*> pEnemies;
 	Enemy enemy;
 public:
 	GameScreen(void);
