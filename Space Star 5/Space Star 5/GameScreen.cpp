@@ -53,6 +53,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 {
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
+	skybox.Update(dt);
 
 	for each(Enemy* enemy in pEnemies)
 	{
