@@ -32,9 +32,6 @@ private:
 	// applications variables
 	bool				m_bVSync;
 
-	//sprite variables
-	ID3DXSprite*		m_pD3DSprite;
-
 	list<CScreen*> gameScreen;
 	GameState gameState;
 public:

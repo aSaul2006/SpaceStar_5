@@ -6,6 +6,8 @@ TitleScreen::TitleScreen(void)
 {
 	print = "";
 	type = TitleType;
+
+	Initialize();
 }
 
 TitleScreen::~TitleScreen(void)
@@ -15,6 +17,10 @@ TitleScreen::~TitleScreen(void)
 
 void TitleScreen::Initialize(void)
 {
+	D3DXCreateTextureFromFileEx(
+		Initializer::GetInstance()->GetDevice(),
+		L"titlepic.png", 800, 600, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
+		D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &bgTex);
 }
 
 void TitleScreen::Update(GameState& gameState, float dt)
@@ -27,6 +33,12 @@ void TitleScreen::Update(GameState& gameState, float dt)
 
 void TitleScreen::Render(void)
 {
+	// render the background image
+	Initializer::GetInstance()->GetSprite()->Begin(D3DXSPRITE_ALPHABLEND);
+	Initializer::GetInstance()->GetSprite()->Draw(bgTex, 0, 0, 0, 
+		D3DCOLOR_ARGB(255, 255, 255, 255));
+	Initializer::GetInstance()->GetSprite()->End();
+
 	RECT rect;
 	D3DCOLOR fontColor;
 
@@ -44,4 +56,5 @@ void TitleScreen::Render(void)
 
 void TitleScreen::Shutdown(void)
 {
+	SAFE_RELEASE(bgTex);
 }

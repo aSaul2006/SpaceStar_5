@@ -5,6 +5,7 @@ class MainMenuScreen :
 {
 private:
 	short choice;
+	IDirect3DTexture9* bgTex;
 public:
 	MainMenuScreen(void);
 	~MainMenuScreen(void);

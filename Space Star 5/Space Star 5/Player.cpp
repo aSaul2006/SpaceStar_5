@@ -149,6 +149,9 @@ void Player::Update(float dt)
 			rotateAngle -= rotateSpeed;
 	}
 
+	// keep up with the moving camera
+	//position.x += Camera::GetInstance()->GetCameraSpeed() * dt;
+
 	// Set rotation matrix to rotate the player
 	// Yaw = y; Pitch = x; Roll = z
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
@@ -160,9 +163,6 @@ void Player::Update(float dt)
 	// Set the world matrix
 	// Note: world = scale * rotate * translate
 	worldMat = scaleMat * rotateMat* translateMat;
-
-	// Set the collision box based on the player's world position
-	//meshBox.xform(worldMat, meshBox);
 }
 
 void Player::Render(ID3DXEffect* shader)

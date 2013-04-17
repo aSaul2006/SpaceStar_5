@@ -21,7 +21,8 @@ private:
 	Initializer(void);
 
 	IDirect3DDevice9*	m_pD3DDevice;	// Direct3D9 Device
-	ID3DXFont* gameFont;				// Direct3D font
+	ID3DXFont*			gameFont;		// Direct3D font
+	ID3DXSprite*		m_pD3DSprite;	// sprite variables
 
 public:
 	~Initializer(void);
@@ -36,4 +37,5 @@ public:
 
 	IDirect3DDevice9* GetDevice() {return m_pD3DDevice;}
 	ID3DXFont* GetFont() {return gameFont;}
+	ID3DXSprite* GetSprite() {return m_pD3DSprite;}
 };

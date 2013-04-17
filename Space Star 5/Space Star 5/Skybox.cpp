@@ -87,31 +87,26 @@ void Skybox::BuildSkybox(float screenWidth, float screenHeight)
 
 	Initializer::GetInstance()->GetDevice()->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
 	Initializer::GetInstance()->GetDevice()->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+
+	rotateY = 0;
 }
 
-void Skybox::Render()
+void Skybox::Update(float dt)
 {
-	D3DXMATRIX viewMat;
+	float speed = 1.0f;
 	viewMat = Camera::GetInstance()->GetViewMat();
 
 	viewMat._41 = 0.0f;
 	viewMat._42 = -0.4f;
 	viewMat._43 = 0.0f;
 
-	static float rotateY = 0;
-
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_J))
-	{
-		rotateY++;
-	}
-
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_K))
-	{
-		rotateY--;
-	}
+	rotateY -= speed * dt;
 
 	D3DXMatrixRotationYawPitchRoll(&viewMat, D3DXToRadian(rotateY), 0, 0);
+}
 
+void Skybox::Render()
+{
 	Initializer::GetInstance()->GetDevice()->SetTransform(D3DTS_VIEW, &viewMat);
 
 	Initializer::GetInstance()->GetDevice()->SetFVF(FVF_FLAGS);

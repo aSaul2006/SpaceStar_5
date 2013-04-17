@@ -7,6 +7,8 @@
 
 class TitleScreen : public CScreen
 {
+private:
+	IDirect3DTexture9* bgTex;
 public:
 	TitleScreen(void);
 	~TitleScreen(void);

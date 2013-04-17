@@ -25,11 +25,15 @@ class Skybox
 private:
 	IDirect3DVertexBuffer9* vertexBuffer;
 	IDirect3DTexture9* skyTextures[6];
+
+	D3DXMATRIX viewMat;
+	float rotateY;
 public:
 	Skybox(void);
 	~Skybox(void);
 
 	void BuildSkybox(float screenWidth, float screenHeight);
+	void Update(float dt);
 	void Render();
 	void Shutdown();
 };

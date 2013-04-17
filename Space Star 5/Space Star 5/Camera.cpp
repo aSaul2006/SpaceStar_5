@@ -17,7 +17,7 @@ Camera* Camera::GetInstance(void)
 		instance = new Camera();
 	return instance;
 }
-	
+
 void Camera::DestroyInstance(void)
 {
 	if(instance)
@@ -38,6 +38,9 @@ void Camera::Initialize(int screenWidth, int screenHeight)
 	lookAt = D3DXVECTOR3 (0, 0, 0);
 	upVec = D3DXVECTOR3(0, 1, 0);
 
+	// camera speed
+	cameraSpeed = 1.0f;
+
 	// Set the projection matrix
 	D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DXToRadian(65.0f), 
 		(float)screenWidth / (float)screenHeight, 1.0f, 1000.0f);
@@ -52,31 +55,9 @@ void Camera::Update(float dt)
 void Camera::Movement(float dt)
 {
 	// camera update
-	float cameraSpeed = 10.0f;
+	/*eyePos.x += cameraSpeed * dt;
+	lookAt.x += cameraSpeed * dt;*/
 
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_W))
-	{
-		eyePos.y += cameraSpeed * dt;
-		lookAt.y += cameraSpeed * dt;
-	}
-
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_S))
-	{
-		eyePos.y -= cameraSpeed * dt;
-		lookAt.y -= cameraSpeed * dt;
-	}
-
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_A))
-	{
-		eyePos.x -= cameraSpeed * dt;
-		lookAt.x -= cameraSpeed * dt;
-	}
-
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_D))
-	{
-		eyePos.x += cameraSpeed * dt;
-		lookAt.x += cameraSpeed * dt;
-	}
 
 	// Set view matrix
 	D3DXMatrixLookAtLH(&viewMatrix, &eyePos, &lookAt, &upVec);

@@ -43,9 +43,6 @@ void SpaceStar5::Init(HWND hWnd, HINSTANCE hInstance, bool bWindowed)
 	//// Create the Direct3D device using the presentation parameters above
 	Initializer::GetInstance()->Initialize(hWnd, m_pD3DObject, D3Dpp);
 
-	// Create your sprite COM object
-	D3DXCreateSprite(Initializer::GetInstance()->GetDevice(), &m_pD3DSprite);
-
 	// Initialize the Audio Manager
 	AudioManager::GetInstance()->Initialize();
 
@@ -136,8 +133,5 @@ void SpaceStar5::Shutdown()
 			i = gameScreen.erase(i);
 		}
 	}
-
-	SAFE_RELEASE(m_pD3DSprite);
-	//SAFE_RELEASE(m_pD3DDevice);
 	SAFE_RELEASE(m_pD3DObject);
 }

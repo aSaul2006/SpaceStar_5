@@ -47,10 +47,14 @@ void Initializer::Initialize(HWND hWnd, IDirect3D9* m_pD3DObject,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
 		DEFAULT_PITCH | FF_DONTCARE, TEXT("Spaceracer"),
 		&gameFont);
+
+	// Create your sprite COM object
+	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 }
 
 void Initializer::Shutdown()
 {
-	SAFE_RELEASE(m_pD3DDevice);
+	SAFE_RELEASE(m_pD3DSprite);
 	SAFE_RELEASE(gameFont);
+	SAFE_RELEASE(m_pD3DDevice);
 }

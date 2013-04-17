@@ -17,6 +17,8 @@ private:
 	D3DXVECTOR3 eyePos, lookAt, upVec;
 	D3DXMATRIX projectionMatrix, viewMatrix;
 	D3DXPLANE frustumPlanes[6];
+
+	float cameraSpeed;
 public:
 	~Camera(void);
 
@@ -33,4 +35,5 @@ public:
 	D3DXMATRIX GetProjMat() {return projectionMatrix;}
 	D3DXMATRIX GetViewMat() {return viewMatrix;}
 	D3DXVECTOR3 GetEyePos() {return eyePos;}
+	float GetCameraSpeed() {return cameraSpeed;}
 };
