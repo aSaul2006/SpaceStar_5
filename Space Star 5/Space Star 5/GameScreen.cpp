@@ -42,7 +42,7 @@ void GameScreen::Initialize(void)
 	for each(Enemy* enemy in pEnemies)
 	{
 		enemy->initializeEnemyShip(L"viperShip.x");
-		enemy->setAttackType(ATTACK3);
+		enemy->setAttackType(ATTACK4);
 		enemy->setPosition(D3DXVECTOR3(10.0f,0.0f,0.0f));
 		enemy->setSpeed(5.0f);
 		enemy->setHealth(100);
@@ -58,6 +58,12 @@ void GameScreen::Update(GameState& gameState, float dt)
 	for each(Enemy* enemy in pEnemies)
 	{
 		enemy->update(dt,&player);
+
+		//check for enemies exiting the viewable screen
+		if(!Camera::GetInstance()->IsVisible(enemy->GetMeshBox()))
+		{
+			enemy->destroyShip();
+		}
 	}
 	
 	//enemy.update(dt,&player);
@@ -72,11 +78,17 @@ void GameScreen::Update(GameState& gameState, float dt)
 	{
 		// update projectile
 		projectile->Update(dt);
-
+		
 		// testing collision
-		if(projectile->GetMeshBox().Intersects(enemy.GetMeshBox()))
+		for each(Enemy* enemy in pEnemies)
 		{
-			projectile->Destroy();
+			if(projectile->GetMeshBox().Intersects(enemy->GetMeshBox()))
+			{
+				projectile->Destroy();
+				enemy->calculateDamage(50);
+				if(enemy->getHealth() <= 0)
+					enemy->destroyShip();
+			}
 		}
 	}
 
@@ -92,6 +104,19 @@ void GameScreen::Update(GameState& gameState, float dt)
 		else
 			i++;		
 	}
+	for(list<Enemy*>::const_iterator i = pEnemies.begin(), end = pEnemies.end(); i != end;)
+	{
+		if((*i)->CheckObject())
+		{
+			delete(*i);
+			i = pEnemies.erase(i);
+		}
+		else
+			i++;
+	}
+
+	
+	
 }
 
 void GameScreen::Render(void)

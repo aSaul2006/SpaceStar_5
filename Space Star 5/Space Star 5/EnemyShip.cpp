@@ -3,7 +3,12 @@
 #include <math.h>
 #include <list>
 
-
+float radius = 7.5;
+float cos_y = 0.0;
+float start = 0.0;
+float angle = 1.0;
+float x2 = 0.0,y2 = 0.0,fx = 0.0,fy = 0.0, cacheCosY = 0.0 ;
+int cache = 0;
 
 
 //Base enemy class.  Any enemy ship class made will derive directly from this class and override some behavior.
@@ -86,7 +91,7 @@ Enemy::Enemy()
 	mesh = NULL;
 	texture = NULL;
 	track = health = maxHealth = 0;	// change later if needed
-	moveDir = isHealthZero = false;	// change later if needed
+	moveDir = isHealthZero = destroyObject = false;	// change later if needed
 
 }
 
@@ -204,9 +209,31 @@ void Enemy::update(float dt, Player * player)
 			m_position.y += m_speed * dt;
 		}
 		break;
+	case ATTACK4:
+		start += 1.0;
+			if(start > 360)
+			{
+				start = 0;
+			}
+			if(angle > 720)
+				angle = 0.0;
+
+			float rad_angle = (angle * 3.14)/180;
+			m_position.x -= m_speed * dt;
+			//y2 = radius * sin((double)rad_angle);
+			m_position.y = 2.0 * sin((double)(-rad_angle));
+			
+			angle += 1.0;	
+		break;
+	/*case AVOID1:
+		break;
+	case AVOID2:
+		break;
+	case DEFAULT:
+		break;*/
 	}	
 
-	if(track % 600 == 0)
+	if(fmod(dt*(float)track,300) == 0)
 		fireWeapon(2,player);
 
 	for each (Projectile* projectile in enemyBullet)
@@ -218,6 +245,7 @@ void Enemy::update(float dt, Player * player)
 		{
 			projectile->Destroy();
 		}
+
 	}
 
 	for(std::list<Projectile*>::const_iterator i = enemyBullet.begin(), end = enemyBullet.end(); i != end;)
@@ -231,6 +259,7 @@ void Enemy::update(float dt, Player * player)
 			i++;		
 	}
 
+	
 	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
 
 
@@ -240,14 +269,14 @@ void Enemy::update(float dt, Player * player)
 
 }
 
-void Enemy::calculateDamage()
+void Enemy::calculateDamage(int power)
 {
-
+	health -= power;
 }
 
 void Enemy::destroyShip()
 {
-
+	destroyObject = true;
 }
 
 //void Enemy::loadEnemies(std::list<Enemy*> pEnemies,int num)
