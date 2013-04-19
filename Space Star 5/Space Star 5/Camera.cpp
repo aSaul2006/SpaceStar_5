@@ -135,3 +135,13 @@ bool Camera::IsVisible(const AABB& box) const
 	}
 	return true;
 }
+
+void Camera::IncreaseEyePos(int num)
+{
+	eyePos.z += num;
+}
+
+void Camera::DecreaseEyePos(int num)
+{
+	eyePos.z -= num;
+}

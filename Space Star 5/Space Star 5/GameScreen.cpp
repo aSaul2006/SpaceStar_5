@@ -66,6 +66,16 @@ void GameScreen::Update(GameState& gameState, float dt)
 		}
 	}
 	
+	//zoom in and out for debugging purposes ehh
+	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_0))
+	{
+		Camera::GetInstance()->IncreaseEyePos(1);
+	}
+
+	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_9))
+	{
+		Camera::GetInstance()->DecreaseEyePos(1);
+	}
 	//enemy.update(dt,&player);
 
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_SPACE))

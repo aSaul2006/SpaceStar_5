@@ -35,5 +35,8 @@ public:
 	D3DXMATRIX GetProjMat() {return projectionMatrix;}
 	D3DXMATRIX GetViewMat() {return viewMatrix;}
 	D3DXVECTOR3 GetEyePos() {return eyePos;}
+	void IncreaseEyePos(int num);
+	void DecreaseEyePos(int num);
+	
 	float GetCameraSpeed() {return cameraSpeed;}
 };
