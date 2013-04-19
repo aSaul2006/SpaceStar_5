@@ -7,9 +7,12 @@
 
 #include <d3d9.h>
 #include <d3dx9.h>
+#include <string>
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
+
+using namespace std;
 
 // safe release macro
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}

@@ -8,6 +8,10 @@ Player::Player(void)
 	texture = NULL;
 	D3DXMatrixScaling(&scaleMat, 0.1f, 0.1f, 0.1f);
 	rotateAngle = 0;
+	currentHealth = 100.0f;
+	maxHealth = 100.0f;
+	score = 0;
+	lives = 3;
 }
 
 Player::~Player(void)
@@ -55,6 +59,9 @@ void Player::Initialize()
 	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, mesh->GetNumVertices(),
 		D3DXGetFVFVertexSize(mesh->GetFVF()), &meshBox.minPt, &meshBox.maxPt);
 	mesh->UnlockVertexBuffer();
+
+	// Initialize player's HUD
+	playerHUD.Initialize();
 }
 	
 void Player::Initialize2(LPCWSTR fileName)
@@ -96,6 +103,9 @@ void Player::Initialize2(LPCWSTR fileName)
 	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, mesh->GetNumVertices(),
 		D3DXGetFVFVertexSize(mesh->GetFVF()), &meshBox.minPt, &meshBox.maxPt);
 	mesh->UnlockVertexBuffer();
+
+	// Initialize player's HUD
+	playerHUD.Initialize();
 }
 
 void Player::Update(float dt)
@@ -207,6 +217,10 @@ void Player::Render(ID3DXEffect* shader)
 		shader->EndPass();
 	}
 	shader->End();
+
+
+	// Render the player's HUD
+	playerHUD.Render(currentHealth, maxHealth, score, lives);
 }
 
 /// Release the object's variables

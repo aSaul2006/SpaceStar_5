@@ -73,6 +73,7 @@
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="Entity\EntityManager.cpp" />
     <ClCompile Include="GameScreen.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Initializer.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="MainMenuScreen.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="Entity\EntityManager.h" />
     <ClInclude Include="Entity\EntityNames.h" />
     <ClInclude Include="GameScreen.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="Initializer.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainMenuScreen.h" />

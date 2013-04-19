@@ -155,11 +155,11 @@ LRESULT CALLBACK WndProc(HWND hWnd,		// Handle to the window
 		{
 			switch(wparam)
 			{
-			case VK_ESCAPE:
+			/*case VK_ESCAPE:
 				{
 					PostQuitMessage(0);
 					break;
-				}
+				}*/
 			}
 
 				break;

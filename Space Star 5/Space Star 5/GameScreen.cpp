@@ -80,7 +80,12 @@ void GameScreen::Update(GameState& gameState, float dt)
 
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_SPACE))
 	{
-		pList.push_front(new Projectile(player.GetPosition(), D3DXVECTOR3(10.0f, 0, 0)));
+		pList.push_front(new Projectile(player.GetPosition(), D3DXVECTOR3(20.0f, 0, 0)));
+	}
+
+	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_ESCAPE))
+	{
+		gameState = MainMenu;
 	}
 
 	// update the projectiles in pList
