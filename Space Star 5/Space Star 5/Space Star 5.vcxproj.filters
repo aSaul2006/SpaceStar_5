@@ -81,9 +81,6 @@
     <ClCompile Include="BaseGameEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BaseEnemyOwnedStates.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Misc\CrudeTimer.cpp">
       <Filter>Source Files\AI\Misc</Filter>
     </ClCompile>
@@ -144,9 +141,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BaseGameEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseEnemyOwnedStates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="State\State.h">

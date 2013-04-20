@@ -65,27 +65,25 @@ private:
 	int track;
 	bool moveDir;
 	bool destroyObject;
+	bool isHidden;
 public:
 	Enemy();
 	~Enemy();
 
 	void Render(ID3DXEffect* shader);
-	void setPosition(D3DXVECTOR3 position);
-	void setSpeed(float speed);
-	void setFireRate(float rate);
-	void setAttackType(AttackType at) { m_attackType = at;}
-	
 
 	//Inherited functions
 	void update(float dt, Player *player); 
 	void calculateDamage(int power);
 	void destroyShip();
+	void hideShip(bool yn){isHidden = yn;}
 	void fireWeapon(int fireRate, Player* player);
 	void renderBullet(ID3DXEffect* shader);
-	void setHealth(int shipHealth);
+	void SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos, AttackType at);
 	int getHealth(){return health;}
 	bool CheckObject(void) {return destroyObject;}
 	//void loadEnemies(std::list<Enemy*> pEnemies, int numberToLoad);
+	bool GetIsHidden(){return isHidden;}
 
 	D3DXVECTOR3 getPosition(){return m_position;}
 	// get collision box

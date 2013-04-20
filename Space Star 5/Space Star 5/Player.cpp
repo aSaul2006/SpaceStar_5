@@ -122,26 +122,35 @@ void Player::Update(float dt)
 	// Move player up
 	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_UP))
 	{
-		position.y += speed * dt;
-		rotateAngle -= rotateSpeed;
-		rotate = true;
+		if(position.y < 5)
+		{
+			position.y += speed * dt;
+			rotateAngle -= rotateSpeed;
+			rotate = true;
+		}
 	}
 
 	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_DOWN))
 	{
-		position.y -= speed * dt;
-		rotateAngle += rotateSpeed;
-		rotate = true;
+		if(position.y > -7)
+		{
+			position.y -= speed * dt;
+			rotateAngle += rotateSpeed;
+			rotate = true;
+		}
 	}
 
 	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_LEFT))
 	{
-		position.x -= speed * dt;
+		if(position.x > -7)
+			position.x -= speed * dt;
+		
 	}
 
 	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_RIGHT))
 	{
-		position.x += speed * dt;
+		if(position.x < 8)
+			position.x += speed * dt;
 	}
 
 	if(rotate)

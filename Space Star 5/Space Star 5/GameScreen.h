@@ -17,7 +17,7 @@ private:
 	//////////////////////////////////////////////////////////////////////////////
 	ID3DXEffect* shader;
 	ID3DXBuffer* errorCheck;
-	
+	int onScreenEnemies;
 	Skybox skybox;
 
 	list<Projectile*> pList;

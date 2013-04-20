@@ -91,7 +91,7 @@ Enemy::Enemy()
 	mesh = NULL;
 	texture = NULL;
 	track = health = maxHealth = 0;	// change later if needed
-	moveDir = isHealthZero = destroyObject = false;	// change later if needed
+	isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
 
 }
 
@@ -143,26 +143,6 @@ void Enemy::Render(ID3DXEffect* shader)
 	shader->End();
 }
 
-void Enemy::setPosition(D3DXVECTOR3 pos)
-{
-	m_position = pos;
-
-}
-
-void Enemy::setSpeed(float speed)
-{
-	m_speed = speed;
-}
-
-void Enemy::setFireRate(float rate)
-{
-	m_fireRate = rate;
-}
-
-void Enemy::setHealth(int enHealth)
-{
-	health = enHealth;
-}
 
 void Enemy::fireWeapon(int fireRate, Player* player)
 {
@@ -176,6 +156,15 @@ void Enemy::renderBullet(ID3DXEffect* shader)
 	{
 		projectile->Render(shader);
 	}
+}
+
+void Enemy::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos, AttackType at)
+{
+	m_position = pos;
+	health = shipHealth;
+	m_fireRate = rate;
+	m_speed = speed;
+	m_attackType = at;
 }
 
 void Enemy::update(float dt, Player * player)
@@ -192,10 +181,14 @@ void Enemy::update(float dt, Player * player)
 	{
 	case ATTACK1:
 		m_position.x -= m_speed * dt;
+		if(fmod(dt*(float)track,300) == 0 && isHidden == false)
+			fireWeapon(2,player);
 		break;
 	case ATTACK2:
 		m_position.x -= m_speed * dt;
 		m_position.y += 1.0 * dt;
+		if(fmod(dt*(float)track,300) == 0 && isHidden == false)
+			fireWeapon(2,player);
 		break;
 	case ATTACK3:
 		m_position.x -= m_speed * dt;
@@ -208,22 +201,26 @@ void Enemy::update(float dt, Player * player)
 		{
 			m_position.y += m_speed * dt;
 		}
+		if(fmod(dt*(float)track,100) == 0 && isHidden == false)
+			fireWeapon(2,player);
 		break;
 	case ATTACK4:
 		start += 1.0;
-			if(start > 360)
-			{
-				start = 0;
-			}
-			if(angle > 720)
-				angle = 0.0;
+		if(start > 360)
+		{
+			start = 0;
+		}
+		if(angle > 720)
+			angle = 0.0;
 
-			float rad_angle = (angle * 3.14)/180;
-			m_position.x -= m_speed * dt;
-			//y2 = radius * sin((double)rad_angle);
-			m_position.y = 2.0 * sin((double)(-rad_angle));
-			
-			angle += 1.0;	
+		float rad_angle = (angle * 3.14)/180;
+		m_position.x -= m_speed * dt;
+		//y2 = radius * sin((double)rad_angle);
+		m_position.y = 2.0 * sin((double)(-rad_angle));
+		angle += 1.0;
+
+		if(fmod(dt*(float)track,150) == 0 && isHidden == false)
+			fireWeapon(2,player);
 		break;
 	/*case AVOID1:
 		break;
@@ -232,9 +229,6 @@ void Enemy::update(float dt, Player * player)
 	case DEFAULT:
 		break;*/
 	}	
-
-	if(fmod(dt*(float)track,300) == 0)
-		fireWeapon(2,player);
 
 	for each (Projectile* projectile in enemyBullet)
 	{
@@ -278,6 +272,7 @@ void Enemy::destroyShip()
 {
 	destroyObject = true;
 }
+
 
 //void Enemy::loadEnemies(std::list<Enemy*> pEnemies,int num)
 //{

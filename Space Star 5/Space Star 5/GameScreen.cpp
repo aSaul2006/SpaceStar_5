@@ -16,7 +16,6 @@ void GameScreen::Initialize(void)
 {
 	// Initialize the player
 	player.Initialize();
-
 	
 	//////////////////////////////////////////////////////////////////////////////
 	//// Camera Test - Initialize Object for testing
@@ -38,15 +37,27 @@ void GameScreen::Initialize(void)
 	skybox.BuildSkybox((float)screenWidth, (float)screenHeight);
 
 	// initialize enemy
-	pEnemies.push_front(new Enemy());
-	for each(Enemy* enemy in pEnemies)
-	{
-		enemy->initializeEnemyShip(L"viperShip.x");
-		enemy->setAttackType(ATTACK4);
-		enemy->setPosition(D3DXVECTOR3(10.0f,0.0f,0.0f));
-		enemy->setSpeed(5.0f);
-		enemy->setHealth(100);
-	}
+	Enemy* en1 = new Enemy();
+	Enemy* en2 = new Enemy();
+	Enemy* en3 = new Enemy();
+	Enemy* en4 = new Enemy();
+
+	en1->initializeEnemyShip(L"viperShip.x");
+	en1->SetEnemyAttrib(100,5.0,2.0,D3DXVECTOR3(20.0,0.0,0.0),ATTACK1);
+
+	en2->initializeEnemyShip(L"viperShip.x");
+	en2->SetEnemyAttrib(100,5.0,2.0,D3DXVECTOR3(30.0,-5.0,0.0),ATTACK3);
+
+	en3->initializeEnemyShip(L"viperShip.x");
+	en3->SetEnemyAttrib(100,5.0,2.0,D3DXVECTOR3(35.0,5.0,0.0),ATTACK4);
+
+	en4->initializeEnemyShip(L"viperShip.x");
+	en4->SetEnemyAttrib(100,5.0,2.0,D3DXVECTOR3(60.0,2.0,0.0),ATTACK1);
+	pEnemies.push_front(en1);
+	pEnemies.push_front(en2);
+	pEnemies.push_front(en3);
+	pEnemies.push_front(en4);
+
 }
 
 void GameScreen::Update(GameState& gameState, float dt)
@@ -62,7 +73,17 @@ void GameScreen::Update(GameState& gameState, float dt)
 		//check for enemies exiting the viewable screen
 		if(!Camera::GetInstance()->IsVisible(enemy->GetMeshBox()))
 		{
-			enemy->destroyShip();
+			if(enemy->getPosition().x < Camera::GetInstance()->GetEyePos().x)
+			{
+				enemy->destroyShip();
+			}
+			if(enemy->getPosition().x > 10)
+			{
+				enemy->hideShip(true);
+				
+			}
+			else
+				enemy->hideShip(false);
 		}
 	}
 	
@@ -158,8 +179,12 @@ void GameScreen::Render(void)
 	// render enemy
 	for each(Enemy* enemy in pEnemies)
 	{
-		enemy->Render(shader);
-		enemy->renderBullet(shader);
+		if(!enemy->GetIsHidden())
+		{
+			enemy->Render(shader);
+			enemy->renderBullet(shader);
+	
+		}
 	}
 
 }
