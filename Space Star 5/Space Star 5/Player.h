@@ -77,5 +77,7 @@ public:
 	// Access player's health
 	float GetCurrHlth(void) {return currentHealth;}
 	float GetMaxHlth(void)	{return maxHealth;}
+
+	short GetNumLives(void) {return lives;}
 };
 

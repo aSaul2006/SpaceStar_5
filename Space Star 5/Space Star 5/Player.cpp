@@ -119,6 +119,13 @@ void Player::Update(float dt)
 	// check if the player needs to rotate
 	bool rotate = false;
 
+	// check player's health and see if player has lost lives
+	if(currentHealth <= 0.0f)
+	{
+		currentHealth = maxHealth;
+		lives--;
+	}
+
 	// Move player up
 	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_UP))
 	{

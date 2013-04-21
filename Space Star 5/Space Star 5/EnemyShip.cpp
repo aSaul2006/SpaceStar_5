@@ -238,6 +238,7 @@ void Enemy::update(float dt, Player * player)
 		if(projectile->GetMeshBox().Intersects(player->GetMeshBox()))
 		{
 			projectile->Destroy();
+			player->DecrCurrHlth(20.0f);
 		}
 
 	}
