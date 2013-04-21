@@ -58,6 +58,9 @@ void GameScreen::Initialize(void)
 	pEnemies.push_front(en3);
 	pEnemies.push_front(en4);
 
+	// Initialize SFX
+	AudioManager::GetInstance()->GetSystem()->createSound("8bitLaser1.wav", 
+		FMOD_DEFAULT, 0, &projSFX);
 }
 
 void GameScreen::Update(GameState& gameState, float dt)
@@ -102,11 +105,12 @@ void GameScreen::Update(GameState& gameState, float dt)
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_SPACE))
 	{
 		pList.push_front(new Projectile(player.GetPosition(), D3DXVECTOR3(20.0f, 0, 0)));
+		AudioManager::GetInstance()->PlaySFX(projSFX);
 	}
 
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_ESCAPE))
 	{
-		gameState = MainMenu;
+		gameState = TitleMenu;
 	}
 
 	// update the projectiles in pList
@@ -192,6 +196,7 @@ void GameScreen::Render(void)
 void GameScreen::Shutdown(void)
 {
 	// Delete Test variables
+	projSFX->release();
 	SAFE_RELEASE(shader);
 	SAFE_RELEASE(errorCheck);
 

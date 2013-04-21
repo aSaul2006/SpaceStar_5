@@ -7,6 +7,7 @@
 #include "Projectile.h"
 #include "EnemyShip.h"
 #include "AttackType.h"
+#include "AudioManager.h"
 class GameScreen : public CScreen
 {
 private:
@@ -23,6 +24,8 @@ private:
 	list<Projectile*> pList;
 	list<Enemy*> pEnemies;
 	Enemy enemy;
+
+	FMOD::Sound* projSFX;	// SFX for the player's projectile
 public:
 	GameScreen(void);
 	~GameScreen(void);

@@ -4,7 +4,6 @@
 #include <d3dx9.h>
 #include <time.h>
 #include <list>
-#include "AudioManager.h"
 #include "InputManager.h"
 #include "Camera.h"
 #include "TitleScreen.h"
@@ -34,6 +33,10 @@ private:
 
 	list<CScreen*> gameScreen;
 	GameState gameState;
+
+	// Background music and sound effect variables
+	FMOD::Sound* titleBGM;	// BGM for title and main menu
+	FMOD::Sound* gameBGM;	// BGM for the game level
 public:
 	SpaceStar5(void);
 	~SpaceStar5(void);

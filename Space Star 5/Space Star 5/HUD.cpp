@@ -98,7 +98,7 @@ void HUD::Render(float currentHealth, float maxHealth, int playerScore, short pl
 	// Render ESC message
 	RECT messagePos;
 	SetRect(&messagePos, 0, 550, 0, 600);
-	string escMessage = "Esc - Return to Main Menu";
+	string escMessage = "Esc - Return to Title Screen";
 
 	Initializer::GetInstance()->GetFont()->DrawTextA(0, escMessage.c_str(),
 		-1, &messagePos, 

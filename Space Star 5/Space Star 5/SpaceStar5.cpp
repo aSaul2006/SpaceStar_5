@@ -53,6 +53,13 @@ void SpaceStar5::Init(HWND hWnd, HINSTANCE hInstance, bool bWindowed)
 	Camera::GetInstance()->Initialize(screenWidth, screenHeight);
 
 	gameState = TitleMenu;
+
+	// Initialize BGM
+	AudioManager::GetInstance()->GetSystem()->createSound("Heroic_Minority.mp3", 
+		FMOD_LOOP_NORMAL | FMOD_2D | FMOD_HARDWARE, 0, &titleBGM);
+
+	AudioManager::GetInstance()->GetSystem()->createSound("through space.ogg", 
+		FMOD_LOOP_NORMAL | FMOD_2D | FMOD_HARDWARE, 0, &gameBGM);
 }
 
 /// Update Game
@@ -66,6 +73,13 @@ void SpaceStar5::Update(float dt)
 		if(gameScreen.size() == 0)
 		{
 			gameScreen.push_front(new TitleScreen());
+			AudioManager::GetInstance()->PlayBGM(titleBGM);
+		}
+		else if(gameScreen.front()->GetScreenType() != TitleType)
+		{
+			gameScreen.pop_front();
+			gameScreen.push_front(new TitleScreen());
+			AudioManager::GetInstance()->PlayBGM(titleBGM);
 		}
 		break;
 	case MainMenu:
@@ -80,6 +94,7 @@ void SpaceStar5::Update(float dt)
 		{
 			gameScreen.pop_front();
 			gameScreen.push_front(new GameScreen());
+			AudioManager::GetInstance()->PlayBGM(gameBGM);
 		}
 		break;
 	case Exit:
@@ -124,6 +139,9 @@ void SpaceStar5::Render()
 void SpaceStar5::Shutdown()
 {
 	// Shutdown COM objects in the revrse order they were created in
+	titleBGM->release();
+	gameBGM->release();
+
 	if(gameScreen.size() > 0)
 	{
 		for(list<CScreen*>::const_iterator i = gameScreen.begin(), 
