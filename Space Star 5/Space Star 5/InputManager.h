@@ -1,6 +1,8 @@
 #pragma once
 
 #include <dinput.h>
+#pragma comment(lib, "dinput8.lib")
+#pragma comment(lib, "dxguid.lib")
 
 #define RELEASE_COM(x) { if(x) { x->Release(); x = 0; } }
 

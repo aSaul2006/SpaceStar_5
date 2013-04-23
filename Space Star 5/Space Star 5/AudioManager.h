@@ -13,6 +13,8 @@
 #include "fmod_memoryinfo.h"
 #include "fmod_output.h"
 
+#pragma comment(lib, "fmodex_vc.lib")
+
 class AudioManager
 {
 public:
