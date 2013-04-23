@@ -214,5 +214,15 @@ void GameScreen::Shutdown(void)
 			i = pList.erase(i);
 		}
 	}
+
+	if(pEnemies.size() > 0)
+	{
+		for(list<Enemy*>::const_iterator i = pEnemies.begin(), 
+			end = pEnemies.end(); i != end; )
+		{
+			delete (*i);
+			i = pEnemies.erase(i);
+		}
+	}
 }
 
