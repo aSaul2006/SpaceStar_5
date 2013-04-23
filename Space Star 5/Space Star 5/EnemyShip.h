@@ -79,11 +79,12 @@ public:
 	void hideShip(bool yn){isHidden = yn;}
 	void fireWeapon(int fireRate, Player* player);
 	void renderBullet(ID3DXEffect* shader);
-	void SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos, AttackType at);
+	void SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos);
 	int getHealth(){return health;}
 	bool CheckObject(void) {return destroyObject;}
 	//void loadEnemies(std::list<Enemy*> pEnemies, int numberToLoad);
 	bool GetIsHidden(){return isHidden;}
+	bool hasSpawned;
 
 	D3DXVECTOR3 getPosition(){return m_position;}
 	// get collision box

@@ -2,14 +2,18 @@
 #include "Camera.h"
 #include <math.h>
 #include <list>
+#include <random>
 
 float radius = 7.5;
 float cos_y = 0.0;
 float start = 0.0;
 float angle = 1.0;
+float rad_angle = 0.0;
 float x2 = 0.0,y2 = 0.0,fx = 0.0,fy = 0.0, cacheCosY = 0.0 ;
 int cache = 0;
 
+std::default_random_engine gen;
+std::uniform_int_distribution<int> attackSwitch(0,5);
 
 //Base enemy class.  Any enemy ship class made will derive directly from this class and override some behavior.
 baseEnemyShip::~baseEnemyShip()
@@ -91,7 +95,7 @@ Enemy::Enemy()
 	mesh = NULL;
 	texture = NULL;
 	track = health = maxHealth = 0;	// change later if needed
-	isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
+	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
 
 }
 
@@ -158,13 +162,28 @@ void Enemy::renderBullet(ID3DXEffect* shader)
 	}
 }
 
-void Enemy::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos, AttackType at)
+void Enemy::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos)
 {
 	m_position = pos;
 	health = shipHealth;
 	m_fireRate = rate;
 	m_speed = speed;
-	m_attackType = at;
+	int attack = attackSwitch(gen);
+	switch(attack)
+	{
+	case 0:
+		m_attackType = ATTACK1;
+	case 1:
+		m_attackType = ATTACK2;
+	case 2:
+		m_attackType = ATTACK3;
+	case 3:
+		m_attackType = ATTACK4;
+	case 4:
+		m_attackType = AVOID1;
+	case 5:
+		m_attackType = AVOID2;
+	}
 }
 
 void Enemy::update(float dt, Player * player)
@@ -186,7 +205,7 @@ void Enemy::update(float dt, Player * player)
 		break;
 	case ATTACK2:
 		m_position.x -= m_speed * dt;
-		m_position.y += 1.0 * dt;
+		m_position.y += (float)1.0 * dt;
 		if(fmod(dt*(float)track,300) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		break;
@@ -213,7 +232,7 @@ void Enemy::update(float dt, Player * player)
 		if(angle > 720)
 			angle = 0.0;
 
-		float rad_angle = (angle * 3.14)/180;
+		rad_angle = (angle * 3.14)/180;
 		m_position.x -= m_speed * dt;
 		//y2 = radius * sin((double)rad_angle);
 		m_position.y = 2.0 * sin((double)(-rad_angle));
@@ -222,12 +241,18 @@ void Enemy::update(float dt, Player * player)
 		if(fmod(dt*(float)track,150) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		break;
-	/*case AVOID1:
+	case AVOID1:
+		m_position.x -= .5 * dt;
+		m_position.y += m_speed * dt;
+		if(m_position.y >= 5)
+			m_attackType = AVOID2;
 		break;
 	case AVOID2:
+		m_position.x -= .5 * dt;
+		m_position.y -= m_speed * dt;
+		if(m_position.y <= -7)
+			m_attackType = AVOID1;
 		break;
-	case DEFAULT:
-		break;*/
 	}	
 
 	for each (Projectile* projectile in enemyBullet)

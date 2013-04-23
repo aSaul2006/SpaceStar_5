@@ -8,6 +8,8 @@
 #include "EnemyShip.h"
 #include "AttackType.h"
 #include "AudioManager.h"
+#include "Misc\CrudeTimer.h"
+
 class GameScreen : public CScreen
 {
 private:
@@ -24,6 +26,9 @@ private:
 	list<Projectile*> pList;
 	list<Enemy*> pEnemies;
 	Enemy enemy;
+
+	double spawnTime;
+	int enemiesSpawned;
 
 	FMOD::Sound* projSFX;	// SFX for the player's projectile
 public:

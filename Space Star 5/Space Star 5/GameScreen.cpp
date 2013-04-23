@@ -1,10 +1,16 @@
 #include "GameScreen.h"
+#include <random>
 
+default_random_engine generator;
+uniform_int_distribution<int> randSpeed(2,6);
+uniform_int_distribution<float> randYpos(-7,5);
 
 GameScreen::GameScreen(void)
 {
 	type = GameType;
 	Initialize();
+	enemiesSpawned = 0;
+	spawnTime = 0.0;
 }
 
 GameScreen::~GameScreen(void)
@@ -36,28 +42,6 @@ void GameScreen::Initialize(void)
 	float screenHeight = 600;
 	skybox.BuildSkybox((float)screenWidth, (float)screenHeight);
 
-	// initialize enemy
-	Enemy* en1 = new Enemy();
-	Enemy* en2 = new Enemy();
-	Enemy* en3 = new Enemy();
-	Enemy* en4 = new Enemy();
-
-	en1->initializeEnemyShip(L"viperShip.x");
-	en1->SetEnemyAttrib(100,5.0,2.0,D3DXVECTOR3(20.0,0.0,0.0),ATTACK1);
-
-	en2->initializeEnemyShip(L"viperShip.x");
-	en2->SetEnemyAttrib(100,5.0,2.0,D3DXVECTOR3(30.0,-5.0,0.0),ATTACK3);
-
-	en3->initializeEnemyShip(L"viperShip.x");
-	en3->SetEnemyAttrib(100,5.0,2.0,D3DXVECTOR3(35.0,5.0,0.0),ATTACK4);
-
-	en4->initializeEnemyShip(L"viperShip.x");
-	en4->SetEnemyAttrib(100,5.0,2.0,D3DXVECTOR3(60.0,2.0,0.0),ATTACK1);
-	pEnemies.push_front(en1);
-	pEnemies.push_front(en2);
-	pEnemies.push_front(en3);
-	pEnemies.push_front(en4);
-
 	// Initialize SFX
 	AudioManager::GetInstance()->GetSystem()->createSound("8bitLaser1.wav", 
 		FMOD_DEFAULT, 0, &projSFX);
@@ -69,8 +53,25 @@ void GameScreen::Update(GameState& gameState, float dt)
 	player.Update(dt);
 	skybox.Update(dt);
 
+	if(enemiesSpawned <= 5 && (CrudeTimer::Instance()->GetTickCount() - spawnTime) >= 2)
+	{
+		pEnemies.push_front(new Enemy());
+		spawnTime = CrudeTimer::Instance()->GetTickCount();
+		enemiesSpawned ++;
+	}
+
 	for each(Enemy* enemy in pEnemies)
 	{
+		if(!enemy->hasSpawned)
+		{
+			int enemySpeed = randSpeed(generator);
+			float enemyYpos = randYpos(generator);
+
+			enemy->initializeEnemyShip(L"viperShip.x");
+			enemy->SetEnemyAttrib(100,enemySpeed,2.0f,D3DXVECTOR3(10.0f,enemyYpos,0.0f));
+			enemy->hasSpawned = true;
+		}
+
 		enemy->update(dt,&player);
 
 		//check for enemies exiting the viewable screen
@@ -79,6 +80,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 			if(enemy->getPosition().x < Camera::GetInstance()->GetEyePos().x)
 			{
 				enemy->destroyShip();
+				enemiesSpawned --;
 			}
 			if(enemy->getPosition().x > 10)
 			{
@@ -127,7 +129,10 @@ void GameScreen::Update(GameState& gameState, float dt)
 				projectile->Destroy();
 				enemy->calculateDamage(50);
 				if(enemy->getHealth() <= 0)
+				{
 					enemy->destroyShip();
+					enemiesSpawned --;
+				}
 			}
 		}
 	}
