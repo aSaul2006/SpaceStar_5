@@ -1,8 +1,9 @@
 #include "GameScreen.h"
 #include <random>
+#include <time.h>
 
 default_random_engine generator;
-uniform_int_distribution<int> randSpeed(2,6);
+uniform_int_distribution<int> randSpeed(4,6);
 uniform_int_distribution<float> randYpos(-7,5);
 
 GameScreen::GameScreen(void)
@@ -23,6 +24,8 @@ void GameScreen::Initialize(void)
 	// Initialize the player
 	player.Initialize();
 	
+	
+
 	//////////////////////////////////////////////////////////////////////////////
 	//// Camera Test - Initialize Object for testing
 	//////////////////////////////////////////////////////////////////////////////
@@ -49,6 +52,7 @@ void GameScreen::Initialize(void)
 
 void GameScreen::Update(GameState& gameState, float dt)
 {
+	srand(time(NULL));
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
 	skybox.Update(dt);
@@ -64,11 +68,11 @@ void GameScreen::Update(GameState& gameState, float dt)
 	{
 		if(!enemy->hasSpawned)
 		{
-			int enemySpeed = randSpeed(generator);
-			float enemyYpos = randYpos(generator);
+			int enemySpeed = (rand()%(6-3))+3;;
+			float enemyYpos =(rand()%(5-(-7)))+(-7);
 
 			enemy->initializeEnemyShip(L"viperShip.x");
-			enemy->SetEnemyAttrib(100,enemySpeed,2.0f,D3DXVECTOR3(10.0f,enemyYpos,0.0f));
+			enemy->SetEnemyAttrib(100,enemySpeed,2.0f,D3DXVECTOR3(8.0f,enemyYpos,0.0f));
 			enemy->hasSpawned = true;
 		}
 
@@ -89,6 +93,25 @@ void GameScreen::Update(GameState& gameState, float dt)
 			}
 			else
 				enemy->hideShip(false);
+		}
+
+			// update the projectiles in pList
+		for each(Projectile* projectile in pList)
+		{
+			// update projectile
+			projectile->Update(dt);
+		
+			// testing collision
+			if(projectile->GetMeshBox().Intersects(enemy->GetMeshBox()))
+			{
+				projectile->Destroy();
+				enemy->calculateDamage(50);
+				if(enemy->getHealth() <= 0)
+				{
+					enemy->destroyShip();
+					enemiesSpawned --;
+				}
+			}			
 		}
 	}
 	
@@ -188,7 +211,7 @@ void GameScreen::Render(void)
 	// render enemy
 	for each(Enemy* enemy in pEnemies)
 	{
-		if(!enemy->GetIsHidden())
+		if(!enemy->GetIsHidden() && enemy->hasSpawned)
 		{
 			enemy->Render(shader);
 			enemy->renderBullet(shader);

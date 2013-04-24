@@ -31,6 +31,7 @@ private:
 	int enemiesSpawned;
 
 	FMOD::Sound* projSFX;	// SFX for the player's projectile
+	
 public:
 	GameScreen(void);
 	~GameScreen(void);

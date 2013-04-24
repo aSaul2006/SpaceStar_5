@@ -3,6 +3,7 @@
 #include <math.h>
 #include <list>
 #include <random>
+#include <time.h>
 
 float radius = 7.5;
 float cos_y = 0.0;
@@ -13,7 +14,7 @@ float x2 = 0.0,y2 = 0.0,fx = 0.0,fy = 0.0, cacheCosY = 0.0 ;
 int cache = 0;
 
 std::default_random_engine gen;
-std::uniform_int_distribution<int> attackSwitch(0,5);
+std::uniform_int_distribution<int> attackSwitch(0,3);
 
 //Base enemy class.  Any enemy ship class made will derive directly from this class and override some behavior.
 baseEnemyShip::~baseEnemyShip()
@@ -65,6 +66,8 @@ void baseEnemyShip::initializeEnemyShip(LPCWSTR fileName)
 	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, mesh->GetNumVertices(),
 		D3DXGetFVFVertexSize(mesh->GetFVF()), &meshBox.minPt, &meshBox.maxPt);
 	mesh->UnlockVertexBuffer();
+
+	AudioManager::GetInstance()->GetSystem()->createSound("laser3.wav",FMOD_DEFAULT,0, &enemySFX);
 }
 
 
@@ -151,6 +154,7 @@ void Enemy::Render(ID3DXEffect* shader)
 void Enemy::fireWeapon(int fireRate, Player* player)
 {
 	enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(-10.0f,0.0,0.0)));
+	AudioManager::GetInstance()->PlaySFX(enemySFX);
 }
 
 void Enemy::renderBullet(ID3DXEffect* shader)
@@ -164,25 +168,32 @@ void Enemy::renderBullet(ID3DXEffect* shader)
 
 void Enemy::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos)
 {
+	srand(time(NULL));
 	m_position = pos;
 	health = shipHealth;
 	m_fireRate = rate;
 	m_speed = speed;
-	int attack = attackSwitch(gen);
+	int attack = rand() % 6;
 	switch(attack)
 	{
 	case 0:
 		m_attackType = ATTACK1;
+		break;
 	case 1:
 		m_attackType = ATTACK2;
+		break;
 	case 2:
 		m_attackType = ATTACK3;
+		break;
 	case 3:
 		m_attackType = ATTACK4;
+		break;
 	case 4:
 		m_attackType = AVOID1;
+		break;
 	case 5:
 		m_attackType = AVOID2;
+		break;
 	}
 }
 
@@ -242,14 +253,18 @@ void Enemy::update(float dt, Player * player)
 			fireWeapon(2,player);
 		break;
 	case AVOID1:
-		m_position.x -= .5 * dt;
+		m_position.x -= 2 * dt;
 		m_position.y += m_speed * dt;
+		if(fmod(dt*(float)track,150) == 0 && isHidden == false)
+			fireWeapon(2,player);
 		if(m_position.y >= 5)
-			m_attackType = AVOID2;
+			m_attackType = AVOID2;  
 		break;
 	case AVOID2:
-		m_position.x -= .5 * dt;
+		m_position.x -= 2 * dt;
 		m_position.y -= m_speed * dt;
+		if(fmod(dt*(float)track,150) == 0 && isHidden == false)
+			fireWeapon(2,player);
 		if(m_position.y <= -7)
 			m_attackType = AVOID1;
 		break;

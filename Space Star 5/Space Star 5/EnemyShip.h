@@ -10,6 +10,7 @@
 #include "Projectile.h"
 #include "Player.h"
 #include <list>
+#include "AudioManager.h"
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
@@ -38,7 +39,7 @@ protected:
 	AttackType m_attackType;
 	//All enemies will need to have a pointer to an instance of a state
 	//State* 		m_pCurrentState;
-
+	FMOD::Sound* enemySFX;
 	bool isHealthZero;
 
 public:
@@ -66,6 +67,7 @@ private:
 	bool moveDir;
 	bool destroyObject;
 	bool isHidden;
+
 public:
 	Enemy();
 	~Enemy();
