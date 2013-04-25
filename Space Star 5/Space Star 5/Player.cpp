@@ -4,8 +4,6 @@
 Player::Player(void)
 {
 	position = D3DXVECTOR3(0, 0, 0);
-	mesh = NULL;
-	texture = NULL;
 	D3DXMatrixScaling(&scaleMat, 0.1f, 0.1f, 0.1f);
 	rotateAngle = 0;
 	currentHealth = 100.0f;
@@ -22,87 +20,18 @@ Player::~Player(void)
 
 void Player::Initialize()
 {
-	// Load the mesh
-	D3DXLoadMeshFromX(L"frigate.x", D3DXMESH_MANAGED, 
-		Initializer::GetInstance()->GetDevice(), 
-		NULL, &materialBuff, NULL, &numMaterials, &mesh);
-
-	D3DXMaterial = (D3DXMATERIAL*) materialBuff->GetBufferPointer();
-	modelMaterial = new D3DMATERIAL9[numMaterials];
-	texture = new LPDIRECT3DTEXTURE9[numMaterials];
-
-	for(DWORD i = 0; i < numMaterials; i++)
-	{
-		modelMaterial[i] = D3DXMaterial[i].MatD3D;
-		modelMaterial[i].Ambient.r = 0.1f;
-		modelMaterial[i].Ambient.g = 0.1f;
-		modelMaterial[i].Ambient.b = 0.1f;
-		modelMaterial[i].Ambient.a = 1.0f;
-
-		texture[i] = NULL;
-		if(D3DXMaterial[i].pTextureFilename)
-		{
-			int len = 0;
-			len = (int)strlen(D3DXMaterial[i].pTextureFilename) + 1;
-			wchar_t *ucString = new wchar_t[len];
-			mbstowcs(ucString, D3DXMaterial[i].pTextureFilename, len);
-			LPCWSTR filename = (LPCWSTR)ucString;
-			D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(),
-				filename, &texture[i]);
-			delete[] ucString;
-		}
-	}
-
 	// build bounding box for the mesh
 	BYTE* vertices = NULL;
-	mesh->LockVertexBuffer(D3DLOCK_READONLY, (LPVOID*)&vertices);
-	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, mesh->GetNumVertices(),
-		D3DXGetFVFVertexSize(mesh->GetFVF()), &meshBox.minPt, &meshBox.maxPt);
-	mesh->UnlockVertexBuffer();
+	Initializer::GetInstance()->GetPlayerMesh().mesh->LockVertexBuffer(
+		D3DLOCK_READONLY, (LPVOID*)&vertices);
 
-	// Initialize player's HUD
-	playerHUD.Initialize();
-}
-	
-void Player::Initialize2(LPCWSTR fileName)
-{
-	// Load the mesh
-	D3DXLoadMeshFromX(fileName, D3DXMESH_MANAGED, 
-		Initializer::GetInstance()->GetDevice(), 
-		NULL, &materialBuff, NULL, &numMaterials, &mesh);
+	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, 
+		Initializer::GetInstance()->GetPlayerMesh().mesh->GetNumVertices(),
+		D3DXGetFVFVertexSize( 
+		Initializer::GetInstance()->GetPlayerMesh().mesh->GetFVF()), 
+		&meshBox.minPt, &meshBox.maxPt);
 
-	D3DXMaterial = (D3DXMATERIAL*) materialBuff->GetBufferPointer();
-	modelMaterial = new D3DMATERIAL9[numMaterials];
-	texture = new LPDIRECT3DTEXTURE9[numMaterials];
-
-	for(DWORD i = 0; i < numMaterials; i++)
-	{
-		modelMaterial[i] = D3DXMaterial[i].MatD3D;
-		modelMaterial[i].Ambient.r = 0.1f;
-		modelMaterial[i].Ambient.g = 0.1f;
-		modelMaterial[i].Ambient.b = 0.1f;
-		modelMaterial[i].Ambient.a = 1.0f;
-
-		texture[i] = NULL;
-		if(D3DXMaterial[i].pTextureFilename)
-		{
-			int len = 0;
-			len = (int)strlen(D3DXMaterial[i].pTextureFilename) + 1;
-			wchar_t *ucString = new wchar_t[len];
-			mbstowcs(ucString, D3DXMaterial[i].pTextureFilename, len);
-			LPCWSTR filename = (LPCWSTR)ucString;
-			D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(),
-				filename, &texture[i]);
-			delete[] ucString;
-		}
-	}
-
-	// build bounding box for the mesh
-	BYTE* vertices = NULL;
-	mesh->LockVertexBuffer(D3DLOCK_READONLY, (LPVOID*)&vertices);
-	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, mesh->GetNumVertices(),
-		D3DXGetFVFVertexSize(mesh->GetFVF()), &meshBox.minPt, &meshBox.maxPt);
-	mesh->UnlockVertexBuffer();
+	Initializer::GetInstance()->GetPlayerMesh().mesh->UnlockVertexBuffer();
 
 	// Initialize player's HUD
 	playerHUD.Initialize();
@@ -219,16 +148,22 @@ void Player::Render(ID3DXEffect* shader)
 	for(UINT i = 0; i < numPasses; i++)
 	{
 		shader->BeginPass(i);
-		for(DWORD j = 0; j < numMaterials; j++)
+		for(DWORD j = 0; j < 
+			Initializer::GetInstance()->GetPlayerMesh().numMaterials; j++)
 		{
-			shader->SetValue("ambientMaterial", &modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
-			shader->SetValue("diffuseMaterial", &modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
-			shader->SetValue("specularMaterial", &modelMaterial[j].Specular, sizeof(D3DXCOLOR));
-			shader->SetFloat("specularPower", modelMaterial[j].Power);
-			shader->SetTexture("tex", texture[j]);
+			shader->SetValue("ambientMaterial", 
+				&Initializer::GetInstance()->GetPlayerMesh().modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
+			shader->SetValue("diffuseMaterial", 
+				&Initializer::GetInstance()->GetPlayerMesh().modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
+			shader->SetValue("specularMaterial", 
+				&Initializer::GetInstance()->GetPlayerMesh().modelMaterial[j].Specular, sizeof(D3DXCOLOR));
+			shader->SetFloat("specularPower", 
+				Initializer::GetInstance()->GetPlayerMesh().modelMaterial[j].Power);
+			shader->SetTexture("tex", 
+				Initializer::GetInstance()->GetPlayerMesh().texture[j]);
 			shader->SetBool("usingTexture", true);
 			shader->CommitChanges();
-			mesh->DrawSubset(j);
+			Initializer::GetInstance()->GetPlayerMesh().mesh->DrawSubset(j);
 		}
 		shader->EndPass();
 	}
@@ -242,14 +177,4 @@ void Player::Render(ID3DXEffect* shader)
 /// Release the object's variables
 void Player::Shutdown()
 {
-	SAFE_RELEASE(mesh);
-	if(texture)
-	{
-		for(DWORD i = 0; i < numMaterials; i++)
-		{
-			SAFE_RELEASE(texture[i]);
-		}
-		delete[] texture;
-	}
-	SAFE_RELEASE(materialBuff);
 }

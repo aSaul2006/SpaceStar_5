@@ -15,12 +15,6 @@ class Projectile
 private:
 	D3DXMATRIX scaleMat, rotateMat, translateMat, worldMat;
 	D3DXVECTOR3 position, startPosition, direction;
-	ID3DXMesh*	mesh;
-	LPDIRECT3DTEXTURE9* texture;
-	ID3DXBuffer* materialBuff;
-	DWORD numMaterials;
-	D3DXMATERIAL* D3DXMaterial;
-	D3DMATERIAL9* modelMaterial;
 
 	AABB meshBox;		// mesh's collision box
 	bool destroyObject;	// use this bool to determine when to destroy the object
@@ -55,7 +49,5 @@ public:
 	void SetStartPosition(D3DXVECTOR3 position){startPosition = position;}
 	void SetDirection(D3DXVECTOR3 direction){this->direction = direction;}
 	void Destroy() {destroyObject = true;}
-
-
 };
 

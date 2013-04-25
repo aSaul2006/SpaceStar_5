@@ -50,10 +50,18 @@ void Initializer::Initialize(HWND hWnd, IDirect3D9* m_pD3DObject,
 
 	// Create your sprite COM object
 	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
+
+	// Create player mesh
+	playerMesh.Init(L"frigate.x");
+	projectileMesh.Init(L"sphere.x");
+	enemyMesh.Init(L"viperShip.x");
 }
 
 void Initializer::Shutdown()
 {
+	enemyMesh.Shutdown();
+	projectileMesh.Shutdown();
+	playerMesh.Shutdown();
 	SAFE_RELEASE(m_pD3DSprite);
 	SAFE_RELEASE(gameFont);
 	SAFE_RELEASE(m_pD3DDevice);

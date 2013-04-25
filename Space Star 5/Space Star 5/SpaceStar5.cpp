@@ -40,7 +40,7 @@ void SpaceStar5::Init(HWND hWnd, HINSTANCE hInstance, bool bWindowed)
 	D3Dpp.MultiSampleQuality			= 0;
 	D3Dpp.MultiSampleType				= D3DMULTISAMPLE_NONE;
 
-	//// Create the Direct3D device using the presentation parameters above
+	// Create the Direct3D device using the presentation parameters above
 	Initializer::GetInstance()->Initialize(hWnd, m_pD3DObject, D3Dpp);
 
 	// Initialize the Audio Manager
@@ -151,5 +151,8 @@ void SpaceStar5::Shutdown()
 			i = gameScreen.erase(i);
 		}
 	}
+	InputManager::GetInstance()->Shutdown();
+	AudioManager::GetInstance()->Shutdown();
+	Initializer::GetInstance()->Shutdown();
 	SAFE_RELEASE(m_pD3DObject);
 }

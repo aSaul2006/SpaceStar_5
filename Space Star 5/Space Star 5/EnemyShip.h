@@ -27,12 +27,6 @@ protected:
 
 	D3DXMATRIX scaleMat, rotateMat, translateMat, worldMat;
 	D3DXVECTOR3 m_position, m_velocity;
-	ID3DXMesh*	mesh;
-	LPDIRECT3DTEXTURE9* texture;
-	ID3DXBuffer* materialBuff;
-	DWORD numMaterials;
-	D3DXMATERIAL* D3DXMaterial;
-	D3DMATERIAL9* modelMaterial;
 	int health, maxHealth;
 	float m_speed, m_fireRate, m_rotateAngle;
 	AABB meshBox;	// mesh's collision box
@@ -44,7 +38,7 @@ protected:
 
 public:
 	//intializes the enemy ship
-	void initializeEnemyShip(LPCWSTR fileName);
+	void initializeEnemyShip();
 	//virtual void fireWeapon(int fireRate)=0;
 	//Make updateAI and updatePhysics overridable but leave
 	//default update() the same...May not work right ha

@@ -71,7 +71,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 			int enemySpeed = (rand()%(6-3))+3;;
 			float enemyYpos =(rand()%(5-(-7)))+(-7);
 
-			enemy->initializeEnemyShip(L"viperShip.x");
+			enemy->initializeEnemyShip();
 			enemy->SetEnemyAttrib(100,enemySpeed,2.0f,D3DXVECTOR3(8.0f,enemyYpos,0.0f));
 			enemy->hasSpawned = true;
 		}

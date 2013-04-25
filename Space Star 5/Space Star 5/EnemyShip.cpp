@@ -23,45 +23,20 @@ baseEnemyShip::baseEnemyShip()
 
 }
 
-void baseEnemyShip::initializeEnemyShip(LPCWSTR fileName)
+void baseEnemyShip::initializeEnemyShip()
 {
-	// Load the mesh
-	D3DXLoadMeshFromX(fileName, D3DXMESH_MANAGED, 
-		Initializer::GetInstance()->GetDevice(), 
-		NULL, &materialBuff, NULL, &numMaterials, &mesh);
-
-	D3DXMaterial = (D3DXMATERIAL*) materialBuff->GetBufferPointer();
-	modelMaterial = new D3DMATERIAL9[numMaterials];
-	texture = new LPDIRECT3DTEXTURE9[numMaterials];
-
-	for(DWORD i = 0; i < numMaterials; i++)
-	{
-		modelMaterial[i] = D3DXMaterial[i].MatD3D;
-		modelMaterial[i].Ambient.r = 0.1f;
-		modelMaterial[i].Ambient.g = 0.1f;
-		modelMaterial[i].Ambient.b = 0.1f;
-		modelMaterial[i].Ambient.a = 1.0f;
-
-		texture[i] = NULL;
-		if(D3DXMaterial[i].pTextureFilename)
-		{
-			int len = 0;
-			len = (int)strlen(D3DXMaterial[i].pTextureFilename) + 1;
-			wchar_t *ucString = new wchar_t[len];
-			mbstowcs(ucString, D3DXMaterial[i].pTextureFilename, len);
-			LPCWSTR filename = (LPCWSTR)ucString;
-			D3DXCreateTextureFromFile(Initializer::GetInstance()->GetDevice(),
-				filename, &texture[i]);
-			delete[] ucString;
-		}
-	}
-
 	// build bounding box for the mesh
 	BYTE* vertices = NULL;
-	mesh->LockVertexBuffer(D3DLOCK_READONLY, (LPVOID*)&vertices);
-	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, mesh->GetNumVertices(),
-		D3DXGetFVFVertexSize(mesh->GetFVF()), &meshBox.minPt, &meshBox.maxPt);
-	mesh->UnlockVertexBuffer();
+	Initializer::GetInstance()->GetEnemyMesh().mesh->LockVertexBuffer(
+		D3DLOCK_READONLY, (LPVOID*)&vertices);
+
+	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, 
+		Initializer::GetInstance()->GetEnemyMesh().mesh->GetNumVertices(),
+		D3DXGetFVFVertexSize(
+		Initializer::GetInstance()->GetEnemyMesh().mesh->GetFVF()), 
+		&meshBox.minPt, &meshBox.maxPt);
+
+	Initializer::GetInstance()->GetEnemyMesh().mesh->UnlockVertexBuffer();
 
 	AudioManager::GetInstance()->GetSystem()->createSound("laser3.wav",FMOD_DEFAULT,0, &enemySFX);
 }
@@ -70,16 +45,7 @@ void baseEnemyShip::initializeEnemyShip(LPCWSTR fileName)
 
 void baseEnemyShip::Shutdown()
 {
-	SAFE_RELEASE(mesh);
-	if(texture)
-	{
-		for(DWORD i = 0; i < numMaterials; i++)
-		{
-			SAFE_RELEASE(texture[i]);
-		}
-		delete[] texture;
-	}
-	SAFE_RELEASE(materialBuff);
+	enemySFX->release();
 }
 
 /// Enemy class
@@ -91,8 +57,6 @@ Enemy::Enemy()
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
 	D3DXMatrixTranslation(&translateMat, 0, 0, 0);
 	m_position = m_velocity = D3DXVECTOR3(0, 0, 0);
-	mesh = NULL;
-	texture = NULL;
 	track = health = maxHealth = 0;	// change later if needed
 	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
 
@@ -130,16 +94,22 @@ void Enemy::Render(ID3DXEffect* shader)
 	for(UINT i = 0; i < numPasses; i++)
 	{
 		shader->BeginPass(i);
-		for(DWORD j = 0; j < numMaterials; j++)
+		for(DWORD j = 0; j < 
+			Initializer::GetInstance()->GetEnemyMesh().numMaterials; j++)
 		{
-			shader->SetValue("ambientMaterial", &modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
-			shader->SetValue("diffuseMaterial", &modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
-			shader->SetValue("specularMaterial", &modelMaterial[j].Specular, sizeof(D3DXCOLOR));
-			shader->SetFloat("specularPower", modelMaterial[j].Power);
-			shader->SetTexture("tex", texture[j]);
+			shader->SetValue("ambientMaterial", 
+				&Initializer::GetInstance()->GetEnemyMesh().modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
+			shader->SetValue("diffuseMaterial", 
+				&Initializer::GetInstance()->GetEnemyMesh().modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
+			shader->SetValue("specularMaterial", 
+				&Initializer::GetInstance()->GetEnemyMesh().modelMaterial[j].Specular, sizeof(D3DXCOLOR));
+			shader->SetFloat("specularPower", 
+				Initializer::GetInstance()->GetEnemyMesh().modelMaterial[j].Power);
+			shader->SetTexture("tex", 
+				Initializer::GetInstance()->GetEnemyMesh().texture[j]);
 			shader->SetBool("usingTexture", true);
 			shader->CommitChanges();
-			mesh->DrawSubset(j);
+			Initializer::GetInstance()->GetEnemyMesh().mesh->DrawSubset(j);
 		}
 		shader->EndPass();
 	}
