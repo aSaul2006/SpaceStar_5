@@ -95,24 +95,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 				enemy->hideShip(false);
 		}
 
-			// update the projectiles in pList
-		for each(Projectile* projectile in pList)
-		{
-			// update projectile
-			projectile->Update(dt);
 		
-			// testing collision
-			if(projectile->GetMeshBox().Intersects(enemy->GetMeshBox()))
-			{
-				projectile->Destroy();
-				enemy->calculateDamage(50);
-				if(enemy->getHealth() <= 0)
-				{
-					enemy->destroyShip();
-					enemiesSpawned --;
-				}
-			}			
-		}
 	}
 	
 	//zoom in and out for debugging purposes ehh

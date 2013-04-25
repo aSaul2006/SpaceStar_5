@@ -6,12 +6,8 @@
 #include <time.h>
 
 float radius = 7.5;
-float cos_y = 0.0;
 float start = 0.0;
 float angle = 1.0;
-float rad_angle = 0.0;
-float x2 = 0.0,y2 = 0.0,fx = 0.0,fy = 0.0, cacheCosY = 0.0 ;
-int cache = 0;
 
 std::default_random_engine gen;
 std::uniform_int_distribution<int> attackSwitch(0,3);
@@ -186,7 +182,7 @@ void Enemy::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 po
 		m_attackType = ATTACK3;
 		break;
 	case 3:
-		m_attackType = ATTACK4;
+		m_attackType = ATTACK1;
 		break;
 	case 4:
 		m_attackType = AVOID1;
@@ -201,6 +197,7 @@ void Enemy::update(float dt, Player * player)
 {
 	D3DXVECTOR3 playerPos = player->GetPosition();
 
+	float rad_angle = 0.0f;
 	// player's rotation speed
 	float rotateSpeed = 0.2f;
 
@@ -235,17 +232,11 @@ void Enemy::update(float dt, Player * player)
 			fireWeapon(2,player);
 		break;
 	case ATTACK4:
-		start += 1.0;
-		if(start > 360)
-		{
-			start = 0;
-		}
-		if(angle > 720)
+		if(angle == 360)
 			angle = 0.0;
 
 		rad_angle = (angle * 3.14)/180;
 		m_position.x -= m_speed * dt;
-		//y2 = radius * sin((double)rad_angle);
 		m_position.y = 2.0 * sin((double)(-rad_angle));
 		angle += 1.0;
 
