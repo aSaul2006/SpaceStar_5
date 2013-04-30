@@ -61,6 +61,7 @@ private:
 	bool moveDir;
 	bool destroyObject;
 	bool isHidden;
+	float angle;
 
 public:
 	Enemy();

@@ -7,7 +7,6 @@
 
 float radius = 7.5;
 float start = 0.0;
-float angle = 1.0;
 
 std::default_random_engine gen;
 std::uniform_int_distribution<int> attackSwitch(0,3);
@@ -57,6 +56,7 @@ Enemy::Enemy()
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
 	D3DXMatrixTranslation(&translateMat, 0, 0, 0);
 	m_position = m_velocity = D3DXVECTOR3(0, 0, 0);
+	angle = 0.0;
 	track = health = maxHealth = 0;	// change later if needed
 	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
 
@@ -152,7 +152,7 @@ void Enemy::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 po
 		m_attackType = ATTACK3;
 		break;
 	case 3:
-		m_attackType = ATTACK1;
+		m_attackType = ATTACK4;
 		break;
 	case 4:
 		m_attackType = AVOID1;

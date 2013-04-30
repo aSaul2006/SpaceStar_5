@@ -37,8 +37,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)\Bounds Detection;$(ProjectDir)\Steering Behaviors;$(ProjectDir)\State, Message, and Entity Systems;$(ProjectDir)\Steering Behaviors\2D;$(ProjectDir)\Steering Behaviors\misc;$(ProjectDir)\Steering Behaviors\Graph;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)\Bounds Detection;$(ProjectDir)\Steering Behaviors;$(ProjectDir)\State, Message, and Entity Systems;$(ProjectDir)\Steering Behaviors\2D;$(ProjectDir)\Steering Behaviors\misc;$(ProjectDir)\Steering Behaviors\Graph;$(IncludePath);$(DXSDK_DIR)Include</IncludePath>
+    <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(ProjectDir)\Bounds Detection;$(ProjectDir)\Steering Behaviors;$(ProjectDir)\State, Message, and Entity Systems;$(ProjectDir)\Steering Behaviors\2D;$(ProjectDir)\Steering Behaviors\misc;$(ProjectDir)\Steering Behaviors\Graph;$(IncludePath)</IncludePath>
@@ -71,6 +71,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttackWaves.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="BaseGameEntity.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -95,6 +96,7 @@
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="AttackType.h" />
+    <ClInclude Include="AttackWaves.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="Camera.h" />
