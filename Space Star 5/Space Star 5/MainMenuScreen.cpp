@@ -66,7 +66,7 @@ void MainMenuScreen::Render(void)
 	// stores the output in print variable
 	print = "Play Game";
 	SetRect(&rect, 350, 400, 450, 450);
-	if(choice == 0) fontColor = D3DCOLOR_RGBA(192, 192, 192, 255);
+	if(choice == 0) fontColor = D3DCOLOR_RGBA(255, 0, 0, 255);
 	else			fontColor = D3DCOLOR_RGBA(255, 255, 255, 255);
 
 	// Draw Text
@@ -78,7 +78,7 @@ void MainMenuScreen::Render(void)
 	// stores the output in print variable
 	print = "Exit";
 	SetRect(&rect, 350, 500, 450, 550);
-	if(choice == 1) fontColor = D3DCOLOR_RGBA(192, 192, 192, 255);
+	if(choice == 1) fontColor = D3DCOLOR_RGBA(255, 0, 0, 255);
 	else			fontColor = D3DCOLOR_RGBA(255, 255, 255, 255);
 
 	// Draw Text
