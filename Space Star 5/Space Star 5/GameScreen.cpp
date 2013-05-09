@@ -1,6 +1,9 @@
 #include "GameScreen.h"
 #include <random>
 #include <time.h>
+#include "AttackWaves.h"
+
+ViperWave1 * wave;
 
 default_random_engine generator;
 uniform_int_distribution<int> randSpeed(4,6);
@@ -56,6 +59,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
 	skybox.Update(dt);
+	wave->AttackPattern(&pEnemies);
 
 	if(enemiesSpawned <= 5 && (CrudeTimer::Instance()->GetTickCount() - spawnTime) >= 2)
 	{

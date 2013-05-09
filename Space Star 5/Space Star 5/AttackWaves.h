@@ -5,6 +5,9 @@
 
 using namespace std;
 
+#define SAFE_RELEASE(x) if(x){x->Release(); x=0;}
+
+template <class wave_type>
 class AttackWaves
 {
 protected:
@@ -14,20 +17,19 @@ public:
 	AttackWaves(void);
 	~AttackWaves(void);
 	virtual void SetEnemyAmount(int amount)=0;
-	virtual void AttackPattern( AttackType at)=0;
+	virtual void AttackPattern(list<Enemy*> *enemies)=0;
 	virtual void Shutdown(void)=0;
 
 };
 
-class ViperWave1 : public AttackWaves
+class ViperWave1 : public AttackWaves<Enemy*>
 {
 private:
 	int enemyAmount;
-	list<Enemy*> pEnemiesInViperOne;
 public:
 	~ViperWave1(void);
 	ViperWave1(void);
 	void SetEnemyAmount(int amount);
-	void AttackPattern(AttackType at);
+	void AttackPattern(list<Enemy*> *enemies);
 	void Shutdown(void);
 };

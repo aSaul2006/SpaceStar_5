@@ -77,6 +77,7 @@ public:
 	void fireWeapon(int fireRate, Player* player);
 	void renderBullet(ID3DXEffect* shader);
 	void SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos);
+	void SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos);
 	int getHealth(){return health;}
 	bool CheckObject(void) {return destroyObject;}
 	//void loadEnemies(std::list<Enemy*> pEnemies, int numberToLoad);

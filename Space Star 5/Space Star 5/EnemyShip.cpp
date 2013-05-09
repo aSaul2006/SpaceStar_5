@@ -163,6 +163,14 @@ void Enemy::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 po
 	}
 }
 
+void Enemy::SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos)
+{
+	m_position = pos;
+	health = shipHealth;
+	m_attackType = at;
+	m_speed = speed;
+}
+
 void Enemy::update(float dt, Player * player)
 {
 	D3DXVECTOR3 playerPos = player->GetPosition();
