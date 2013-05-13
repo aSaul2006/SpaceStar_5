@@ -186,12 +186,18 @@ void Enemy::update(float dt, Player * player)
 	{
 	case ATTACK1:
 		m_position.x -= m_speed * dt;
+		m_rotateAngle = 0;
 		if(fmod(dt*(float)track,300) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		break;
 	case ATTACK2:
 		m_position.x -= m_speed * dt;
-		m_position.y += (float)1.0 * dt;
+		m_position.y += m_speed * dt;
+		if(m_position.y < 5)
+		{
+			m_rotateAngle -= rotateSpeed;
+			rotate = true;
+		}
 		if(fmod(dt*(float)track,300) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		break;
@@ -201,11 +207,16 @@ void Enemy::update(float dt, Player * player)
 		if(playerPos.y < m_position.y)
 		{
 			m_position.y -= m_speed * dt;
+			m_rotateAngle -= rotateSpeed;
+			rotate = true;
 		}
 		if(playerPos.y > m_position.y)
 		{
 			m_position.y += m_speed * dt;
+			m_rotateAngle += rotateSpeed;
+			rotate = true;
 		}
+
 		if(fmod(dt*(float)track,100) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		break;
@@ -216,22 +227,37 @@ void Enemy::update(float dt, Player * player)
 		rad_angle = (angle * 3.14)/180;
 		m_position.x -= m_speed * dt;
 		m_position.y = 2.0 * sin((double)(-rad_angle));
-		angle += 1.0;
+		m_rotateAngle = 0;
 
+		angle += 1.0;
+	
 		if(fmod(dt*(float)track,150) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		break;
 	case AVOID1:
-		m_position.x -= 2 * dt;
+		m_position.x -= m_speed * dt;
 		m_position.y += m_speed * dt;
+
+		if(m_position.y > -7)
+		{
+			m_rotateAngle += rotateSpeed;
+			rotate = true;
+		}
+
 		if(fmod(dt*(float)track,150) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		if(m_position.y >= 5)
 			m_attackType = AVOID2;  
 		break;
 	case AVOID2:
-		m_position.x -= 2 * dt;
+		m_position.x -= m_speed * dt;
 		m_position.y -= m_speed * dt;
+
+		if(m_position.y < 5)
+		{
+			m_rotateAngle -= rotateSpeed;
+			rotate = true;
+		}
 		if(fmod(dt*(float)track,150) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		if(m_position.y <= -7)
@@ -263,9 +289,39 @@ void Enemy::update(float dt, Player * player)
 			i++;		
 	}
 
+	//if(m_position.y < 5)
+	//{
+	//	m_rotateAngle -= rotateSpeed;
+	//	rotate = true;
+	//}
+
+	//if(m_position.y > -7)
+	//{
+	//	m_rotateAngle += rotateSpeed;
+	//	rotate = true;
+	//}
+
+	if(rotate)
+	{
+		if(m_rotateAngle < -45.0f)
+			m_rotateAngle = -45.0f;
+		if(m_rotateAngle > 45.0f)
+			m_rotateAngle = 45.0f;
+	}
+	else
+	{
+		if(m_rotateAngle < 0)
+			m_rotateAngle += rotateSpeed;
+		if(m_rotateAngle > 0)
+			m_rotateAngle -= rotateSpeed;
+	}
+
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
+		D3DXToRadian(0.0f), D3DXToRadian(m_rotateAngle), 0);
 	
 	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
 
+	worldMat = scaleMat * rotateMat* translateMat;
 
 	track ++;
 	if(track == 600)
