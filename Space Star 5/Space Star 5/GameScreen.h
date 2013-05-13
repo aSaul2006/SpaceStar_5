@@ -24,7 +24,7 @@ private:
 	Skybox skybox;
 
 	list<Projectile*> pList;
-	list<Enemy*> pEnemies;
+	list<baseEnemyShip*> pEnemies;
 	Enemy enemy;
 
 	double spawnTime;

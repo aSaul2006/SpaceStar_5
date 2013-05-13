@@ -3,7 +3,7 @@
 #include <time.h>
 #include "AttackWaves.h"
 
-ViperWave1 * wave;
+//ViperWave1 * wave;
 
 default_random_engine generator;
 uniform_int_distribution<int> randSpeed(4,6);
@@ -59,7 +59,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
 	skybox.Update(dt);
-	wave->AttackPattern(&pEnemies);
+	//wave->AttackPattern(&pEnemies);
 
 	if(enemiesSpawned <= 5 && (CrudeTimer::Instance()->GetTickCount() - spawnTime) >= 2)
 	{
@@ -159,7 +159,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 		else
 			i++;		
 	}
-	for(list<Enemy*>::const_iterator i = pEnemies.begin(), end = pEnemies.end(); i != end;)
+	for(list<baseEnemyShip*>::const_iterator i = pEnemies.begin(), end = pEnemies.end(); i != end;)
 	{
 		if((*i)->CheckObject())
 		{
@@ -227,7 +227,7 @@ void GameScreen::Shutdown(void)
 
 	if(pEnemies.size() > 0)
 	{
-		for(list<Enemy*>::const_iterator i = pEnemies.begin(), 
+		for(list<baseEnemyShip*>::const_iterator i = pEnemies.begin(), 
 			end = pEnemies.end(); i != end; )
 		{
 			delete (*i);

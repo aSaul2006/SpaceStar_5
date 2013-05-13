@@ -31,25 +31,40 @@ protected:
 	float m_speed, m_fireRate, m_rotateAngle;
 	AABB meshBox;	// mesh's collision box
 	AttackType m_attackType;
-	//All enemies will need to have a pointer to an instance of a state
-	//State* 		m_pCurrentState;
 	FMOD::Sound* enemySFX;
 	bool isHealthZero;
+	bool destroyObject;
+	bool isHidden;
 
 public:
 	//intializes the enemy ship
 	void initializeEnemyShip();
-	//virtual void fireWeapon(int fireRate)=0;
-	//Make updateAI and updatePhysics overridable but leave
-	//default update() the same...May not work right ha
-	//virtual void update(float dt)=0; 
-	virtual void calculateDamage(int power)=0;
-	virtual void destroyShip()=0;
-	virtual ~baseEnemyShip();
 	void Shutdown();
 	baseEnemyShip();
-	//methods required for default enemy ship state behavior
-	//virtual void ChangeState(State* pNewState);
+	virtual void fireWeapon(int fireRate, Player* player)=0;
+	virtual void update(float dt, Player *player)=0; 
+	virtual void calculateDamage(int power)=0;
+	virtual void destroyShip()=0;
+	virtual void renderBullet(ID3DXEffect* shader)=0;
+	virtual ~baseEnemyShip();
+
+	//Accessors
+	virtual void SetEnemyAttrib(int shipHealth, float speed, float rate, D3DXVECTOR3 pos)=0;
+	virtual void SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos)=0;
+
+	virtual bool GetIsHidden(){return isHidden;}
+	virtual int getHealth(){return health;}
+	virtual bool CheckObject(void) {return destroyObject;}
+	virtual D3DXVECTOR3 getPosition(){return m_position;}
+	// get collision box
+	AABB GetMeshBox()
+	{
+		AABB out;
+		meshBox.xform(worldMat, out);
+		return out;
+	}
+
+	
 };
 
 //create ship classes that derive baseEnemyShip
@@ -59,39 +74,28 @@ private:
 	std::list<Projectile*> enemyBullet;
 	int track;
 	bool moveDir;
-	bool destroyObject;
-	bool isHidden;
 	float angle;
 
 public:
+	bool hasSpawned;
+
 	Enemy();
 	~Enemy();
 
-	void Render(ID3DXEffect* shader);
-
 	//Inherited functions
+	void Render(ID3DXEffect* shader);
 	void update(float dt, Player *player); 
 	void calculateDamage(int power);
 	void destroyShip();
 	void hideShip(bool yn){isHidden = yn;}
 	void fireWeapon(int fireRate, Player* player);
 	void renderBullet(ID3DXEffect* shader);
+		
+	//Accessors
 	void SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos);
 	void SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos);
-	int getHealth(){return health;}
-	bool CheckObject(void) {return destroyObject;}
-	//void loadEnemies(std::list<Enemy*> pEnemies, int numberToLoad);
-	bool GetIsHidden(){return isHidden;}
-	bool hasSpawned;
 
-	D3DXVECTOR3 getPosition(){return m_position;}
-	// get collision box
-	AABB GetMeshBox()
-	{
-		AABB out;
-		meshBox.xform(worldMat, out);
-		return out;
-	}
+
 };
 
 #endif

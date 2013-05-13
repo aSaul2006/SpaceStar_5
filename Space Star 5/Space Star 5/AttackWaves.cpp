@@ -2,6 +2,14 @@
 using namespace std;
 
 
+AttackWaves::AttackWaves(void)
+{
+
+}
+AttackWaves::~AttackWaves(void)
+{
+
+}
 ViperWave1::~ViperWave1()
 {
 }

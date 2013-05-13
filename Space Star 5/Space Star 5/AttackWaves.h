@@ -7,7 +7,6 @@ using namespace std;
 
 #define SAFE_RELEASE(x) if(x){x->Release(); x=0;}
 
-template <class wave_type>
 class AttackWaves
 {
 protected:
@@ -22,7 +21,7 @@ public:
 
 };
 
-class ViperWave1 : public AttackWaves<Enemy*>
+class ViperWave1 : public AttackWaves
 {
 private:
 	int enemyAmount;
