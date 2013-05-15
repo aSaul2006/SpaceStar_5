@@ -1,3 +1,6 @@
+#ifndef _ATTACKWAVES_H
+#define _ATTACKWAVES_H
+
 #include "EnemyShip.h"
 #include "Initializer.h"
 #include "AttackType.h"
@@ -16,7 +19,7 @@ public:
 	AttackWaves(void);
 	~AttackWaves(void);
 	virtual void SetEnemyAmount(int amount)=0;
-	virtual void AttackPattern(list<Enemy*> *enemies)=0;
+	virtual void AttackPattern(list<baseEnemyShip*> &enemies)=0;
 	virtual void Shutdown(void)=0;
 
 };
@@ -29,6 +32,8 @@ public:
 	~ViperWave1(void);
 	ViperWave1(void);
 	void SetEnemyAmount(int amount);
-	void AttackPattern(list<Enemy*> *enemies);
+	void AttackPattern(list<baseEnemyShip*> &enemies);
 	void Shutdown(void);
 };
+
+#endif

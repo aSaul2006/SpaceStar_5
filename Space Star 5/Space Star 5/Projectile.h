@@ -44,6 +44,8 @@ public:
 		return out;
 	}							// get collision box
 
+	D3DXVECTOR3 GetPosition(){return position;}
+
 	// Mutators
 	void SetPosition(D3DXVECTOR3 position){ this->position = position;}
 	void SetStartPosition(D3DXVECTOR3 position){startPosition = position;}

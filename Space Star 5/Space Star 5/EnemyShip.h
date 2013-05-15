@@ -35,6 +35,7 @@ protected:
 	bool isHealthZero;
 	bool destroyObject;
 	bool isHidden;
+	double spawnTime;
 
 public:
 	//intializes the enemy ship

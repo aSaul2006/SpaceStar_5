@@ -4,8 +4,9 @@
 #include <list>
 #include <random>
 #include <time.h>
+#include "Misc\CrudeTimer.h"
 
-float radius = 7.5;
+float radius = 10.0;
 float start = 0.0;
 
 std::default_random_engine gen;
@@ -59,7 +60,7 @@ Enemy::Enemy()
 	angle = 0.0;
 	track = health = maxHealth = 0;	// change later if needed
 	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
-
+	spawnTime = CrudeTimer::Instance()->GetTickCount();
 }
 
 
@@ -128,7 +129,11 @@ void Enemy::renderBullet(ID3DXEffect* shader)
 	// Render projectiles
 	for each(Projectile* projectile in enemyBullet)
 	{
-		projectile->Render(shader);
+		if(projectile->GetPosition().x > -12 &&
+			projectile->GetPosition().x < 12)
+		{
+			projectile->Render(shader);
+		}
 	}
 }
 
@@ -198,7 +203,7 @@ void Enemy::update(float dt, Player * player)
 			m_rotateAngle -= rotateSpeed;
 			rotate = true;
 		}
-		if(fmod(dt*(float)track,300) == 0 && isHidden == false)
+		if(fmod(dt*(float)track,400) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		break;
 	case ATTACK3:
@@ -217,7 +222,7 @@ void Enemy::update(float dt, Player * player)
 			rotate = true;
 		}
 
-		if(fmod(dt*(float)track,100) == 0 && isHidden == false)
+		if(fmod(dt*(float)track,533) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		break;
 	case ATTACK4:
@@ -231,7 +236,7 @@ void Enemy::update(float dt, Player * player)
 
 		angle += 1.0;
 	
-		if(fmod(dt*(float)track,150) == 0 && isHidden == false)
+		if(fmod(dt*(float)track,600) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		break;
 	case AVOID1:
@@ -244,7 +249,7 @@ void Enemy::update(float dt, Player * player)
 			rotate = true;
 		}
 
-		if(fmod(dt*(float)track,150) == 0 && isHidden == false)
+		if(fmod(dt*(float)track,1140) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		if(m_position.y >= 5)
 			m_attackType = AVOID2;  
@@ -258,7 +263,7 @@ void Enemy::update(float dt, Player * player)
 			m_rotateAngle -= rotateSpeed;
 			rotate = true;
 		}
-		if(fmod(dt*(float)track,150) == 0 && isHidden == false)
+		if(fmod(dt*(float)track,477) == 0 && isHidden == false)
 			fireWeapon(2,player);
 		if(m_position.y <= -7)
 			m_attackType = AVOID1;
@@ -324,7 +329,7 @@ void Enemy::update(float dt, Player * player)
 	worldMat = scaleMat * rotateMat* translateMat;
 
 	track ++;
-	if(track == 600)
+	if(track >= 600)
 		track = 0;
 
 }

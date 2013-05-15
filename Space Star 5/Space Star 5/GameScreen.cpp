@@ -3,7 +3,7 @@
 #include <time.h>
 #include "AttackWaves.h"
 
-//ViperWave1 * wave;
+ViperWave1 * wave;
 
 default_random_engine generator;
 uniform_int_distribution<int> randSpeed(4,6);
@@ -51,6 +51,8 @@ void GameScreen::Initialize(void)
 	// Initialize SFX
 	AudioManager::GetInstance()->GetSystem()->createSound("8bitLaser1.wav", 
 		FMOD_DEFAULT, 0, &projSFX);
+	wave = new ViperWave1();
+	wave->AttackPattern(pEnemies);
 }
 
 void GameScreen::Update(GameState& gameState, float dt)
@@ -59,26 +61,30 @@ void GameScreen::Update(GameState& gameState, float dt)
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
 	skybox.Update(dt);
-	//wave->AttackPattern(&pEnemies);
+	
 
-	if(enemiesSpawned <= 5 && (CrudeTimer::Instance()->GetTickCount() - spawnTime) >= 2)
+	//if(enemiesSpawned <= 5 && (CrudeTimer::Instance()->GetTickCount() - spawnTime) >= 2)
+	//{
+	//	pEnemies.push_front(new Enemy());
+	//	spawnTime = CrudeTimer::Instance()->GetTickCount();
+	//	enemiesSpawned ++;
+	//}
+	if(pEnemies.empty())
 	{
-		pEnemies.push_front(new Enemy());
-		spawnTime = CrudeTimer::Instance()->GetTickCount();
-		enemiesSpawned ++;
+		wave->AttackPattern(pEnemies);
 	}
 
 	for each(Enemy* enemy in pEnemies)
 	{
-		if(!enemy->hasSpawned)
-		{
-			int enemySpeed = (rand()%(6-3))+3;;
-			float enemyYpos =(rand()%(5-(-7)))+(-7);
+		//if(!enemy->hasSpawned)
+		//{
+		//	int enemySpeed = (rand()%(6-3))+3;;
+		//	float enemyYpos =(rand()%(5-(-7)))+(-7);
 
-			enemy->initializeEnemyShip();
-			enemy->SetEnemyAttrib(100,enemySpeed,2.0f,D3DXVECTOR3(8.0f,enemyYpos,0.0f));
-			enemy->hasSpawned = true;
-		}
+		//	enemy->initializeEnemyShip();
+		//	enemy->SetEnemyAttrib(100,enemySpeed,2.0f,D3DXVECTOR3(8.0f,enemyYpos,0.0f));
+		//	enemy->hasSpawned = true;
+		//}
 
 		enemy->update(dt,&player);
 
@@ -90,7 +96,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 				enemy->destroyShip();
 				enemiesSpawned --;
 			}
-			if(enemy->getPosition().x > 10)
+			if(enemy->getPosition().x > 12)
 			{
 				enemy->hideShip(true);
 				
@@ -192,13 +198,15 @@ void GameScreen::Render(void)
 
 	for each(Projectile* projectile in pList)
 	{
-		projectile->Render(shader);
+
+			projectile->Render(shader);
+		
 	}
 
 	// render enemy
 	for each(Enemy* enemy in pEnemies)
 	{
-		if(!enemy->GetIsHidden() && enemy->hasSpawned)
+		if(!enemy->GetIsHidden()/* && enemy->hasSpawned*/)
 		{
 			enemy->Render(shader);
 			enemy->renderBullet(shader);
