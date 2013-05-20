@@ -1,7 +1,7 @@
 #include "AttackWaves.h"
 using namespace std;
 
-
+//Base Class
 AttackWaves::AttackWaves(void)
 {
 
@@ -10,8 +10,11 @@ AttackWaves::~AttackWaves(void)
 {
 
 }
+
+//Viper Wave 1
 ViperWave1::~ViperWave1()
 {
+	Shutdown();
 }
 
 ViperWave1::ViperWave1()
@@ -21,7 +24,7 @@ ViperWave1::ViperWave1()
 
 void ViperWave1::Shutdown()
 {
-
+	enemyAmount = NULL;
 }
 
 void ViperWave1::AttackPattern(list<baseEnemyShip*> &enemies)
@@ -37,10 +40,185 @@ void ViperWave1::AttackPattern(list<baseEnemyShip*> &enemies)
 	Enemy* viper9 = new Enemy();
 
 	viper1->initializeEnemyShip(); viper1->SetEnemyAttrib2(100,3.0,ATTACK3,D3DXVECTOR3(12.0,0.0,0.0));
+	viper2->initializeEnemyShip(); viper2->SetEnemyAttrib2(100,4.0,ATTACK1,D3DXVECTOR3(24.0,2.0,0.0));
+	viper3->initializeEnemyShip(); viper3->SetEnemyAttrib2(100,4.0,ATTACK3,D3DXVECTOR3(36.0,0.0,0.0));
+	viper4->initializeEnemyShip(); viper4->SetEnemyAttrib2(100,4.0,ATTACK1,D3DXVECTOR3(48.0,4.0,0.0));
+	viper5->initializeEnemyShip(); viper5->SetEnemyAttrib2(100,6.0,AVOID1,D3DXVECTOR3(60.0,5.0,0.0));
+	viper6->initializeEnemyShip(); viper6->SetEnemyAttrib2(100,4.0,ATTACK1,D3DXVECTOR3(24.0,-2.0,0.0));
+	viper7->initializeEnemyShip(); viper7->SetEnemyAttrib2(100,4.0,ATTACK3,D3DXVECTOR3(30.0,-3.0,0.0));
+	viper8->initializeEnemyShip(); viper8->SetEnemyAttrib2(100,4.0,ATTACK1,D3DXVECTOR3(48.0,-4.0,0.0));
+	viper9->initializeEnemyShip(); viper9->SetEnemyAttrib2(100,7.0,AVOID2,D3DXVECTOR3(60.0,-5.0,0.0));
+
+	enemies.push_front(viper1);enemies.push_front(viper2); enemies.push_front(viper3);
+	enemies.push_front(viper4);enemies.push_front(viper5); enemies.push_front(viper6);
+	enemies.push_front(viper7);enemies.push_front(viper8); enemies.push_front(viper9);
+
+		
+}
+
+ViperWave2::~ViperWave2()
+{
+	Shutdown();
+}
+
+ViperWave2::ViperWave2()
+{
+	enemyAmount = 0;
+}
+
+void ViperWave2::Shutdown()
+{
+	enemyAmount = NULL;
+}
+
+void ViperWave2::AttackPattern(list<baseEnemyShip*> &enemies)
+{
+	Enemy* viper1 = new Enemy();
+	Enemy* viper2 = new Enemy();
+	Enemy* viper3 = new Enemy();
+	Enemy* viper4 = new Enemy();
+	Enemy* viper5 = new Enemy();
+	Enemy* viper6 = new Enemy();
+	Enemy* viper7 = new Enemy();
+	Enemy* viper8 = new Enemy();
+	Enemy* viper9 = new Enemy();
+	Enemy* viper10 = new Enemy();
+
+	viper1->initializeEnemyShip(); viper1->SetEnemyAttrib2(100,7.0,ATTACK2,D3DXVECTOR3(12.0,0.0,0.0));
+	viper2->initializeEnemyShip(); viper2->SetEnemyAttrib2(100,7.0,ATTACK2,D3DXVECTOR3(28.0,0.0,0.0));
+	viper3->initializeEnemyShip(); viper3->SetEnemyAttrib2(100,7.0,ATTACK2,D3DXVECTOR3(44.0,0.0,0.0));
+	viper4->initializeEnemyShip(); viper4->SetEnemyAttrib2(100,7.0,ATTACK2,D3DXVECTOR3(60.0,0.0,0.0));
+	viper5->initializeEnemyShip(); viper5->SetEnemyAttrib2(100,7.0,ATTACK2,D3DXVECTOR3(76.0,0.0,0.0));
+	viper6->initializeEnemyShip(); viper6->SetEnemyAttrib2(100,7.0,ATTACK5,D3DXVECTOR3(20.0,0.0,0.0));
+	viper7->initializeEnemyShip(); viper7->SetEnemyAttrib2(100,7.0,ATTACK5,D3DXVECTOR3(36.0,0.0,0.0));
+	viper8->initializeEnemyShip(); viper8->SetEnemyAttrib2(100,7.0,ATTACK5,D3DXVECTOR3(52.0,0.0,0.0));
+	viper9->initializeEnemyShip(); viper9->SetEnemyAttrib2(100,7.0,ATTACK5,D3DXVECTOR3(68.0,0.0,0.0));
+	viper10->initializeEnemyShip(); viper10->SetEnemyAttrib2(100,7.0,ATTACK5,D3DXVECTOR3(82.0,0.0,0.0));
+
+	enemies.push_front(viper1);enemies.push_front(viper2); enemies.push_front(viper3);
+	enemies.push_front(viper4);enemies.push_front(viper5); enemies.push_front(viper6);
+	enemies.push_front(viper7);enemies.push_front(viper8); enemies.push_front(viper9);
+	
+}
+
+ViperWave3::~ViperWave3()
+{
+	Shutdown();
+}
+
+ViperWave3::ViperWave3()
+{
+	enemyAmount = 0;
+}
+
+void ViperWave3::Shutdown()
+{
+	enemyAmount = NULL;
+}
+
+void ViperWave3::AttackPattern(list<baseEnemyShip*> &enemies)
+{
+	Enemy* viper1 = new Enemy();
+	Enemy* viper2 = new Enemy();
+	Enemy* viper3 = new Enemy();
+	Enemy* viper4 = new Enemy();
+	Enemy* viper5 = new Enemy();
+	Enemy* viper6 = new Enemy();
+	Enemy* viper7 = new Enemy();
+	Enemy* viper8 = new Enemy();
+	Enemy* viper9 = new Enemy();
+
+	viper1->initializeEnemyShip(); viper1->SetEnemyAttrib2(100,3.0,ATTACK2,D3DXVECTOR3(12.0,0.0,0.0));
+	viper2->initializeEnemyShip(); viper2->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(18.0,2.0,0.0));
+	viper3->initializeEnemyShip(); viper3->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(24.0,3.0,0.0));
+	viper4->initializeEnemyShip(); viper4->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(27.0,4.0,0.0));
+	viper5->initializeEnemyShip(); viper5->SetEnemyAttrib2(100,6.0,AVOID2,D3DXVECTOR3(30.0,5.0,0.0));
+	viper6->initializeEnemyShip(); viper6->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(18.0,-2.0,0.0));
+	viper7->initializeEnemyShip(); viper7->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(24.0,-3.0,0.0));
+	viper8->initializeEnemyShip(); viper8->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(27.0,-4.0,0.0));
+	viper9->initializeEnemyShip(); viper9->SetEnemyAttrib2(100,7.0,AVOID2,D3DXVECTOR3(30.0,-5.0,0.0));
+
+	enemies.push_front(viper1);enemies.push_front(viper2); enemies.push_front(viper3);
+	enemies.push_front(viper4);enemies.push_front(viper5); enemies.push_front(viper6);
+	enemies.push_front(viper7);enemies.push_front(viper8); enemies.push_front(viper9);
+	
+}
+
+ViperWave4::~ViperWave4()
+{
+	Shutdown();
+}
+
+ViperWave4::ViperWave4()
+{
+	enemyAmount = 0;
+}
+
+void ViperWave4::Shutdown()
+{
+	enemyAmount = NULL;
+}
+
+void ViperWave4::AttackPattern(list<baseEnemyShip*> &enemies)
+{
+	Enemy* viper1 = new Enemy();
+	Enemy* viper2 = new Enemy();
+	Enemy* viper3 = new Enemy();
+	Enemy* viper4 = new Enemy();
+	Enemy* viper5 = new Enemy();
+	Enemy* viper6 = new Enemy();
+	Enemy* viper7 = new Enemy();
+	Enemy* viper8 = new Enemy();
+	Enemy* viper9 = new Enemy();
+
+	viper1->initializeEnemyShip(); viper1->SetEnemyAttrib2(100,3.0,ATTACK2,D3DXVECTOR3(12.0,0.0,0.0));
+	viper2->initializeEnemyShip(); viper2->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(18.0,2.0,0.0));
+	viper3->initializeEnemyShip(); viper3->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(24.0,3.0,0.0));
+	viper4->initializeEnemyShip(); viper4->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(27.0,4.0,0.0));
+	viper5->initializeEnemyShip(); viper5->SetEnemyAttrib2(100,6.0,AVOID2,D3DXVECTOR3(30.0,5.0,0.0));
+	viper6->initializeEnemyShip(); viper6->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(18.0,-2.0,0.0));
+	viper7->initializeEnemyShip(); viper7->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(24.0,-3.0,0.0));
+	viper8->initializeEnemyShip(); viper8->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(27.0,-4.0,0.0));
+	viper9->initializeEnemyShip(); viper9->SetEnemyAttrib2(100,7.0,AVOID2,D3DXVECTOR3(30.0,-5.0,0.0));
+
+	enemies.push_front(viper1);enemies.push_front(viper2); enemies.push_front(viper3);
+	enemies.push_front(viper4);enemies.push_front(viper5); enemies.push_front(viper6);
+	enemies.push_front(viper7);enemies.push_front(viper8); enemies.push_front(viper9);
+	
+}
+
+ViperWave5::~ViperWave5()
+{
+	Shutdown();
+}
+
+ViperWave5::ViperWave5()
+{
+	enemyAmount = 0;
+}
+
+void ViperWave5::Shutdown()
+{
+	enemyAmount = NULL;
+}
+
+void ViperWave5::AttackPattern(list<baseEnemyShip*> &enemies)
+{
+	Enemy* viper1 = new Enemy();
+	Enemy* viper2 = new Enemy();
+	Enemy* viper3 = new Enemy();
+	Enemy* viper4 = new Enemy();
+	Enemy* viper5 = new Enemy();
+	Enemy* viper6 = new Enemy();
+	Enemy* viper7 = new Enemy();
+	Enemy* viper8 = new Enemy();
+	Enemy* viper9 = new Enemy();
+
+	viper1->initializeEnemyShip(); viper1->SetEnemyAttrib2(100,3.0,ATTACK1,D3DXVECTOR3(12.0,0.0,0.0));
 	viper2->initializeEnemyShip(); viper2->SetEnemyAttrib2(100,4.0,ATTACK1,D3DXVECTOR3(18.0,2.0,0.0));
 	viper3->initializeEnemyShip(); viper3->SetEnemyAttrib2(100,4.0,ATTACK1,D3DXVECTOR3(24.0,3.0,0.0));
 	viper4->initializeEnemyShip(); viper4->SetEnemyAttrib2(100,4.0,ATTACK1,D3DXVECTOR3(27.0,4.0,0.0));
-	viper5->initializeEnemyShip(); viper5->SetEnemyAttrib2(100,7.0,AVOID1,D3DXVECTOR3(30.0,5.0,0.0));
+	viper5->initializeEnemyShip(); viper5->SetEnemyAttrib2(100,6.0,AVOID1,D3DXVECTOR3(30.0,5.0,0.0));
 	viper6->initializeEnemyShip(); viper6->SetEnemyAttrib2(100,4.0,ATTACK1,D3DXVECTOR3(18.0,-2.0,0.0));
 	viper7->initializeEnemyShip(); viper7->SetEnemyAttrib2(100,4.0,ATTACK1,D3DXVECTOR3(24.0,-3.0,0.0));
 	viper8->initializeEnemyShip(); viper8->SetEnemyAttrib2(100,4.0,ATTACK1,D3DXVECTOR3(27.0,-4.0,0.0));
@@ -49,9 +227,5 @@ void ViperWave1::AttackPattern(list<baseEnemyShip*> &enemies)
 	enemies.push_front(viper1);enemies.push_front(viper2); enemies.push_front(viper3);
 	enemies.push_front(viper4);enemies.push_front(viper5); enemies.push_front(viper6);
 	enemies.push_front(viper7);enemies.push_front(viper8); enemies.push_front(viper9);
-}
-
-void ViperWave1::SetEnemyAmount(int amount)
-{
-	enemyAmount = amount;	
+	
 }

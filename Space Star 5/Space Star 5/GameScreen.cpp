@@ -4,6 +4,10 @@
 #include "AttackWaves.h"
 
 ViperWave1 * wave;
+ViperWave2 * wave2;
+ViperWave3 * wave3;
+ViperWave4 * wave4;
+ViperWave5 * wave5;
 
 default_random_engine generator;
 uniform_int_distribution<int> randSpeed(4,6);
@@ -15,6 +19,7 @@ GameScreen::GameScreen(void)
 	Initialize();
 	enemiesSpawned = 0;
 	spawnTime = 0.0;
+	enemyDestroyedCount = 0;
 }
 
 GameScreen::~GameScreen(void)
@@ -52,7 +57,12 @@ void GameScreen::Initialize(void)
 	AudioManager::GetInstance()->GetSystem()->createSound("8bitLaser1.wav", 
 		FMOD_DEFAULT, 0, &projSFX);
 	wave = new ViperWave1();
+	wave2 = new ViperWave2();
+	wave3 = new ViperWave3();
+	wave4 = new ViperWave4();
+	wave5 = new ViperWave5();
 	wave->AttackPattern(pEnemies);
+	
 }
 
 void GameScreen::Update(GameState& gameState, float dt)
@@ -71,7 +81,25 @@ void GameScreen::Update(GameState& gameState, float dt)
 	//}
 	if(pEnemies.empty())
 	{
-		wave->AttackPattern(pEnemies);
+		int pickAWave = rand() % 5;
+		switch(pickAWave)
+		{
+		case 0:
+			wave->AttackPattern(pEnemies);
+			break;
+		case 1:
+			wave2->AttackPattern(pEnemies);
+			break;
+		//case 2:
+		//	wave3->AttackPattern(pEnemies);
+		//	break;
+		//case 3:
+		//	wave4->AttackPattern(pEnemies);
+		//	break;
+		//case 4:
+		//	wave5->AttackPattern(pEnemies);
+		//	break;
+		}
 	}
 
 	for each(Enemy* enemy in pEnemies)
@@ -96,12 +124,12 @@ void GameScreen::Update(GameState& gameState, float dt)
 				enemy->destroyShip();
 				enemiesSpawned --;
 			}
-			if(enemy->getPosition().x > 12)
+			else if(enemy->getPosition().x > 12)
 			{
 				enemy->hideShip(true);
 				
 			}
-			else
+			else if(enemy->getPosition().x < 12 && enemy->getPosition().x > 0)
 				enemy->hideShip(false);
 		}
 

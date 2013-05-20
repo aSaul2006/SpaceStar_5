@@ -33,8 +33,8 @@ private:
 
 	FMOD::Sound* projSFX;	// SFX for the player's projectile
 
-	
-	
+	int enemyDestroyedCount;
+
 public:
 	GameScreen(void);
 	~GameScreen(void);
