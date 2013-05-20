@@ -197,7 +197,7 @@ void Enemy::update(float dt, Player * player)
 		break;
 	case ATTACK2:
 		m_position.x -= m_speed * dt;
-		if(m_position.x < 6)
+		if(m_position.x < 4)
 		{
 			m_position.y += m_speed * dt;
 
@@ -240,7 +240,7 @@ void Enemy::update(float dt, Player * player)
 		break;
 	case ATTACK5:
 		m_position.x -= m_speed * dt;
-		if(m_position.x < 6)
+		if(m_position.x < 4)
 		{
 			m_position.y -= m_speed * dt;
 
