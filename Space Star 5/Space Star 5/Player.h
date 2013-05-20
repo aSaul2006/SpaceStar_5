@@ -67,5 +67,9 @@ public:
 	float GetMaxHlth(void)	{return maxHealth;}
 
 	short GetNumLives(void) {return lives;}
+
+	// Modify and access player's score
+	void IncrScore(int score) {this->score += score;}
+	int GetScore(void) {return score;}
 };
 

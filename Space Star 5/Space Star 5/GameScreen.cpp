@@ -176,6 +176,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 				{
 					enemy->destroyShip();
 					enemiesSpawned --;
+					player.IncrScore(10);
 				}
 			}
 		}
