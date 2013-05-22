@@ -207,6 +207,8 @@ void Enemy::update(float dt, Player * player)
 			m_rotateAngle += rotateSpeed;
 			rotate = true;
 		}
+		else
+			rotate = false;	
 
 		break;
 	case ATTACK3:
@@ -218,6 +220,7 @@ void Enemy::update(float dt, Player * player)
 			m_rotateAngle -= rotateSpeed;
 			rotate = true;
 		}
+
 		if(playerPos.y > m_position.y)
 		{
 			m_position.y += m_speed * dt;
@@ -250,6 +253,9 @@ void Enemy::update(float dt, Player * player)
 			m_rotateAngle -= rotateSpeed;
 			rotate = true;
 		}
+		else 
+			rotate = false;
+		
 
 		break;
 	case AVOID1:
@@ -284,7 +290,7 @@ void Enemy::update(float dt, Player * player)
 	{
 		if((int)playerPos.y == (int)m_position.y)
 		{
-			if(fmod((float)track,333) == 0)
+			if(fmod((float)track,237) == 0)
 				fireWeapon(2,player);
 		}
 	}

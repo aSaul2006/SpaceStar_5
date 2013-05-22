@@ -1,6 +1,12 @@
 #include "AttackWaves.h"
 using namespace std;
 
+template< class T > void SafeDelete( T*& pVal )
+{
+    delete pVal;
+    pVal = NULL;
+}
+
 //Base Class
 AttackWaves::AttackWaves(void)
 {
@@ -52,7 +58,6 @@ void ViperWave1::AttackPattern(list<baseEnemyShip*> &enemies)
 	enemies.push_front(viper1);enemies.push_front(viper2); enemies.push_front(viper3);
 	enemies.push_front(viper4);enemies.push_front(viper5); enemies.push_front(viper6);
 	enemies.push_front(viper7);enemies.push_front(viper8); enemies.push_front(viper9);
-
 		
 }
 
