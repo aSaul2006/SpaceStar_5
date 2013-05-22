@@ -69,7 +69,7 @@ public:
 };
 
 //create ship classes that derive baseEnemyShip
-class Enemy : public baseEnemyShip
+class Viper : public baseEnemyShip
 {
 private:
 	std::list<Projectile*> enemyBullet;
@@ -80,8 +80,8 @@ private:
 public:
 	bool hasSpawned;
 
-	Enemy();
-	~Enemy();
+	Viper();
+	~Viper();
 
 	//Inherited functions
 	void Render(ID3DXEffect* shader);

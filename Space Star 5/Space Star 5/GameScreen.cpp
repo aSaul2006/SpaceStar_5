@@ -102,7 +102,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 		}
 	}
 
-	for each(Enemy* enemy in pEnemies)
+	for each(Viper* viper in pEnemies)
 	{
 		//if(!enemy->hasSpawned)
 		//{
@@ -114,23 +114,23 @@ void GameScreen::Update(GameState& gameState, float dt)
 		//	enemy->hasSpawned = true;
 		//}
 
-		enemy->update(dt,&player);
+		viper->update(dt,&player);
 
 		//check for enemies exiting the viewable screen
-		if(!Camera::GetInstance()->IsVisible(enemy->GetMeshBox()))
+		if(!Camera::GetInstance()->IsVisible(viper->GetMeshBox()))
 		{
-			if(enemy->getPosition().x < Camera::GetInstance()->GetEyePos().x)
+			if(viper->getPosition().x < Camera::GetInstance()->GetEyePos().x)
 			{
-				enemy->destroyShip();
+				viper->destroyShip();
 				enemiesSpawned --;
 			}
-			else if(enemy->getPosition().x > 12)
+			else if(viper->getPosition().x > 12)
 			{
-				enemy->hideShip(true);
+				viper->hideShip(true);
 				
 			}
-			else if(enemy->getPosition().x < 12 && enemy->getPosition().x > 0)
-				enemy->hideShip(false);
+			else if(viper->getPosition().x < 12 && viper->getPosition().x > 0)
+				viper->hideShip(false);
 		}
 
 		
@@ -166,15 +166,15 @@ void GameScreen::Update(GameState& gameState, float dt)
 		projectile->Update(dt);
 		
 		// testing collision
-		for each(Enemy* enemy in pEnemies)
+		for each(Viper* viper in pEnemies)
 		{
-			if(projectile->GetMeshBox().Intersects(enemy->GetMeshBox()))
+			if(projectile->GetMeshBox().Intersects(viper->GetMeshBox()))
 			{
 				projectile->Destroy();
-				enemy->calculateDamage(50);
-				if(enemy->getHealth() <= 0)
+				viper->calculateDamage(50);
+				if(viper->getHealth() <= 0)
 				{
-					enemy->destroyShip();
+					viper->destroyShip();
 					enemiesSpawned --;
 					player.IncrScore(10);
 				}
@@ -233,12 +233,12 @@ void GameScreen::Render(void)
 	}
 
 	// render enemy
-	for each(Enemy* enemy in pEnemies)
+	for each(Viper* viper in pEnemies)
 	{
-		if(!enemy->GetIsHidden()/* && enemy->hasSpawned*/)
+		if(!viper->GetIsHidden()/* && enemy->hasSpawned*/)
 		{
-			enemy->Render(shader);
-			enemy->renderBullet(shader);
+			viper->Render(shader);
+			viper->renderBullet(shader);
 	
 		}
 	}

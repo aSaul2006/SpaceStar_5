@@ -26,7 +26,7 @@ private:
 
 	list<Projectile*> pList;
 	list<baseEnemyShip*> pEnemies;
-	Enemy enemy;
+	Viper viper;
 
 	double spawnTime;
 	int enemiesSpawned;

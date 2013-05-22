@@ -35,15 +35,15 @@ void ViperWave1::Shutdown()
 
 void ViperWave1::AttackPattern(list<baseEnemyShip*> &enemies)
 {
-	Enemy* viper1 = new Enemy();
-	Enemy* viper2 = new Enemy();
-	Enemy* viper3 = new Enemy();
-	Enemy* viper4 = new Enemy();
-	Enemy* viper5 = new Enemy();
-	Enemy* viper6 = new Enemy();
-	Enemy* viper7 = new Enemy();
-	Enemy* viper8 = new Enemy();
-	Enemy* viper9 = new Enemy();
+	Viper* viper1 = new Viper();
+	Viper* viper2 = new Viper();
+	Viper* viper3 = new Viper();
+	Viper* viper4 = new Viper();
+	Viper* viper5 = new Viper();
+	Viper* viper6 = new Viper();
+	Viper* viper7 = new Viper();
+	Viper* viper8 = new Viper();
+	Viper* viper9 = new Viper();
 
 	viper1->initializeEnemyShip(); viper1->SetEnemyAttrib2(100,3.0,ATTACK3,D3DXVECTOR3(12.0,0.0,0.0));
 	viper2->initializeEnemyShip(); viper2->SetEnemyAttrib2(100,4.0,ATTACK1,D3DXVECTOR3(24.0,2.0,0.0));
@@ -78,16 +78,16 @@ void ViperWave2::Shutdown()
 
 void ViperWave2::AttackPattern(list<baseEnemyShip*> &enemies)
 {
-	Enemy* viper1 = new Enemy();
-	Enemy* viper2 = new Enemy();
-	Enemy* viper3 = new Enemy();
-	Enemy* viper4 = new Enemy();
-	Enemy* viper5 = new Enemy();
-	Enemy* viper6 = new Enemy();
-	Enemy* viper7 = new Enemy();
-	Enemy* viper8 = new Enemy();
-	Enemy* viper9 = new Enemy();
-	Enemy* viper10 = new Enemy();
+	Viper* viper1 = new Viper();
+	Viper* viper2 = new Viper();
+	Viper* viper3 = new Viper();
+	Viper* viper4 = new Viper();
+	Viper* viper5 = new Viper();
+	Viper* viper6 = new Viper();
+	Viper* viper7 = new Viper();
+	Viper* viper8 = new Viper();
+	Viper* viper9 = new Viper();
+	Viper* viper10 = new Viper();
 
 	viper1->initializeEnemyShip(); viper1->SetEnemyAttrib2(100,7.0,ATTACK2,D3DXVECTOR3(12.0,0.0,0.0));
 	viper2->initializeEnemyShip(); viper2->SetEnemyAttrib2(100,7.0,ATTACK2,D3DXVECTOR3(28.0,0.0,0.0));
@@ -123,15 +123,15 @@ void ViperWave3::Shutdown()
 
 void ViperWave3::AttackPattern(list<baseEnemyShip*> &enemies)
 {
-	Enemy* viper1 = new Enemy();
-	Enemy* viper2 = new Enemy();
-	Enemy* viper3 = new Enemy();
-	Enemy* viper4 = new Enemy();
-	Enemy* viper5 = new Enemy();
-	Enemy* viper6 = new Enemy();
-	Enemy* viper7 = new Enemy();
-	Enemy* viper8 = new Enemy();
-	Enemy* viper9 = new Enemy();
+	Viper* viper1 = new Viper();
+	Viper* viper2 = new Viper();
+	Viper* viper3 = new Viper();
+	Viper* viper4 = new Viper();
+	Viper* viper5 = new Viper();
+	Viper* viper6 = new Viper();
+	Viper* viper7 = new Viper();
+	Viper* viper8 = new Viper();
+	Viper* viper9 = new Viper();
 
 	viper1->initializeEnemyShip(); viper1->SetEnemyAttrib2(100,3.0,ATTACK2,D3DXVECTOR3(12.0,0.0,0.0));
 	viper2->initializeEnemyShip(); viper2->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(18.0,2.0,0.0));
@@ -166,15 +166,15 @@ void ViperWave4::Shutdown()
 
 void ViperWave4::AttackPattern(list<baseEnemyShip*> &enemies)
 {
-	Enemy* viper1 = new Enemy();
-	Enemy* viper2 = new Enemy();
-	Enemy* viper3 = new Enemy();
-	Enemy* viper4 = new Enemy();
-	Enemy* viper5 = new Enemy();
-	Enemy* viper6 = new Enemy();
-	Enemy* viper7 = new Enemy();
-	Enemy* viper8 = new Enemy();
-	Enemy* viper9 = new Enemy();
+	Viper* viper1 = new Viper();
+	Viper* viper2 = new Viper();
+	Viper* viper3 = new Viper();
+	Viper* viper4 = new Viper();
+	Viper* viper5 = new Viper();
+	Viper* viper6 = new Viper();
+	Viper* viper7 = new Viper();
+	Viper* viper8 = new Viper();
+	Viper* viper9 = new Viper();
 
 	viper1->initializeEnemyShip(); viper1->SetEnemyAttrib2(100,3.0,ATTACK2,D3DXVECTOR3(12.0,0.0,0.0));
 	viper2->initializeEnemyShip(); viper2->SetEnemyAttrib2(100,4.0,ATTACK2,D3DXVECTOR3(18.0,2.0,0.0));
@@ -209,15 +209,15 @@ void ViperWave5::Shutdown()
 
 void ViperWave5::AttackPattern(list<baseEnemyShip*> &enemies)
 {
-	Enemy* viper1 = new Enemy();
-	Enemy* viper2 = new Enemy();
-	Enemy* viper3 = new Enemy();
-	Enemy* viper4 = new Enemy();
-	Enemy* viper5 = new Enemy();
-	Enemy* viper6 = new Enemy();
-	Enemy* viper7 = new Enemy();
-	Enemy* viper8 = new Enemy();
-	Enemy* viper9 = new Enemy();
+	Viper* viper1 = new Viper();
+	Viper* viper2 = new Viper();
+	Viper* viper3 = new Viper();
+	Viper* viper4 = new Viper();
+	Viper* viper5 = new Viper();
+	Viper* viper6 = new Viper();
+	Viper* viper7 = new Viper();
+	Viper* viper8 = new Viper();
+	Viper* viper9 = new Viper();
 
 	viper1->initializeEnemyShip(); viper1->SetEnemyAttrib2(100,3.0,ATTACK1,D3DXVECTOR3(12.0,0.0,0.0));
 	viper2->initializeEnemyShip(); viper2->SetEnemyAttrib2(100,4.0,ATTACK1,D3DXVECTOR3(18.0,2.0,0.0));

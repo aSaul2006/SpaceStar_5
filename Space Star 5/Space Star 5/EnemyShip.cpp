@@ -50,7 +50,7 @@ void baseEnemyShip::Shutdown()
 
 /// Enemy class
 
-Enemy::Enemy()
+Viper::Viper()
 {
 	// Initialize variables to 0 or NULL
 	D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
@@ -64,12 +64,12 @@ Enemy::Enemy()
 }
 
 
-Enemy::~Enemy()
+Viper::~Viper()
 {
 
 }
 
-void Enemy::Render(ID3DXEffect* shader)
+void Viper::Render(ID3DXEffect* shader)
 {
 	D3DXMATRIX WVPMat, WITMat;
 
@@ -119,13 +119,13 @@ void Enemy::Render(ID3DXEffect* shader)
 }
 
 
-void Enemy::fireWeapon(int fireRate, Player* player)
+void Viper::fireWeapon(int fireRate, Player* player)
 {
 	enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(-10.0f,0.0,0.0)));
 	AudioManager::GetInstance()->PlaySFX(enemySFX);
 }
 
-void Enemy::renderBullet(ID3DXEffect* shader)
+void Viper::renderBullet(ID3DXEffect* shader)
 {
 	// Render projectiles
 	for each(Projectile* projectile in enemyBullet)
@@ -138,7 +138,7 @@ void Enemy::renderBullet(ID3DXEffect* shader)
 	}
 }
 
-void Enemy::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos)
+void Viper::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos)
 {
 	srand(time(NULL));
 	m_position = pos;
@@ -169,7 +169,7 @@ void Enemy::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 po
 	}
 }
 
-void Enemy::SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos)
+void Viper::SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos)
 {
 	m_position = pos;
 	health = shipHealth;
@@ -177,7 +177,7 @@ void Enemy::SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR
 	m_speed = speed;
 }
 
-void Enemy::update(float dt, Player * player)
+void Viper::update(float dt, Player * player)
 {
 	D3DXVECTOR3 playerPos = player->GetPosition();
 
@@ -348,12 +348,12 @@ void Enemy::update(float dt, Player * player)
 
 }
 
-void Enemy::calculateDamage(int power)
+void Viper::calculateDamage(int power)
 {
 	health -= power;
 }
 
-void Enemy::destroyShip()
+void Viper::destroyShip()
 {
 	destroyObject = true;
 }
