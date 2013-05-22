@@ -89,7 +89,7 @@ public:
 				delete[] texture;
 			}
 		}
-	}playerMesh, projectileMesh, enemyMesh;
+	}playerMesh, projectileMesh, viperMesh, tooterMesh;
 
 	~Initializer(void);
 
@@ -107,5 +107,5 @@ public:
 	ID3DXSprite* GetSprite() {return m_pD3DSprite;}
 	MeshObject GetPlayerMesh() {return playerMesh;}
 	MeshObject GetProjectileMesh() {return projectileMesh;}
-	MeshObject GetEnemyMesh() {return enemyMesh;}
+	MeshObject GetViperMesh() {return viperMesh;}
 };

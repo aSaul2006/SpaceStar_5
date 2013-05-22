@@ -54,12 +54,14 @@ void Initializer::Initialize(HWND hWnd, IDirect3D9* m_pD3DObject,
 	// Create player mesh
 	playerMesh.Init(L"frigate.x");
 	projectileMesh.Init(L"sphere.x");
-	enemyMesh.Init(L"viperShip.x");
+	viperMesh.Init(L"viperShip.x");
+	tooterMesh.Init(L"tooter.X");
 }
 
 void Initializer::Shutdown()
 {
-	enemyMesh.Shutdown();
+	tooterMesh.Shutdown();
+	viperMesh.Shutdown();
 	projectileMesh.Shutdown();
 	playerMesh.Shutdown();
 	SAFE_RELEASE(m_pD3DSprite);

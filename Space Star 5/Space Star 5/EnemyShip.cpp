@@ -27,16 +27,16 @@ void baseEnemyShip::initializeEnemyShip()
 {
 	// build bounding box for the mesh
 	BYTE* vertices = NULL;
-	Initializer::GetInstance()->GetEnemyMesh().mesh->LockVertexBuffer(
+	Initializer::GetInstance()->GetViperMesh().mesh->LockVertexBuffer(
 		D3DLOCK_READONLY, (LPVOID*)&vertices);
 
 	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, 
-		Initializer::GetInstance()->GetEnemyMesh().mesh->GetNumVertices(),
+		Initializer::GetInstance()->GetViperMesh().mesh->GetNumVertices(),
 		D3DXGetFVFVertexSize(
-		Initializer::GetInstance()->GetEnemyMesh().mesh->GetFVF()), 
+		Initializer::GetInstance()->GetViperMesh().mesh->GetFVF()), 
 		&meshBox.minPt, &meshBox.maxPt);
 
-	Initializer::GetInstance()->GetEnemyMesh().mesh->UnlockVertexBuffer();
+	Initializer::GetInstance()->GetViperMesh().mesh->UnlockVertexBuffer();
 
 	AudioManager::GetInstance()->GetSystem()->createSound("laser3.wav",FMOD_DEFAULT,0, &enemySFX);
 }
@@ -97,21 +97,21 @@ void Enemy::Render(ID3DXEffect* shader)
 	{
 		shader->BeginPass(i);
 		for(DWORD j = 0; j < 
-			Initializer::GetInstance()->GetEnemyMesh().numMaterials; j++)
+			Initializer::GetInstance()->GetViperMesh().numMaterials; j++)
 		{
 			shader->SetValue("ambientMaterial", 
-				&Initializer::GetInstance()->GetEnemyMesh().modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
+				&Initializer::GetInstance()->GetViperMesh().modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
 			shader->SetValue("diffuseMaterial", 
-				&Initializer::GetInstance()->GetEnemyMesh().modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
+				&Initializer::GetInstance()->GetViperMesh().modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
 			shader->SetValue("specularMaterial", 
-				&Initializer::GetInstance()->GetEnemyMesh().modelMaterial[j].Specular, sizeof(D3DXCOLOR));
+				&Initializer::GetInstance()->GetViperMesh().modelMaterial[j].Specular, sizeof(D3DXCOLOR));
 			shader->SetFloat("specularPower", 
-				Initializer::GetInstance()->GetEnemyMesh().modelMaterial[j].Power);
+				Initializer::GetInstance()->GetViperMesh().modelMaterial[j].Power);
 			shader->SetTexture("tex", 
-				Initializer::GetInstance()->GetEnemyMesh().texture[j]);
+				Initializer::GetInstance()->GetViperMesh().texture[j]);
 			shader->SetBool("usingTexture", true);
 			shader->CommitChanges();
-			Initializer::GetInstance()->GetEnemyMesh().mesh->DrawSubset(j);
+			Initializer::GetInstance()->GetViperMesh().mesh->DrawSubset(j);
 		}
 		shader->EndPass();
 	}
