@@ -23,7 +23,7 @@ baseEnemyShip::baseEnemyShip()
 
 }
 
-void baseEnemyShip::initializeEnemyShip()
+void Viper::initialize()
 {
 	// build bounding box for the mesh
 	BYTE* vertices = NULL;
@@ -61,12 +61,14 @@ Viper::Viper()
 	track = health = maxHealth = 0;	// change later if needed
 	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
 	spawnTime = CrudeTimer::Instance()->GetTickCount();
+	//initialize our model
+	initialize();
 }
 
 
 Viper::~Viper()
 {
-
+	Shutdown();
 }
 
 void Viper::Render(ID3DXEffect* shader)
@@ -140,6 +142,7 @@ void Viper::renderBullet(ID3DXEffect* shader)
 
 void Viper::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos)
 {
+	//randomly set attack type.  No longer being used
 	srand(time(NULL));
 	m_position = pos;
 	health = shipHealth;
@@ -191,17 +194,20 @@ void Viper::update(float dt, Player * player)
 	switch(m_attackType)
 	{
 	case ATTACK1:
+		//move along the x axis only
 		m_position.x -= m_speed * dt;
 		m_rotateAngle = 0;
 
 		break;
 	case ATTACK2:
+		//if ship reaches certain area of screen veer up along y axis
 		m_position.x -= m_speed * dt;
 		if(m_position.x < 4)
 		{
 			m_position.y += m_speed * dt;
 
 		}
+		//rotate the ship 
 		if(m_position.y > -7)
 		{
 			m_rotateAngle += rotateSpeed;
@@ -348,22 +354,510 @@ void Viper::update(float dt, Player * player)
 
 }
 
-void Viper::calculateDamage(int power)
+//-----------------------------------------------------------------------------
+//************************* Scooter Class *************************************
+//-----------------------------------------------------------------------------
+/*
+ *
+ *
+ */
+//------------------------------------------------------------------------------
+
+Scooter::Scooter()
 {
-	health -= power;
+	// Initialize variables to 0 or NULL
+	D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
+	D3DXMatrixTranslation(&translateMat, 0, 0, 0);
+	m_position = m_velocity = D3DXVECTOR3(0, 0, 0);
+	angle = 0.0;
+	track = health = maxHealth = 0;	// change later if needed
+	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
+	spawnTime = CrudeTimer::Instance()->GetTickCount();
+	//Initialize our model
+	initialize();
 }
 
-void Viper::destroyShip()
+
+Scooter::~Scooter()
 {
-	destroyObject = true;
+	Shutdown();
+}
+
+void Scooter::initialize()
+{
+	// build bounding box for the mesh
+	BYTE* vertices = NULL;
+	Initializer::GetInstance()->GetScooterMesh().mesh->LockVertexBuffer(
+		D3DLOCK_READONLY, (LPVOID*)&vertices);
+
+	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, 
+		Initializer::GetInstance()->GetScooterMesh().mesh->GetNumVertices(),
+		D3DXGetFVFVertexSize(
+		Initializer::GetInstance()->GetScooterMesh().mesh->GetFVF()), 
+		&meshBox.minPt, &meshBox.maxPt);
+
+	Initializer::GetInstance()->GetScooterMesh().mesh->UnlockVertexBuffer();
+
+	AudioManager::GetInstance()->GetSystem()->createSound("laser3.wav",FMOD_DEFAULT,0, &enemySFX);
+}
+
+void Scooter::Render(ID3DXEffect* shader)
+{
+	D3DXMATRIX WVPMat, WITMat;
+
+	// Scale, Rotate, and translate the model's worldMat
+	worldMat = scaleMat * rotateMat * translateMat;
+
+	WVPMat = worldMat * Camera::GetInstance()->GetViewMat() * 
+		Camera::GetInstance()->GetProjMat();
+
+	D3DXMatrixInverse(&WITMat, 0, &worldMat);
+	D3DXMatrixTranspose(&WITMat, &WITMat);
+
+	//shader->SetTexture("tex", player.GetTexture());
+	shader->SetMatrix("worldViewProjectionMatrix", &WVPMat);
+	shader->SetMatrix("worldInverseTransposeMatrix", &WITMat);
+	shader->SetMatrix("worldMatrix", &worldMat);
+	shader->SetValue("eyePos", &Camera::GetInstance()->GetEyePos(), 
+		sizeof(D3DXVECTOR3));
+
+	// all of our draw calls go here
+	shader->SetTechnique("tech0");
+	UINT numPasses = 0;
+	shader->Begin(&numPasses, 0);
+	for(UINT i = 0; i < numPasses; i++)
+	{
+		shader->BeginPass(i);
+		for(DWORD j = 0; j < 
+			Initializer::GetInstance()->GetScooterMesh().numMaterials; j++)
+		{
+			shader->SetValue("ambientMaterial", 
+				&Initializer::GetInstance()->GetScooterMesh().modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
+			shader->SetValue("diffuseMaterial", 
+				&Initializer::GetInstance()->GetScooterMesh().modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
+			shader->SetValue("specularMaterial", 
+				&Initializer::GetInstance()->GetScooterMesh().modelMaterial[j].Specular, sizeof(D3DXCOLOR));
+			shader->SetFloat("specularPower", 
+				Initializer::GetInstance()->GetScooterMesh().modelMaterial[j].Power);
+			shader->SetTexture("tex", 
+				Initializer::GetInstance()->GetScooterMesh().texture[j]);
+			shader->SetBool("usingTexture", true);
+			shader->CommitChanges();
+			Initializer::GetInstance()->GetScooterMesh().mesh->DrawSubset(j);
+		}
+		shader->EndPass();
+	}
+	shader->End();
 }
 
 
-//void Enemy::loadEnemies(std::list<Enemy*> pEnemies,int num)
-//{
-//	for(int i = 0; i < num; i ++)
-//	{
-//		pEnemies.push_front(new Enemy());
-//	}
-//
-//}
+void Scooter::fireWeapon(int fireRate, Player* player)
+{
+	enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(-10.0f,0.0,0.0)));
+	AudioManager::GetInstance()->PlaySFX(enemySFX);
+}
+
+void Scooter::renderBullet(ID3DXEffect* shader)
+{
+	// Render projectiles
+	for each(Projectile* projectile in enemyBullet)
+	{
+		if(projectile->GetPosition().x > -12 &&
+			projectile->GetPosition().x < 12)
+		{
+			projectile->Render(shader);
+		}
+	}
+}
+
+void Scooter::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos)
+{
+	srand(time(NULL));
+	m_position = pos;
+	health = shipHealth;
+	m_fireRate = rate;
+	m_speed = speed;
+	int attack = rand() % 6;
+	switch(attack)
+	{
+	case 0:
+		m_attackType = ATTACK1;
+		break;
+	case 1:
+		m_attackType = ATTACK2;
+		break;
+	case 2:
+		m_attackType = ATTACK3;
+		break;
+	case 3:
+		m_attackType = ATTACK4;
+		break;
+	case 4:
+		m_attackType = AVOID1;
+		break;
+	case 5:
+		m_attackType = AVOID2;
+		break;
+	}
+}
+
+void Scooter::SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos)
+{
+	m_position = pos;
+	health = shipHealth;
+	m_attackType = at;
+	m_speed = speed;
+}
+
+void Scooter::update(float dt, Player * player)
+{
+	D3DXVECTOR3 playerPos = player->GetPosition();
+
+	float rad_angle = 0.0f;
+	// player's rotation speed
+	float rotateSpeed = 0.2f;
+
+	// check if the player needs to rotate
+	bool rotate = false;
+
+	switch(m_attackType)
+	{
+	case ATTACK1:
+
+		break;
+	case ATTACK2:
+	
+		break;
+	case ATTACK3:
+	
+		break;
+	case ATTACK4:
+	
+		break;
+	case ATTACK5:
+		
+		break;
+	case AVOID1:
+		 
+		break;
+	case AVOID2:
+		
+		break;
+	}
+
+	if(!isHidden)
+	{
+		if((int)playerPos.y == (int)m_position.y)
+		{
+			if(fmod((float)track,237) == 0)
+				fireWeapon(2,player);
+		}
+	}
+
+	for each (Projectile* projectile in enemyBullet)
+	{
+		projectile->Update(dt);
+
+		// testing collision
+		if(projectile->GetMeshBox().Intersects(player->GetMeshBox()))
+		{
+			projectile->Destroy();
+			player->DecrCurrHlth(20.0f);
+		}
+
+	}
+
+	for(std::list<Projectile*>::const_iterator i = enemyBullet.begin(), end = enemyBullet.end(); i != end;)
+	{	
+		if((*i)->CheckObject())
+		{
+			delete (*i);
+			i = enemyBullet.erase(i);
+		}
+		else
+			i++;		
+	}
+
+
+	if(rotate)
+	{
+		if(m_rotateAngle < -45.0f)
+			m_rotateAngle = -45.0f;
+		if(m_rotateAngle > 45.0f)
+			m_rotateAngle = 45.0f;
+	}
+	else
+	{
+		if(m_rotateAngle < 0)
+			m_rotateAngle += rotateSpeed;
+		if(m_rotateAngle > 0)
+			m_rotateAngle -= rotateSpeed;
+	}
+
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
+		D3DXToRadian(0.0f), D3DXToRadian(m_rotateAngle), 0);
+	
+	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
+
+	worldMat = scaleMat * rotateMat* translateMat;
+
+	track ++;
+	if(track >= 600)
+		track = 0;
+
+}
+
+//-----------------------------------------------------------------------------
+//************************* Fighter Class *************************************
+//-----------------------------------------------------------------------------
+/*
+ *
+ *
+ */
+//------------------------------------------------------------------------------
+
+Fighter::Fighter()
+{
+	// Initialize variables to 0 or NULL
+	D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
+	D3DXMatrixTranslation(&translateMat, 0, 0, 0);
+	m_position = m_velocity = D3DXVECTOR3(0, 0, 0);
+	angle = 0.0;
+	track = health = maxHealth = 0;	// change later if needed
+	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
+	spawnTime = CrudeTimer::Instance()->GetTickCount();
+	//Initialize our model
+	initialize();
+}
+
+
+Fighter::~Fighter()
+{
+	Shutdown();
+}
+
+void Fighter::initialize()
+{
+	// build bounding box for the mesh
+	BYTE* vertices = NULL;
+	Initializer::GetInstance()->GetFighterMesh().mesh->LockVertexBuffer(
+		D3DLOCK_READONLY, (LPVOID*)&vertices);
+
+	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, 
+		Initializer::GetInstance()->GetFighterMesh().mesh->GetNumVertices(),
+		D3DXGetFVFVertexSize(
+		Initializer::GetInstance()->GetFighterMesh().mesh->GetFVF()), 
+		&meshBox.minPt, &meshBox.maxPt);
+
+	Initializer::GetInstance()->GetFighterMesh().mesh->UnlockVertexBuffer();
+
+	AudioManager::GetInstance()->GetSystem()->createSound("laser3.wav",FMOD_DEFAULT,0, &enemySFX);
+}
+
+void Fighter::Render(ID3DXEffect* shader)
+{
+	D3DXMATRIX WVPMat, WITMat;
+
+	// Scale, Rotate, and translate the model's worldMat
+	worldMat = scaleMat * rotateMat * translateMat;
+
+	WVPMat = worldMat * Camera::GetInstance()->GetViewMat() * 
+		Camera::GetInstance()->GetProjMat();
+
+	D3DXMatrixInverse(&WITMat, 0, &worldMat);
+	D3DXMatrixTranspose(&WITMat, &WITMat);
+
+	//shader->SetTexture("tex", player.GetTexture());
+	shader->SetMatrix("worldViewProjectionMatrix", &WVPMat);
+	shader->SetMatrix("worldInverseTransposeMatrix", &WITMat);
+	shader->SetMatrix("worldMatrix", &worldMat);
+	shader->SetValue("eyePos", &Camera::GetInstance()->GetEyePos(), 
+		sizeof(D3DXVECTOR3));
+
+	// all of our draw calls go here
+	shader->SetTechnique("tech0");
+	UINT numPasses = 0;
+	shader->Begin(&numPasses, 0);
+	for(UINT i = 0; i < numPasses; i++)
+	{
+		shader->BeginPass(i);
+		for(DWORD j = 0; j < 
+			Initializer::GetInstance()->GetFighterMesh().numMaterials; j++)
+		{
+			shader->SetValue("ambientMaterial", 
+				&Initializer::GetInstance()->GetFighterMesh().modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
+			shader->SetValue("diffuseMaterial", 
+				&Initializer::GetInstance()->GetFighterMesh().modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
+			shader->SetValue("specularMaterial", 
+				&Initializer::GetInstance()->GetFighterMesh().modelMaterial[j].Specular, sizeof(D3DXCOLOR));
+			shader->SetFloat("specularPower", 
+				Initializer::GetInstance()->GetFighterMesh().modelMaterial[j].Power);
+			shader->SetTexture("tex", 
+				Initializer::GetInstance()->GetFighterMesh().texture[j]);
+			shader->SetBool("usingTexture", true);
+			shader->CommitChanges();
+			Initializer::GetInstance()->GetFighterMesh().mesh->DrawSubset(j);
+		}
+		shader->EndPass();
+	}
+	shader->End();
+}
+
+
+void Fighter::fireWeapon(int fireRate, Player* player)
+{
+	enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(-10.0f,0.0,0.0)));
+	AudioManager::GetInstance()->PlaySFX(enemySFX);
+}
+
+void Fighter::renderBullet(ID3DXEffect* shader)
+{
+	// Render projectiles
+	for each(Projectile* projectile in enemyBullet)
+	{
+		if(projectile->GetPosition().x > -12 &&
+			projectile->GetPosition().x < 12)
+		{
+			projectile->Render(shader);
+		}
+	}
+}
+
+void Fighter::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos)
+{
+	srand(time(NULL));
+	m_position = pos;
+	health = shipHealth;
+	m_fireRate = rate;
+	m_speed = speed;
+	int attack = rand() % 6;
+	switch(attack)
+	{
+	case 0:
+		m_attackType = ATTACK1;
+		break;
+	case 1:
+		m_attackType = ATTACK2;
+		break;
+	case 2:
+		m_attackType = ATTACK3;
+		break;
+	case 3:
+		m_attackType = ATTACK4;
+		break;
+	case 4:
+		m_attackType = AVOID1;
+		break;
+	case 5:
+		m_attackType = AVOID2;
+		break;
+	}
+}
+
+void Fighter::SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos)
+{
+	m_position = pos;
+	health = shipHealth;
+	m_attackType = at;
+	m_speed = speed;
+}
+
+void Fighter::update(float dt, Player * player)
+{
+	D3DXVECTOR3 playerPos = player->GetPosition();
+
+	float rad_angle = 0.0f;
+	// player's rotation speed
+	float rotateSpeed = 0.2f;
+
+	// check if the player needs to rotate
+	bool rotate = false;
+
+	switch(m_attackType)
+	{
+	case ATTACK1:
+
+		break;
+	case ATTACK2:
+	
+		break;
+	case ATTACK3:
+	
+		break;
+	case ATTACK4:
+	
+		break;
+	case ATTACK5:
+		
+		break;
+	case AVOID1:
+		 
+		break;
+	case AVOID2:
+		
+		break;
+	}
+
+	if(!isHidden)
+	{
+		if((int)playerPos.y == (int)m_position.y)
+		{
+			if(fmod((float)track,237) == 0)
+				fireWeapon(2,player);
+		}
+	}
+
+	for each (Projectile* projectile in enemyBullet)
+	{
+		projectile->Update(dt);
+
+		// testing collision
+		if(projectile->GetMeshBox().Intersects(player->GetMeshBox()))
+		{
+			projectile->Destroy();
+			player->DecrCurrHlth(20.0f);
+		}
+
+	}
+
+	for(std::list<Projectile*>::const_iterator i = enemyBullet.begin(), end = enemyBullet.end(); i != end;)
+	{	
+		if((*i)->CheckObject())
+		{
+			delete (*i);
+			i = enemyBullet.erase(i);
+		}
+		else
+			i++;		
+	}
+
+
+	if(rotate)
+	{
+		if(m_rotateAngle < -45.0f)
+			m_rotateAngle = -45.0f;
+		if(m_rotateAngle > 45.0f)
+			m_rotateAngle = 45.0f;
+	}
+	else
+	{
+		if(m_rotateAngle < 0)
+			m_rotateAngle += rotateSpeed;
+		if(m_rotateAngle > 0)
+			m_rotateAngle -= rotateSpeed;
+	}
+
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
+		D3DXToRadian(0.0f), D3DXToRadian(m_rotateAngle), 0);
+	
+	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
+
+	worldMat = scaleMat * rotateMat* translateMat;
+
+	track ++;
+	if(track >= 600)
+		track = 0;
+
+}

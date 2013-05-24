@@ -102,7 +102,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 		}
 	}
 
-	for each(Viper* viper in pEnemies)
+	for each(baseEnemyShip* enemy in pEnemies)
 	{
 		//if(!enemy->hasSpawned)
 		//{
@@ -114,23 +114,23 @@ void GameScreen::Update(GameState& gameState, float dt)
 		//	enemy->hasSpawned = true;
 		//}
 
-		viper->update(dt,&player);
+		enemy->update(dt,&player);
 
 		//check for enemies exiting the viewable screen
-		if(!Camera::GetInstance()->IsVisible(viper->GetMeshBox()))
+		if(!Camera::GetInstance()->IsVisible(enemy->GetMeshBox()))
 		{
-			if(viper->getPosition().x < Camera::GetInstance()->GetEyePos().x)
+			if(enemy->getPosition().x < Camera::GetInstance()->GetEyePos().x)
 			{
-				viper->destroyShip();
+				enemy->destroyShip();
 				enemiesSpawned --;
 			}
-			else if(viper->getPosition().x > 12)
+			else if(enemy->getPosition().x > 12)
 			{
-				viper->hideShip(true);
+				enemy->hideShip(true);
 				
 			}
-			else if(viper->getPosition().x < 12 && viper->getPosition().x > 0)
-				viper->hideShip(false);
+			else if(enemy->getPosition().x < 12 && enemy->getPosition().x > 0)
+				enemy->hideShip(false);
 		}
 
 		
@@ -166,15 +166,15 @@ void GameScreen::Update(GameState& gameState, float dt)
 		projectile->Update(dt);
 		
 		// testing collision
-		for each(Viper* viper in pEnemies)
+		for each(baseEnemyShip* enemy in pEnemies)
 		{
-			if(projectile->GetMeshBox().Intersects(viper->GetMeshBox()))
+			if(projectile->GetMeshBox().Intersects(enemy->GetMeshBox()))
 			{
 				projectile->Destroy();
-				viper->calculateDamage(50);
-				if(viper->getHealth() <= 0)
+				enemy->calculateDamage(50);
+				if(enemy->getHealth() <= 0)
 				{
-					viper->destroyShip();
+					enemy->destroyShip();
 					enemiesSpawned --;
 					player.IncrScore(10);
 				}
@@ -233,12 +233,12 @@ void GameScreen::Render(void)
 	}
 
 	// render enemy
-	for each(Viper* viper in pEnemies)
+	for each(baseEnemyShip* enemy in pEnemies)
 	{
-		if(!viper->GetIsHidden()/* && enemy->hasSpawned*/)
+		if(!enemy->GetIsHidden()/* && enemy->hasSpawned*/)
 		{
-			viper->Render(shader);
-			viper->renderBullet(shader);
+			enemy->Render(shader);
+			enemy->renderBullet(shader);
 	
 		}
 	}

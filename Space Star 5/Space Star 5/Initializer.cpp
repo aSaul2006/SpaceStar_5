@@ -55,12 +55,14 @@ void Initializer::Initialize(HWND hWnd, IDirect3D9* m_pD3DObject,
 	playerMesh.Init(L"frigate.x");
 	projectileMesh.Init(L"sphere.x");
 	viperMesh.Init(L"viperShip.x");
-	tooterMesh.Init(L"tooter.X");
+	scooterMesh.Init(L"tooter.X");
+	fighterMesh.Init(L"fighterShip.X");
 }
 
 void Initializer::Shutdown()
 {
-	tooterMesh.Shutdown();
+	fighterMesh.Shutdown();
+	scooterMesh.Shutdown();
 	viperMesh.Shutdown();
 	projectileMesh.Shutdown();
 	playerMesh.Shutdown();
