@@ -215,6 +215,15 @@ void GameScreen::Update(GameState& gameState, float dt)
 			i++;
 	}
 
+
+	//end the game if the player is out of health and lives
+	if(player.GetCurrHlth() == 0 && player.GetNumLives() == 0)
+	{
+		gameState = GameOver;
+	}
+
+	//add win case for player here
+
 	
 	
 }

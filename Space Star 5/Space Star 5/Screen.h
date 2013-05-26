@@ -9,6 +9,7 @@ enum GameState
 	TitleMenu,
 	MainMenu,
 	Game,
+	GameOver,
 	Exit
 };
 
@@ -17,6 +18,7 @@ enum ScreenType
 	TitleType,
 	MainType,
 	GameType,
+	GameOverType,
 	ExitType
 };
 

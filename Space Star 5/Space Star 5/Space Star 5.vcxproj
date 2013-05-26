@@ -77,6 +77,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="Entity\EntityManager.cpp" />
+    <ClCompile Include="GameOverScreen.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Initializer.cpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="Entity\EntityManager.h" />
     <ClInclude Include="Entity\EntityNames.h" />
+    <ClInclude Include="GameOverScreen.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Initializer.h" />
