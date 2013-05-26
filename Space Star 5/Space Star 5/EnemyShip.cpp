@@ -68,7 +68,7 @@ Viper::Viper()
 
 Viper::~Viper()
 {
-	Shutdown();
+  	Shutdown();
 }
 
 void Viper::Render(ID3DXEffect* shader)
