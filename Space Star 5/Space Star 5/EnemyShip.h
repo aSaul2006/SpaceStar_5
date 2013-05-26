@@ -39,19 +39,21 @@ protected:
 
 public:
 	//intializes the enemy ship
-	void initializeEnemyShip();
+	virtual void initialize()=0;
 	void Shutdown();
 	baseEnemyShip();
 	virtual void fireWeapon(int fireRate, Player* player)=0;
 	virtual void update(float dt, Player *player)=0; 
 	virtual void calculateDamage(int power)=0;
 	virtual void destroyShip()=0;
+	virtual void Render(ID3DXEffect* shader)=0;
 	virtual void renderBullet(ID3DXEffect* shader)=0;
 	virtual ~baseEnemyShip();
 
 	//Accessors
 	virtual void SetEnemyAttrib(int shipHealth, float speed, float rate, D3DXVECTOR3 pos)=0;
 	virtual void SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos)=0;
+	void hideShip(bool yn){isHidden = yn;}
 
 	virtual bool GetIsHidden(){return isHidden;}
 	virtual int getHealth(){return health;}
@@ -68,7 +70,15 @@ public:
 	
 };
 
-//create ship classes that derive baseEnemyShip
+//-----------------------------------------------------------------------------
+//************************* Viper Class ***************************************
+//-----------------------------------------------------------------------------
+/*
+ *
+ *
+ */
+//------------------------------------------------------------------------------
+
 class Viper : public baseEnemyShip
 {
 private:
@@ -84,19 +94,156 @@ public:
 	~Viper();
 
 	//Inherited functions
+	/* 
+	 *
+	 */
 	void Render(ID3DXEffect* shader);
+	/*
+	 * 
+	 */
 	void update(float dt, Player *player); 
-	void calculateDamage(int power);
-	void destroyShip();
-	void hideShip(bool yn){isHidden = yn;}
+	/*
+	 *
+	 */
+	void calculateDamage(int power){health -= power;}
+	/*
+	 *
+	 */
+	void destroyShip(){destroyObject = true;}
+	/*
+	 *
+	 */
 	void fireWeapon(int fireRate, Player* player);
+	/*
+	 *
+	 */
 	void renderBullet(ID3DXEffect* shader);
+	/*
+	 *
+	 */
+	void initialize();
 		
 	//Accessors
 	void SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos);
 	void SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos);
 
 
+};
+
+//-----------------------------------------------------------------------------
+//************************* Scooter Class *************************************
+//-----------------------------------------------------------------------------
+/*
+ *
+ *
+ */
+//------------------------------------------------------------------------------
+
+class Scooter : public baseEnemyShip
+{
+private:
+	std::list<Projectile*> enemyBullet;
+	int track;
+	bool moveDir;
+	float angle;
+
+public:
+	bool hasSpawned;
+
+	Scooter();
+	~Scooter();
+
+	//Inherited functions
+	/*
+	 *
+	 */
+	void Render(ID3DXEffect* shader);
+	/*
+	 *
+	 */
+	void update(float dt, Player *player); 
+	/*
+	 *
+	 */
+	void calculateDamage(int power){health -= power;}
+	/*
+	 *
+	 */
+	void destroyShip(){destroyObject = true;}
+	/*
+	 *
+	 */
+	void fireWeapon(int fireRate, Player* player);
+	/*
+	 *
+	 */
+	void renderBullet(ID3DXEffect* shader);
+	/*
+	 *
+	 */
+	void initialize();
+		
+	//Accessors
+	void SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos);
+	void SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos);
+};
+
+//-----------------------------------------------------------------------------
+//************************* Fighter Class *************************************
+//-----------------------------------------------------------------------------
+/*
+ *
+ *
+ */
+//------------------------------------------------------------------------------
+
+class Fighter : public baseEnemyShip
+{
+private:
+	std::list<Projectile*> enemyBullet;
+	int track;
+	bool moveDir;
+	float angle;
+
+public:
+	bool hasSpawned;
+
+	Fighter();
+	~Fighter();
+
+	//Inherited functions
+	/*
+	 *
+	 */
+	void Render(ID3DXEffect* shader);
+	/*
+	 *
+	 */
+	void update(float dt, Player *player); 
+	/*
+	 *
+	 */
+	void calculateDamage(int power){health -= power;}
+	/*
+	 *
+	 */
+	void destroyShip(){destroyObject = true;}
+	/*
+	 *
+	 */
+	void fireWeapon(int fireRate, Player* player);
+	/*
+	 *
+	 */
+	void renderBullet(ID3DXEffect* shader);
+	/*
+	 *
+	 */
+	void initialize();
+		
+	//Accessors
+	void SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos);
+	void SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos);
 };
 
 #endif

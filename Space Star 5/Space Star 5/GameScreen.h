@@ -27,6 +27,7 @@ private:
 
 	list<Projectile*> pList;
 	list<baseEnemyShip*> pEnemies;
+	list<AttackWaves*> pWave;
 	Viper viper;
 
 	double spawnTime;

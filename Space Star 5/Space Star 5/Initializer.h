@@ -90,7 +90,7 @@ public:
 				delete[] texture;
 			}
 		}
-	}playerMesh, projectileMesh, viperMesh, tooterMesh;
+	}playerMesh, projectileMesh, viperMesh, scooterMesh, fighterMesh;
 
 	~Initializer(void);
 
@@ -110,4 +110,6 @@ public:
 	MeshObject GetPlayerMesh() {return playerMesh;}
 	MeshObject GetProjectileMesh() {return projectileMesh;}
 	MeshObject GetViperMesh() {return viperMesh;}
+	MeshObject GetScooterMesh() {return scooterMesh;}
+	MeshObject GetFighterMesh() {return fighterMesh;}
 };
