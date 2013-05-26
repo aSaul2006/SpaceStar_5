@@ -21,7 +21,7 @@ using namespace std;
 class SpaceStar5
 {
 private:
-	D3DPRESENT_PARAMETERS D3Dpp;
+	//D3DPRESENT_PARAMETERS D3Dpp;
 
 	/// D3D9 Variables
 	IDirect3D9*			m_pD3DObject;	// Direct3D9 Object

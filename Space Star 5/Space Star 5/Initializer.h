@@ -23,6 +23,7 @@ private:
 	static Initializer* instance;
 	Initializer(void);
 
+	D3DPRESENT_PARAMETERS D3Dpp;
 	IDirect3DDevice9*	m_pD3DDevice;	// Direct3D9 Device
 	ID3DXFont*			gameFont;		// Direct3D font
 	ID3DXSprite*		m_pD3DSprite;	// sprite variables
@@ -98,10 +99,11 @@ public:
 	static void DestroyInstance(void);
 
 	void Initialize(HWND hWnd, IDirect3D9* m_pD3DObject, 
-		D3DPRESENT_PARAMETERS D3Dpp);
+		bool bWindowed, bool m_bVSync, int screenHeight, int screenWidth);
 
 	void Shutdown();
 
+	D3DPRESENT_PARAMETERS GetD3D() {return D3Dpp;}
 	IDirect3DDevice9* GetDevice() {return m_pD3DDevice;}
 	ID3DXFont* GetFont() {return gameFont;}
 	ID3DXSprite* GetSprite() {return m_pD3DSprite;}

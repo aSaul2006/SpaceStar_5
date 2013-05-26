@@ -30,8 +30,26 @@ void Initializer::DestroyInstance()
 }
 
 void Initializer::Initialize(HWND hWnd, IDirect3D9* m_pD3DObject, 
-		D3DPRESENT_PARAMETERS D3Dpp)
+		bool bWindowed, bool m_bVSync, int screenHeight, int screenWidth)
 {
+	// Presentation parameters for creating the D3D9 device
+	ZeroMemory(&D3Dpp, sizeof(D3Dpp));
+
+	D3Dpp.hDeviceWindow					= hWnd;
+	D3Dpp.Windowed						= bWindowed;
+	D3Dpp.AutoDepthStencilFormat		= D3DFMT_D24S8;
+	D3Dpp.EnableAutoDepthStencil		= TRUE;
+	D3Dpp.BackBufferCount				= 1;
+	D3Dpp.BackBufferFormat				= D3DFMT_X8R8G8B8;
+	D3Dpp.BackBufferHeight				= screenHeight;
+	D3Dpp.BackBufferWidth				= screenWidth;
+	D3Dpp.SwapEffect					= D3DSWAPEFFECT_DISCARD;
+	D3Dpp.PresentationInterval			= m_bVSync ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
+	D3Dpp.Flags							= D3DPRESENTFLAG_DISCARD_DEPTHSTENCIL;
+	D3Dpp.FullScreen_RefreshRateInHz	= bWindowed ? 0 : D3DPRESENT_RATE_DEFAULT;
+	D3Dpp.MultiSampleQuality			= 0;
+	D3Dpp.MultiSampleType				= D3DMULTISAMPLE_NONE;
+
 	// Create the Direct3D device using the presentation parameters above
 	m_pD3DObject->CreateDevice(
 		D3DADAPTER_DEFAULT,		// Primary Display Device

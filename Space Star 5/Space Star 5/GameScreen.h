@@ -10,6 +10,7 @@
 #include "AudioManager.h"
 #include "Misc\CrudeTimer.h"
 #include "AttackWaves.h"
+#include "PSystem.h"
 
 class GameScreen : public CScreen
 {
@@ -34,7 +35,7 @@ private:
 	FMOD::Sound* projSFX;	// SFX for the player's projectile
 
 	int enemyDestroyedCount;
-
+	PSystem* PSys;
 public:
 	GameScreen(void);
 	~GameScreen(void);

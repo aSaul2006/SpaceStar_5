@@ -63,6 +63,15 @@ void GameScreen::Initialize(void)
 	wave5 = new ViperWave5();
 	wave->AttackPattern(pEnemies);
 	
+	// initialize particle system
+	D3DXMATRIX psysWorld;
+	D3DXMatrixTranslation(&psysWorld, 0.0f, 0.0f, 0.0f);
+	AABB psysBox;
+	psysBox.minPt = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
+	psysBox.maxPt = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	PSys = new FireRing("firering.fx", "FireRingTech", "torch.dds",
+		D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 50, 0.0025f);
+	PSys->SetWorldMat(psysWorld);
 }
 
 void GameScreen::Update(GameState& gameState, float dt)
@@ -71,6 +80,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
 	skybox.Update(dt);
+	PSys->Update(dt);
 	
 
 	//if(enemiesSpawned <= 5 && (CrudeTimer::Instance()->GetTickCount() - spawnTime) >= 2)
@@ -225,6 +235,9 @@ void GameScreen::Render(void)
 	// Render player ship
 	player.Render(shader);
 
+	// Render particle system
+	//PSys->Render();
+
 	for each(Projectile* projectile in pList)
 	{
 
@@ -248,6 +261,7 @@ void GameScreen::Render(void)
 void GameScreen::Shutdown(void)
 {
 	// Delete Test variables
+	delete PSys;
 	projSFX->release();
 	SAFE_RELEASE(shader);
 	SAFE_RELEASE(errorCheck);

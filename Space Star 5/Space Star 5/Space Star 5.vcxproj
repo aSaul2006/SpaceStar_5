@@ -86,6 +86,7 @@
     <ClCompile Include="Misc\FrameCounter.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="PSystem.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SpaceStar5.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="Misc\utils.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="PSystem.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpaceStar5.h" />
