@@ -45,7 +45,11 @@ void Viper::initialize()
 
 void baseEnemyShip::Shutdown()
 {
-	enemySFX->release();
+	if(enemySFX!=NULL)
+	{
+		enemySFX->release();
+		enemySFX = NULL;
+	}
 }
 
 /// Enemy class
@@ -68,7 +72,7 @@ Viper::Viper()
 
 Viper::~Viper()
 {
-  	Shutdown();
+  	
 }
 
 void Viper::Render(ID3DXEffect* shader)
@@ -381,7 +385,7 @@ Scooter::Scooter()
 
 Scooter::~Scooter()
 {
-	Shutdown();
+	
 }
 
 void Scooter::initialize()
@@ -635,7 +639,7 @@ Fighter::Fighter()
 
 Fighter::~Fighter()
 {
-	Shutdown();
+	
 }
 
 void Fighter::initialize()
