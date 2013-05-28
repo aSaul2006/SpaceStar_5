@@ -29,7 +29,7 @@ void GameOverScreen::Initialize(void)
 	
 	//rc = SQLDriverConnect(
 	//Connect to the Database
-	if(!db_HighScoreConnect.connect(L"Microsoft Access Database",L"",L""))
+	if(!db_HighScoreConnect.connect(L"highscores",L"",L""))
 	{
 			print = "Connection Failed";
 	}
