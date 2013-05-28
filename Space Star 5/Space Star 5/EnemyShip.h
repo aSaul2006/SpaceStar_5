@@ -52,7 +52,7 @@ public:
 
 	//Accessors
 	virtual void SetEnemyAttrib(int shipHealth, float speed, float rate, D3DXVECTOR3 pos)=0;
-	virtual void SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos)=0;
+	//virtual void SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos)=0;
 	void hideShip(bool yn){isHidden = yn;}
 
 	virtual bool GetIsHidden(){return isHidden;}
@@ -125,7 +125,7 @@ public:
 		
 	//Accessors
 	void SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos);
-	void SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos);
+	void SetEnemyAttrib2(int shipHealth,float speed,float rate,AttackType at, D3DXVECTOR3 pos);
 
 
 };

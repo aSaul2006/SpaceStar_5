@@ -19,13 +19,17 @@ GameOverScreen::~GameOverScreen(void)
 
 void GameOverScreen::Initialize(void)
 {
+	SQLRETURN rc;
+	HENV    hEnv;
+    HDBC    hDbc;
+
 	D3DXCreateTextureFromFileEx(Initializer::GetInstance()->GetDevice(),
 		L"titlepic.png", 800, 600, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
 		D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &bgTex);
 	
-
+	//rc = SQLDriverConnect(
 	//Connect to the Database
-	if(!db_HighScoreConnect.connect(L"highscores",L"",L""))
+	if(!db_HighScoreConnect.connect(L"Microsoft Access Database",L"",L""))
 	{
 			print = "Connection Failed";
 	}

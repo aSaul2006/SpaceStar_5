@@ -176,12 +176,13 @@ void Viper::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 po
 	}
 }
 
-void Viper::SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos)
+void Viper::SetEnemyAttrib2(int shipHealth,float speed,float rate,AttackType at, D3DXVECTOR3 pos)
 {
 	m_position = pos;
 	health = shipHealth;
 	m_attackType = at;
 	m_speed = speed;
+	m_fireRate = rate;
 }
 
 void Viper::update(float dt, Player * player)
@@ -300,7 +301,7 @@ void Viper::update(float dt, Player * player)
 	{
 		if((int)playerPos.y == (int)m_position.y)
 		{
-			if(fmod((float)track,237) == 0)
+			if(fmod(CrudeTimer::Instance()->GetTickCount(),(double)m_fireRate) == 0)
 				fireWeapon(2,player);
 		}
 	}
