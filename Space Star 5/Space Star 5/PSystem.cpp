@@ -83,10 +83,12 @@ PSystem::PSystem(const string& fxName,
 	Initializer::GetInstance()->GetDevice()->CreateVertexDeclaration(
 		particleElements, &Particle::Decl);
 
+	play = false;
 }
 
 PSystem::~PSystem(void)
 {
+	SAFE_RELEASE(Particle::Decl);
 	SAFE_RELEASE(mFX);
 	SAFE_RELEASE(mTex);
 	SAFE_RELEASE(mVB);

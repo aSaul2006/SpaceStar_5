@@ -70,8 +70,9 @@ void GameScreen::Initialize(void)
 	psysBox.minPt = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
 	psysBox.maxPt = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	PSys = new FireRing("firering.fx", "FireRingTech", "torch.dds",
-		D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 50, 0.0025f);
-	PSys->SetWorldMat(psysWorld);
+		D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 100, 0.0025f);
+	//PSys->SetWorldMat(psysWorld);
+	psysTime = 0;
 }
 
 void GameScreen::Update(GameState& gameState, float dt)
@@ -80,7 +81,16 @@ void GameScreen::Update(GameState& gameState, float dt)
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
 	skybox.Update(dt);
+	
 	PSys->Update(dt);
+	psysTime += dt;
+
+	if(psysTime >= 1.5f)
+	{
+		PSys->play = false;
+		psysTime = 0;
+		PSys->ResetTime();
+	}
 	
 
 	//if(enemiesSpawned <= 5 && (CrudeTimer::Instance()->GetTickCount() - spawnTime) >= 2)
@@ -187,6 +197,12 @@ void GameScreen::Update(GameState& gameState, float dt)
 					enemy->destroyShip();
 					enemiesSpawned --;
 					player.IncrScore(10);
+
+					PSys->play = true;
+					D3DXMATRIX worldMat;
+					D3DXMatrixTranslation(&worldMat, 
+						enemy->getPosition().x, enemy->getPosition().y, enemy->getPosition().z);
+					PSys->SetWorldMat(worldMat);
 				}
 			}
 		}
@@ -245,7 +261,8 @@ void GameScreen::Render(void)
 	player.Render(shader);
 
 	// Render particle system
-	//PSys->Render();
+	if(PSys->play)
+		PSys->Render();
 
 	for each(Projectile* projectile in pList)
 	{
@@ -271,6 +288,7 @@ void GameScreen::Shutdown(void)
 {
 	// Delete Test variables
 	delete PSys;
+	PSys = NULL;
 	projSFX->release();
 	SAFE_RELEASE(shader);
 	SAFE_RELEASE(errorCheck);

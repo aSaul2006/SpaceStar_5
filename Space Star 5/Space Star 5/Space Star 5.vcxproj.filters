@@ -114,12 +114,11 @@
     <ClCompile Include="AttackWaves.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="PSystem.cpp">
-=======
+	  <Filter>Source Files</Filter>
+	</ClCompile>
     <ClCompile Include="GameOverScreen.cpp">
->>>>>>> Add Game Over Check/Screen
-      <Filter>Source Files</Filter>
+	  <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -204,11 +203,10 @@
     <ClInclude Include="AttackWaves.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="PSystem.h">
-=======
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="GameOverScreen.h">
->>>>>>> Add Game Over Check/Screen
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

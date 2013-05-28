@@ -70,6 +70,9 @@ public:
 	virtual void InitParticle(Particle& out) = 0;
 	virtual void Update(float dt);
 	virtual void Render();
+
+	bool play;
+	void ResetTime(void){mTime = 0;}
 };
 
 class FireRing : public PSystem
@@ -120,7 +123,7 @@ public:
 		out.lifeTime = GetRandomFloat(2.0f, 4.0f);
 
 		// initial size of pixels
-		out.initSize = GetRandomFloat(1.0f, 5.0f);
+		out.initSize = GetRandomFloat(0.0f, 0.1f);
 
 		// give a very small initial velocity to give the flares
 		// some randomness
@@ -128,7 +131,7 @@ public:
 
 		// scalar value used in vertex shader as an
 		// amplitude factor
-		out.mass = GetRandomFloat(1.0f, 2.0f);
+		out.mass = GetRandomFloat(0.0f, 0.1f);
 
 		// Start color at 50-100% intensity when born for
 		// variation
@@ -137,7 +140,7 @@ public:
 
 		// generate random particle on the ring in polar
 		// coordinates: random radius and random angle
-		float r = GetRandomFloat(1.0f, 4.0f);
+		float r = GetRandomFloat(0.0f, 0.1f);
 		float t = GetRandomFloat(0, 2.0f * D3DX_PI);
 
 		// convert to cartesian coordinates

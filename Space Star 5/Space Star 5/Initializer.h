@@ -27,7 +27,6 @@ private:
 	IDirect3DDevice9*	m_pD3DDevice;	// Direct3D9 Device
 	ID3DXFont*			gameFont;		// Direct3D font
 	ID3DXSprite*		m_pD3DSprite;	// sprite variables
-
 public:
 
 	// mesh object

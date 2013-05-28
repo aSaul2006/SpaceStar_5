@@ -37,6 +37,7 @@ private:
 
 	int enemyDestroyedCount;
 	PSystem* PSys;
+	float psysTime;
 public:
 	GameScreen(void);
 	~GameScreen(void);
