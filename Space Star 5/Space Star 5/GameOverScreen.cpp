@@ -14,6 +14,7 @@ GameOverScreen::GameOverScreen(void)
 GameOverScreen::~GameOverScreen(void)
 {
 	Shutdown();
+	db_HighScoreConnect.disconnect();
 }
 
 void GameOverScreen::Initialize(void)
@@ -29,7 +30,7 @@ void GameOverScreen::Initialize(void)
 			print = "Connection Failed";
 	}
 	else
-		print = "Connection Awesome";
+		print = "Game Over";
 }
 
 void GameOverScreen::Update(GameState& gameState, float dt)
