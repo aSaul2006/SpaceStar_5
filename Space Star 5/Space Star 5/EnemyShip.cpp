@@ -61,6 +61,7 @@ Viper::Viper()
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
 	D3DXMatrixTranslation(&translateMat, 0, 0, 0);
 	m_position = m_velocity = D3DXVECTOR3(0, 0, 0);
+	m_rotateAngle = 0;
 	angle = 0.0;
 	track = health = maxHealth = 0;	// change later if needed
 	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
@@ -188,6 +189,7 @@ void Viper::SetEnemyAttrib2(int shipHealth,float speed,float rate,AttackType at,
 void Viper::update(float dt, Player * player)
 {
 	D3DXVECTOR3 playerPos = player->GetPosition();
+	D3DXVECTOR3 oldPos = m_position;
 
 	float rad_angle = 0.0f;
 	// player's rotation speed
@@ -207,36 +209,45 @@ void Viper::update(float dt, Player * player)
 	case ATTACK2:
 		//if ship reaches certain area of screen veer up along y axis
 		m_position.x -= m_speed * dt;
-		if(m_position.x < 4)
+		if(m_position.x <= 10)
 		{
-			m_position.y += m_speed * dt;
+			if(m_position.x < 4)
+			{
+				m_position.y += m_speed * dt;
 
+			}
+			//rotate the ship 
+			if(m_position.y > -7)
+			{
+				m_rotateAngle += rotateSpeed;
+				rotate = true;
+			}
+			else
+				rotate = false;	
 		}
-		//rotate the ship 
-		if(m_position.y > -7)
-		{
-			m_rotateAngle += rotateSpeed;
-			rotate = true;
-		}
-		else
-			rotate = false;	
 
 		break;
 	case ATTACK3:
 		m_position.x -= m_speed * dt;
 
-		if(playerPos.y < m_position.y)
+		if(m_position.x <= 10)
 		{
-			m_position.y -= m_speed * dt;
-			m_rotateAngle -= rotateSpeed;
-			rotate = true;
-		}
+			if(playerPos.y < m_position.y)
+			{
+				m_position.y -= m_speed * dt;
+				m_rotateAngle -= rotateSpeed;
+			}
 
-		if(playerPos.y > m_position.y)
-		{
-			m_position.y += m_speed * dt;
-			m_rotateAngle += rotateSpeed;
-			rotate = true;
+			if(playerPos.y > m_position.y)
+			{
+				m_position.y += m_speed * dt;
+				m_rotateAngle += rotateSpeed;
+			}
+			if(oldPos.y != m_position.y)
+				rotate = true;
+			else
+				rotate = false;
+
 		}
 
 		break;
@@ -254,18 +265,21 @@ void Viper::update(float dt, Player * player)
 		break;
 	case ATTACK5:
 		m_position.x -= m_speed * dt;
-		if(m_position.x < 4)
+		if(m_position.x <= 10)
 		{
-			m_position.y -= m_speed * dt;
+			if(m_position.x < 4)
+			{
+				m_position.y -= m_speed * dt;
 
+			}
+			if(m_position.y < 5)
+			{
+				m_rotateAngle -= rotateSpeed;
+				rotate = true;
+			}
+			else 
+				rotate = false;
 		}
-		if(m_position.y < 5)
-		{
-			m_rotateAngle -= rotateSpeed;
-			rotate = true;
-		}
-		else 
-			rotate = false;
 		
 
 		break;
@@ -335,7 +349,7 @@ void Viper::update(float dt, Player * player)
 
 	if(rotate)
 	{
-		if(m_rotateAngle < -45.0f)
+		if(m_rotateAngle <  -45.0f)
 			m_rotateAngle = -45.0f;
 		if(m_rotateAngle > 45.0f)
 			m_rotateAngle = 45.0f;
@@ -553,11 +567,12 @@ void Scooter::update(float dt, Player * player)
 		break;
 	}
 
+	//fire weapon
 	if(!isHidden)
 	{
 		if((int)playerPos.y == (int)m_position.y)
 		{
-			if(fmod((float)track,237) == 0)
+			if(fmod(CrudeTimer::Instance()->GetTickCount(),(double)m_fireRate) == 0.0)
 				fireWeapon(2,player);
 		}
 	}
@@ -807,11 +822,12 @@ void Fighter::update(float dt, Player * player)
 		break;
 	}
 
+	//fire weapon
 	if(!isHidden)
 	{
 		if((int)playerPos.y == (int)m_position.y)
 		{
-			if(fmod((float)track,237) == 0)
+			if(fmod(CrudeTimer::Instance()->GetTickCount(),(double)m_fireRate) == 0.0)
 				fireWeapon(2,player);
 		}
 	}
