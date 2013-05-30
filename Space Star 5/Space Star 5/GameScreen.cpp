@@ -2,6 +2,7 @@
 #include <random>
 #include <time.h>
 #include "AttackWaves.h"
+#include "GameOverScreen.h"
 
 ViperWave1 * wave;
 ViperWave2 * wave2;
@@ -73,6 +74,7 @@ void GameScreen::Initialize(void)
 		D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 100, 0.0025f);
 	//PSys->SetWorldMat(psysWorld);
 	psysTime = 0;
+	
 }
 
 void GameScreen::Update(GameState& gameState, float dt)
@@ -235,6 +237,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 	//end the game if the player is out of health and lives
 	if(player.GetCurrHlth() == 0 && player.GetNumLives() == 0)
 	{
+		
 		gameState = GameOver;
 	}
 

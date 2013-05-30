@@ -49,11 +49,11 @@
     <Filter Include="Source Files\AI\2D">
       <UniqueIdentifier>{c7305183-5da8-48ff-ba2d-e8419bca3900}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Database">
-      <UniqueIdentifier>{2149d68f-6c4d-49cb-817e-8501921f7a52}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Database">
       <UniqueIdentifier>{13be44f6-ff79-4283-96b9-5715ff8f252e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Database">
+      <UniqueIdentifier>{377c9543-7de8-41cb-9293-5c5ab7e2cf92}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -125,9 +125,6 @@
     </ClCompile>
     <ClCompile Include="GameOverScreen.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Database\tiodbc.cpp">
-      <Filter>Source Files\Database</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,9 +214,6 @@
     </ClInclude>
     <ClInclude Include="GameOverScreen.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Database\tiodbc.hpp">
-      <Filter>Database</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,40 +1,33 @@
 #include "GameOverScreen.h"
 #include <stdio.h>
+#include "Player.h"
 
-
+GameOverScreen* GameOverScreen::GetInstance()
+{
+	static GameOverScreen instance;
+	return &instance;
+}
 
 GameOverScreen::GameOverScreen(void)
 {
 	print = "";
 	type = GameOverType;
-
+	finalScore = 0;
 	Initialize();
 }
 
 GameOverScreen::~GameOverScreen(void)
 {
 	Shutdown();
-	db_HighScoreConnect.disconnect();
 }
 
 void GameOverScreen::Initialize(void)
 {
-	SQLRETURN rc;
-	HENV    hEnv;
-    HDBC    hDbc;
-
 	D3DXCreateTextureFromFileEx(Initializer::GetInstance()->GetDevice(),
 		L"titlepic.png", 800, 600, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
 		D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &bgTex);
 	
-	//rc = SQLDriverConnect(
-	//Connect to the Database
-	if(!db_HighScoreConnect.connect(L"highscores",L"",L""))
-	{
-			print = "Connection Failed";
-	}
-	else
-		print = "Game Over";
+
 }
 
 void GameOverScreen::Update(GameState& gameState, float dt)
@@ -54,6 +47,8 @@ void GameOverScreen::Render(void)
 
 	RECT rect;
 	D3DCOLOR fontColor;
+
+	print = "Game Over Man";
 
 	//store the output in print variable
 	//print = "Game Over";

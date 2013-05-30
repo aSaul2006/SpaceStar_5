@@ -71,5 +71,6 @@ public:
 	// Modify and access player's score
 	void IncrScore(int score) {this->score += score;}
 	int GetScore(void) {return score;}
+	
 };
 

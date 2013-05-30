@@ -2,7 +2,7 @@
 
 #include "Screen.h"
 #include <iostream>
-#include "Database\tiodbc.hpp"
+#include "GameScreen.h"
 
 //safe release
 #define SAFE_RELEASE(x) if(x){x->Release(); x=0;}
@@ -11,10 +11,8 @@ class GameOverScreen : public CScreen
 {
 private:
 	IDirect3DTexture9* bgTex;
-
-	//Database stuff
-	tiodbc::connection db_HighScoreConnect;
-	tiodbc::statement createStmt, readStmt, updateStmt, deleteStmt;
+	GameScreen game;
+	
 public:
 	GameOverScreen(void);
 	~GameOverScreen(void);
@@ -23,4 +21,8 @@ public:
 	void Update(GameState& gameState, float dt);
 	void Render(void);
 	void Shutdown(void);
+	static GameOverScreen* GetInstance();
+
+public:
+	int finalScore;
 };

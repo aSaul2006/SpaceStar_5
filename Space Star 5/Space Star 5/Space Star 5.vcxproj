@@ -37,7 +37,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)\Bounds Detection;$(ProjectDir)\Steering Behaviors;$(ProjectDir)\State, Message, and Entity Systems;$(ProjectDir)\Steering Behaviors\2D;$(ProjectDir)\Steering Behaviors\misc;$(ProjectDir)\Steering Behaviors\Graph;$(IncludePath);$(DXSDK_DIR)Include</IncludePath>
+    <IncludePath>$(ProjectDir)\Bounds Detection;$(ProjectDir)\Steering Behaviors;$(ProjectDir)\State, Message, and Entity Systems;$(ProjectDir)\Steering Behaviors\2D;$(ProjectDir)\Steering Behaviors\misc;$(ProjectDir)\Steering Behaviors\Graph;$(IncludePath);$(DXSDK_DIR)Include;$(ProjectDir)\Sqlite3</IncludePath>
     <LibraryPath>$(LibraryPath);$(DXSDK_DIR)Lib\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -75,7 +75,6 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="BaseGameEntity.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Database\tiodbc.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="Entity\EntityManager.cpp" />
     <ClCompile Include="GameOverScreen.cpp" />
@@ -103,7 +102,6 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Database\tiodbc.hpp" />
     <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="Entity\EntityManager.h" />
     <ClInclude Include="Entity\EntityNames.h" />

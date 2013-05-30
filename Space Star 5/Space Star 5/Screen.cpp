@@ -3,6 +3,7 @@
 
 CScreen::CScreen(void)
 {
+	
 }
 
 
