@@ -2,17 +2,12 @@
 #include <stdio.h>
 #include "Player.h"
 
-GameOverScreen* GameOverScreen::GetInstance()
-{
-	static GameOverScreen instance;
-	return &instance;
-}
 
-GameOverScreen::GameOverScreen(void)
+GameOverScreen::GameOverScreen()
 {
 	print = "";
 	type = GameOverType;
-	finalScore = 0;
+	finalScore = Initializer::GetInstance()->getfinalscore();
 	Initialize();
 }
 
@@ -44,11 +39,13 @@ void GameOverScreen::Render(void)
 	Initializer::GetInstance()->GetSprite()->Begin(D3DXSPRITE_ALPHABLEND);
 	Initializer::GetInstance()->GetSprite()->Draw(bgTex, 0, 0, 0, D3DCOLOR_ARGB(255, 255, 255, 255));
 	Initializer::GetInstance()->GetSprite()->End();
-
 	RECT rect;
 	D3DCOLOR fontColor;
+	char temp[128];
+	itoa(finalScore,temp,10);
+	std::string score = temp;
 
-	print = "Game Over Man";
+	print = "Game Over Man.  Final Score = " + score;
 
 	//store the output in print variable
 	//print = "Game Over";

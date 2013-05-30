@@ -297,15 +297,17 @@ void Viper::update(float dt, Player * player)
 		break;
 	}
 
+	//fire weapon
 	if(!isHidden)
 	{
 		if((int)playerPos.y == (int)m_position.y)
 		{
-			if(fmod(CrudeTimer::Instance()->GetTickCount(),(double)m_fireRate) == 0)
+			if(fmod(CrudeTimer::Instance()->GetTickCount(),(double)m_fireRate) == 0.0)
 				fireWeapon(2,player);
 		}
 	}
 
+	//check collision with player bullet
 	for each (Projectile* projectile in enemyBullet)
 	{
 		projectile->Update(dt);

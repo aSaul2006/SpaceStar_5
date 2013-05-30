@@ -6,6 +6,7 @@ Initializer::Initializer(void)
 {
 	m_pD3DDevice = NULL;
 	gameFont = NULL;
+	finalScore = 0;
 }
 
 Initializer::~Initializer(void)

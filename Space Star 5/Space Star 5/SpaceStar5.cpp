@@ -83,7 +83,7 @@ void SpaceStar5::Update(float dt)
 	case GameOver:
 		if(gameScreen.front()->GetScreenType()  != GameOverType)
 		{
-			//gameScreen.pop_front();
+			gameScreen.pop_front();
 			gameScreen.push_front(new GameOverScreen());
 			AudioManager::GetInstance()->PlayBGM(titleBGM);
 		}

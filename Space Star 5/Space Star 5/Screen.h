@@ -37,5 +37,6 @@ public:
 	virtual void Shutdown(void) = 0;
 
 	ScreenType GetScreenType() {return type;}
+
 };
 

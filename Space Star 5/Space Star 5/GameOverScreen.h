@@ -12,6 +12,7 @@ class GameOverScreen : public CScreen
 private:
 	IDirect3DTexture9* bgTex;
 	GameScreen game;
+	int finalScore;
 	
 public:
 	GameOverScreen(void);
@@ -21,8 +22,7 @@ public:
 	void Update(GameState& gameState, float dt);
 	void Render(void);
 	void Shutdown(void);
-	static GameOverScreen* GetInstance();
 
-public:
-	int finalScore;
+
+
 };

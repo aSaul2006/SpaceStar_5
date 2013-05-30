@@ -47,5 +47,7 @@ public:
 	void Update(GameState& gameState, float dt);
 	void Render(void);
 	void Shutdown(void);
+
+	int GetFinalScore() {return player.GetScore();}
 };
 
