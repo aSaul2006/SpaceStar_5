@@ -234,7 +234,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 	}
 
 	//end the game if the player is out of health and lives
-	if(player.GetCurrHlth() == 0 && player.GetNumLives() == 0)
+	if(player.GetCurrHlth() <= 0 && player.GetNumLives() <= 0)
 	{
 		//update global score
 		Initializer::GetInstance()->setfinalscore(player.GetScore());

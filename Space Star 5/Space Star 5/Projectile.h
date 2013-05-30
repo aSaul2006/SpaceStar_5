@@ -25,6 +25,7 @@ public:
 	// Spawn position is the position of the object firing the projectile
 	// Direction is the direction the projectile will be traveling
 	Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction);
+	Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction, float scale);
 	~Projectile(void);
 
 	void Initialize();

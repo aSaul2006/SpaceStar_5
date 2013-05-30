@@ -20,6 +20,17 @@ Projectile::Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction)
 	Initialize();
 }
 
+Projectile::Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction,float scale)
+{
+	position = startPosition = spawnPosition;
+	this->direction = direction;
+	D3DXMatrixScaling(&scaleMat, scale, scale, scale);
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
+	destroyObject = false;
+
+	Initialize();
+}
+
 Projectile::~Projectile(void)
 {
 	Shutdown();

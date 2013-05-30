@@ -35,7 +35,6 @@ protected:
 	bool isHealthZero;
 	bool destroyObject;
 	bool isHidden;
-	double spawnTime;
 
 public:
 	//intializes the enemy ship
@@ -185,7 +184,7 @@ public:
 		
 	//Accessors
 	void SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos);
-	void SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos);
+	void SetEnemyAttrib2(int shipHealth,float speed,float rate, AttackType at, D3DXVECTOR3 pos);
 };
 
 //-----------------------------------------------------------------------------
@@ -243,7 +242,7 @@ public:
 		
 	//Accessors
 	void SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 pos);
-	void SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos);
+	void SetEnemyAttrib2(int shipHealth,float speed,float rate, AttackType at, D3DXVECTOR3 pos);
 };
 
 #endif

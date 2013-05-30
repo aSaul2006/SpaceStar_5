@@ -35,7 +35,7 @@ void ViperWave1::Shutdown()
 
 void ViperWave1::AttackPattern(list<baseEnemyShip*> &enemies)
 {
-	Viper* viper1 = new Viper();
+	Fighter* fighter1 = new Fighter();
 	Viper* viper2 = new Viper();
 	Viper* viper3 = new Viper();
 	Viper* viper4 = new Viper();
@@ -45,7 +45,7 @@ void ViperWave1::AttackPattern(list<baseEnemyShip*> &enemies)
 	Viper* viper8 = new Viper();
 	Viper* viper9 = new Viper();
 
-	viper1->SetEnemyAttrib2(100,3.0,0.5,ATTACK3,D3DXVECTOR3(12.0,0.0,0.0));
+	fighter1->SetEnemyAttrib2(100,2.0,0.5,ATTACK1,D3DXVECTOR3(12.0,5.0,0.0));
 	viper2->SetEnemyAttrib2(100,4.0,1,ATTACK1,D3DXVECTOR3(24.0,2.0,0.0));
 	viper3->SetEnemyAttrib2(100,4.0,0.5,ATTACK3,D3DXVECTOR3(36.0,0.0,0.0));
 	viper4->SetEnemyAttrib2(100,4.0,0.5,ATTACK1,D3DXVECTOR3(48.0,4.0,0.0));
@@ -55,7 +55,7 @@ void ViperWave1::AttackPattern(list<baseEnemyShip*> &enemies)
 	viper8->SetEnemyAttrib2(100,4.0,0.5,ATTACK1,D3DXVECTOR3(48.0,-4.0,0.0));
 	viper9->SetEnemyAttrib2(100,7.0,1,AVOID2,D3DXVECTOR3(60.0,-5.0,0.0));
 
-	enemies.push_front(viper1);enemies.push_front(viper2); enemies.push_front(viper3);
+	enemies.push_front(fighter1);enemies.push_front(viper2); enemies.push_front(viper3);
 	enemies.push_front(viper4);enemies.push_front(viper5); enemies.push_front(viper6);
 	enemies.push_front(viper7);enemies.push_front(viper8); enemies.push_front(viper9);
 		

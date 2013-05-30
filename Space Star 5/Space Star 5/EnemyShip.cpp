@@ -65,7 +65,6 @@ Viper::Viper()
 	angle = 0.0;
 	track = health = maxHealth = 0;	// change later if needed
 	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
-	spawnTime = CrudeTimer::Instance()->GetTickCount();
 	//initialize our model
 	initialize();
 }
@@ -203,7 +202,6 @@ void Viper::update(float dt, Player * player)
 	case ATTACK1:
 		//move along the x axis only
 		m_position.x -= m_speed * dt;
-		m_rotateAngle = 0;
 
 		break;
 	case ATTACK2:
@@ -361,9 +359,16 @@ void Viper::update(float dt, Player * player)
 		if(m_rotateAngle > 0)
 			m_rotateAngle -= rotateSpeed;
 	}
-
-	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
-		D3DXToRadian(0.0f), D3DXToRadian(m_rotateAngle), 0);
+	if(m_attackType != ATTACK4)
+	{
+		D3DXMatrixRotationYawPitchRoll(&rotateMat, 
+			D3DXToRadian(0.0f), D3DXToRadian(m_rotateAngle), 0);
+	}
+	else
+	{
+		D3DXMatrixRotationYawPitchRoll(&rotateMat, 
+			D3DXToRadian(0.0), D3DXToRadian(angle), 0);
+	}
 	
 	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
 
@@ -394,7 +399,6 @@ Scooter::Scooter()
 	angle = 0.0;
 	track = health = maxHealth = 0;	// change later if needed
 	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
-	spawnTime = CrudeTimer::Instance()->GetTickCount();
 	//Initialize our model
 	initialize();
 }
@@ -523,12 +527,13 @@ void Scooter::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 
 	}
 }
 
-void Scooter::SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos)
+void Scooter::SetEnemyAttrib2(int shipHealth,float speed,float rate,AttackType at, D3DXVECTOR3 pos)
 {
 	m_position = pos;
 	health = shipHealth;
 	m_attackType = at;
 	m_speed = speed;
+	m_fireRate = rate;
 }
 
 void Scooter::update(float dt, Player * player)
@@ -649,7 +654,7 @@ Fighter::Fighter()
 	angle = 0.0;
 	track = health = maxHealth = 0;	// change later if needed
 	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
-	spawnTime = CrudeTimer::Instance()->GetTickCount();
+	m_rotateAngle = 0.0;
 	//Initialize our model
 	initialize();
 }
@@ -730,7 +735,7 @@ void Fighter::Render(ID3DXEffect* shader)
 
 void Fighter::fireWeapon(int fireRate, Player* player)
 {
-	enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(-10.0f,0.0,0.0)));
+	enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(0.0,-10.0f,0.0),0.2f));
 	AudioManager::GetInstance()->PlaySFX(enemySFX);
 }
 
@@ -778,12 +783,13 @@ void Fighter::SetEnemyAttrib(int shipHealth,float speed,float rate, D3DXVECTOR3 
 	}
 }
 
-void Fighter::SetEnemyAttrib2(int shipHealth,float speed,AttackType at, D3DXVECTOR3 pos)
+void Fighter::SetEnemyAttrib2(int shipHealth,float speed, float rate, AttackType at, D3DXVECTOR3 pos)
 {
 	m_position = pos;
 	health = shipHealth;
 	m_attackType = at;
 	m_speed = speed;
+	m_fireRate = rate;
 }
 
 void Fighter::update(float dt, Player * player)
@@ -800,7 +806,7 @@ void Fighter::update(float dt, Player * player)
 	switch(m_attackType)
 	{
 	case ATTACK1:
-
+		m_position.x -= m_speed * dt;
 		break;
 	case ATTACK2:
 	
@@ -825,11 +831,10 @@ void Fighter::update(float dt, Player * player)
 	//fire weapon
 	if(!isHidden)
 	{
-		if((int)playerPos.y == (int)m_position.y)
-		{
+
 			if(fmod(CrudeTimer::Instance()->GetTickCount(),(double)m_fireRate) == 0.0)
 				fireWeapon(2,player);
-		}
+	
 	}
 
 	for each (Projectile* projectile in enemyBullet)
