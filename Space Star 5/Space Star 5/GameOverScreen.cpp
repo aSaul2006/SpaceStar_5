@@ -8,6 +8,14 @@ GameOverScreen::GameOverScreen()
 	print = "";
 	type = GameOverType;
 	finalScore = Initializer::GetInstance()->getfinalscore();
+
+	database = new Database();
+	char *name = "ZMF";
+
+	database->open();
+	newScore = database->checkForHighScore(finalScore);
+	database->close();
+
 	Initialize();
 }
 
@@ -29,7 +37,10 @@ void GameOverScreen::Update(GameState& gameState, float dt)
 {
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_RETURN))
 	{
-		gameState = MainMenu;
+		if(newScore)
+			gameState = NewScore;
+		else
+			gameState = MainMenu;
 	}
 }
 
@@ -45,7 +56,7 @@ void GameOverScreen::Render(void)
 	itoa(finalScore,temp,10);
 	std::string score = temp;
 
-	print = "Game Over Man.  Final Score = " + score;
+	print = "Game Over Man.\nFinal Score = " + score;
 
 	//store the output in print variable
 	//print = "Game Over";

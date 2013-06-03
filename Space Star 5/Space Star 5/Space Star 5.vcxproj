@@ -75,6 +75,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="BaseGameEntity.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Database.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="Entity\EntityManager.cpp" />
     <ClCompile Include="GameOverScreen.cpp" />
@@ -85,12 +86,14 @@
     <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="Misc\CrudeTimer.cpp" />
     <ClCompile Include="Misc\FrameCounter.cpp" />
+    <ClCompile Include="NewScoreScreen.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="PSystem.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SpaceStar5.cpp" />
+    <ClCompile Include="sqlite3.c" />
     <ClCompile Include="State\MessageDispatcher.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -102,6 +105,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Database.h" />
     <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="Entity\EntityManager.h" />
     <ClInclude Include="Entity\EntityNames.h" />
@@ -114,12 +118,14 @@
     <ClInclude Include="Misc\CrudeTimer.h" />
     <ClInclude Include="Misc\FrameCounter.h" />
     <ClInclude Include="Misc\utils.h" />
+    <ClInclude Include="NewScoreScreen.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="PSystem.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpaceStar5.h" />
+    <ClInclude Include="sqlite3.h" />
     <ClInclude Include="State\MessageDispatcher.h" />
     <ClInclude Include="State\State.h" />
     <ClInclude Include="State\StateMachine.h" />
