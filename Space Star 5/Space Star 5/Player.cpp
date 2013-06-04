@@ -10,6 +10,10 @@ Player::Player(void)
 	maxHealth = 100.0f;
 	score = 0;
 	lives = 3;
+	barrelRoll = false;
+	rollNum = 0;
+	currentGauge = 100.0f;
+	maxGauge = 100.0f;
 }
 
 Player::~Player(void)
@@ -39,15 +43,6 @@ void Player::Initialize()
 
 void Player::Update(float dt)
 {
-	// player's speed
-	float speed = 10.0f;
-
-	// player's rotation speed
-	float rotateSpeed = 0.2f;
-
-	// check if the player needs to rotate
-	bool rotate = false;
-
 	// check player's health and see if player has lost lives
 	if(currentHealth <= 0.0f)
 	{
@@ -55,53 +50,43 @@ void Player::Update(float dt)
 		lives--;
 	}
 
-	// Move player up
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_UP))
+	if(!barrelRoll)
 	{
-		if(position.y < 5)
+		CheckPlayerInput(dt);
+
+		if(currentGauge < 100.0f)
 		{
-			position.y += speed * dt;
-			rotateAngle -= rotateSpeed;
-			rotate = true;
+			currentGauge += 25.0f * dt;
 		}
-	}
-
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_DOWN))
-	{
-		if(position.y > -7)
+		else if(currentGauge > 100.0f)
 		{
-			position.y -= speed * dt;
-			rotateAngle += rotateSpeed;
-			rotate = true;
+			currentGauge = 100.0f;
 		}
-	}
-
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_LEFT))
-	{
-		if(position.x > -7)
-			position.x -= speed * dt;
-		
-	}
-
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_RIGHT))
-	{
-		if(position.x < 8)
-			position.x += speed * dt;
-	}
-
-	if(rotate)
-	{
-		if(rotateAngle < -45.0f)
-			rotateAngle = -45.0f;
-		if(rotateAngle > 45.0f)
-			rotateAngle = 45.0f;
 	}
 	else
 	{
-		if(rotateAngle < 0)
-			rotateAngle += rotateSpeed;
-		if(rotateAngle > 0)
-			rotateAngle -= rotateSpeed;
+		float rotateSpeed = 800.0f;
+
+		rotateAngle += rotateSpeed * dt;
+		currentGauge -= 150.0f * dt;
+
+		if(currentGauge < 0.0f)
+		{
+			currentGauge = 0.0f;
+		}
+
+		if(rotateAngle >= 360.0f)
+		{
+			rotateAngle = 0.0f;
+			rollNum++;
+		}
+
+		if(rollNum >= 2)
+		{
+			rotateAngle = 0.0f;
+			rollNum = 0;
+			barrelRoll = false;
+		}
 	}
 
 	// keep up with the moving camera
@@ -118,6 +103,78 @@ void Player::Update(float dt)
 	// Set the world matrix
 	// Note: world = scale * rotate * translate
 	worldMat = scaleMat * rotateMat* translateMat;
+}
+
+void Player::CheckPlayerInput(float dt)
+{
+	// player's speed
+	float speed = 10.0f;
+
+	// player's rotation speed
+	float rotateSpeed = 0.2f;
+
+	// check if the player needs to rotate
+	bool rotate = false;
+
+	// Move player up
+	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_UP))
+	{
+		if(position.y < 5)
+		{
+			position.y += speed * dt;
+			rotateAngle -= rotateSpeed;
+			rotate = true;
+		}
+	}
+
+	// move player down
+	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_DOWN))
+	{
+		if(position.y > -7)
+		{
+			position.y -= speed * dt;
+			rotateAngle += rotateSpeed;
+			rotate = true;
+		}
+	}
+
+	// move player left
+	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_LEFT))
+	{
+		if(position.x > -7)
+			position.x -= speed * dt;
+		
+	}
+
+	// move player right
+	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_RIGHT))
+	{
+		if(position.x < 8)
+			position.x += speed * dt;
+	}
+
+	// check for rotation when the player moves
+	if(rotate)
+	{
+		if(rotateAngle < -45.0f)
+			rotateAngle = -45.0f;
+		if(rotateAngle > 45.0f)
+			rotateAngle = 45.0f;
+	}
+	else
+	{
+		if(rotateAngle < 0)
+			rotateAngle += rotateSpeed;
+		if(rotateAngle > 0)
+			rotateAngle -= rotateSpeed;
+	}
+
+	// initiate barrel roll
+	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_Z) && currentGauge == 100.0f)
+	{
+		barrelRoll = true;
+		rotateAngle = 0.0f;	// reset object's rotation angle
+	}
 }
 
 void Player::Render(ID3DXEffect* shader)
@@ -171,7 +228,7 @@ void Player::Render(ID3DXEffect* shader)
 
 
 	// Render the player's HUD
-	playerHUD.Render(currentHealth, maxHealth, score, lives);
+	playerHUD.Render(currentHealth, maxHealth, score, lives, currentGauge, maxGauge);
 }
 
 /// Release the object's variables

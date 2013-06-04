@@ -328,7 +328,10 @@ void Viper::update(float dt, Player * player)
 		if(projectile->GetMeshBox().Intersects(player->GetMeshBox()))
 		{
 			projectile->Destroy();
-			player->DecrCurrHlth(20.0f);
+
+			// if the player is in a barrel roll, player takes no damage
+			if(!player->IfBarrelRoll())
+				player->DecrCurrHlth(20.0f);
 		}
 
 	}
@@ -605,7 +608,10 @@ void Scooter::update(float dt, Player * player)
 		if(projectile->GetMeshBox().Intersects(player->GetMeshBox()))
 		{
 			projectile->Destroy();
-			player->DecrCurrHlth(20.0f);
+
+			// if the player is in a barrel roll, player takes no damage
+			if(!player->IfBarrelRoll())
+				player->DecrCurrHlth(20.0f);
 		}
 
 	}
@@ -868,7 +874,10 @@ void Fighter::update(float dt, Player * player)
 		if(projectile->GetMeshBox().Intersects(player->GetMeshBox()))
 		{
 			projectile->Destroy();
-			player->DecrCurrHlth(20.0f);
+
+			// if the player is in a barrel roll, player takes no damage
+			if(!player->IfBarrelRoll())
+				player->DecrCurrHlth(20.0f);
 		}
 
 	}

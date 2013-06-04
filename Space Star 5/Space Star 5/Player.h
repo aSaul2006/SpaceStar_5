@@ -28,6 +28,13 @@ private:
 
 	// player lives variable
 	short lives;
+
+	// indicates whether the player is performing a barrel roll
+	bool barrelRoll;
+	short rollNum;
+
+	float currentGauge;
+	float maxGauge;
 public:
 	Player(void);
 	~Player(void);
@@ -72,5 +79,8 @@ public:
 	void IncrScore(int score) {this->score += score;}
 	int GetScore(void) {return score;}
 	
+	// Player behaviors
+	void CheckPlayerInput(float dt);
+	bool IfBarrelRoll(void) {return barrelRoll;}
 };
 

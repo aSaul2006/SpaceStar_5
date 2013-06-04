@@ -26,6 +26,8 @@ HUD::HUD(void)
 	barPosition[2] = D3DXVECTOR3(92.0f, 52.0f, 0);
 
 	score = "";
+
+	SetRect(&gaugeRect, 0, 0, 284, 10);
 }
 
 HUD::~HUD(void)
@@ -54,7 +56,8 @@ void HUD::Initialize(void)
 		D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &healthBar[2]);
 }
 	
-void HUD::Render(float currentHealth, float maxHealth, int playerScore, short playerLives)
+void HUD::Render(float currentHealth, float maxHealth, int playerScore, short playerLives,
+	float currentGauge, float maxGauge)
 {
 	float remainingHealth = width[2] - (width[2] * ((maxHealth - currentHealth) / maxHealth));
 	barRect[2].right = remainingHealth;
@@ -72,6 +75,13 @@ void HUD::Render(float currentHealth, float maxHealth, int playerScore, short pl
 	// Render the health bar frame
 	Initializer::GetInstance()->GetSprite()->Draw(healthBar[0], &barRect[0], 0, 
 		&barPosition[0], D3DCOLOR_ARGB(255, 255, 255, 255));
+
+	// Render barrel roll gauge
+	float remainingGauge = width[2] - (width[2] * ((maxGauge - currentGauge) / maxGauge));
+	gaugeRect.right = remainingGauge;
+	D3DXVECTOR3 gaugePosition(92.0f, 75.0f, 0);
+	Initializer::GetInstance()->GetSprite()->Draw(healthBar[2], &gaugeRect, 0, 
+		&gaugePosition, D3DCOLOR_RGBA(0, 0, 255, 255));
 
 	Initializer::GetInstance()->GetSprite()->End();
 
