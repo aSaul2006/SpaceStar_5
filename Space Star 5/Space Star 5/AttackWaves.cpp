@@ -48,9 +48,9 @@ void ViperWave1::AttackPattern(list<baseEnemyShip*> &enemies)
 	Viper* viper9 = new Viper();
 
 	//Ypos can't go above +5.0 or below -7.0
-	fighter1->SetEnemyAttrib2(200,2.0,1.25,ATTACK1,D3DXVECTOR3(12.0,5.0,0.0));
-	fighter2->SetEnemyAttrib2(200,2.0,1.5,ATTACK2,D3DXVECTOR3(48.0,5.0,0.0));
-	fighter3->SetEnemyAttrib2(200,3.0,1.5,ATTACK1,D3DXVECTOR3(72.0,5.0,0.0));
+	fighter1->SetEnemyAttrib2(200,2.0,1.25,ATTACK1,D3DXVECTOR3(12.0,4.0,0.0));
+	fighter2->SetEnemyAttrib2(200,4.0,1.5,ATTACK2,D3DXVECTOR3(48.0,4.0,0.0));
+	fighter3->SetEnemyAttrib2(200,4.0,1.5,ATTACK1,D3DXVECTOR3(72.0,4.0,0.0));
 	
 	viper2->SetEnemyAttrib2(100,4.0,1,ATTACK1,D3DXVECTOR3(24.0,2.0,0.0));
 	viper3->SetEnemyAttrib2(100,4.0,0.5,ATTACK3,D3DXVECTOR3(36.0,0.0,0.0));
@@ -97,11 +97,11 @@ void ViperWave2::AttackPattern(list<baseEnemyShip*> &enemies)
 	Viper* viper9 = new Viper();
 	Viper* viper10 = new Viper();
 
-	//Scooter* scoot1 = new Scooter();
-	//Scooter* scoot2 = new Scooter();
-	//Scooter* scoot3 = new Scooter();
-	//Scooter* scoot4 = new Scooter();
-	//Scooter* scoot5 = new Scooter();
+	Scooter* scoot1 = new Scooter();
+	Scooter* scoot2 = new Scooter();
+	Scooter* scoot3 = new Scooter();
+	Scooter* scoot4 = new Scooter();
+	Scooter* scoot5 = new Scooter();
 
 	Fighter* fighter1 = new Fighter();
 
@@ -111,26 +111,27 @@ void ViperWave2::AttackPattern(list<baseEnemyShip*> &enemies)
 	viper4->SetEnemyAttrib2(100,7.0,1.0,ATTACK2,D3DXVECTOR3(60.0,0.0,0.0));
 	viper5->SetEnemyAttrib2(100,7.0,0.5,ATTACK2,D3DXVECTOR3(76.0,0.0,0.0));
 	viper6->SetEnemyAttrib2(100,7.0,0.5,ATTACK5,D3DXVECTOR3(20.0,0.0,0.0));
-	viper7->SetEnemyAttrib2(100,7.0,0.5,ATTACK5,D3DXVECTOR3(36.0,0.0,0.0));
-	viper8->SetEnemyAttrib2(100,7.0,0.5,ATTACK5,D3DXVECTOR3(52.0,0.0,0.0));
-	viper9->SetEnemyAttrib2(100,7.0,1.0,ATTACK5,D3DXVECTOR3(68.0,0.0,0.0));
-	viper10->SetEnemyAttrib2(100,7.0,1.0,ATTACK5,D3DXVECTOR3(82.0,0.0,0.0));
+	viper7->SetEnemyAttrib2(100,5.0,0.5,ATTACK5,D3DXVECTOR3(82.0,0.0,0.0));
+	viper8->SetEnemyAttrib2(100,5.0,0.5,ATTACK5,D3DXVECTOR3(88.0,0.0,0.0));
+	viper9->SetEnemyAttrib2(100,5.0,1.0,ATTACK5,D3DXVECTOR3(94.0,0.0,0.0));
+	viper10->SetEnemyAttrib2(100,5.0,1.0,ATTACK5,D3DXVECTOR3(100.0,0.0,0.0));
 
-	//scoot1->SetEnemyAttrib2(100,7.0,1.0,(AttackType)0,D3DXVECTOR3(100.0,0.0,0.0));
-	//scoot2->SetEnemyAttrib2(100,7.0,1.0,ATTACK5,D3DXVECTOR3(104.0,0.0,0.0));
-	//scoot3->SetEnemyAttrib2(100,7.0,1.0,ATTACK5,D3DXVECTOR3(108.0,0.0,0.0));
-	//scoot4->SetEnemyAttrib2(100,7.0,1.0,ATTACK5,D3DXVECTOR3(112,0.0,0.0));
-	//scoot5->SetEnemyAttrib2(100,7.0,1.0,ATTACK5,D3DXVECTOR3(116,0.0,0.0));
+	scoot1->SetEnemyAttrib2(100,5.0,1.0,ATTACK5,D3DXVECTOR3(36.0,4.0,0.0));
+	scoot2->SetEnemyAttrib2(100,5.0,1.0,ATTACK5,D3DXVECTOR3(52.0,-3.0,0.0));
+	scoot3->SetEnemyAttrib2(100,5.0,1.0,ATTACK5,D3DXVECTOR3(68.0,2.0,0.0));
+	scoot4->SetEnemyAttrib2(100,5.0,1.0,ATTACK5,D3DXVECTOR3(112,0.0,0.0));
+	scoot5->SetEnemyAttrib2(100,5.0,1.0,ATTACK5,D3DXVECTOR3(116,-6.0,0.0));
 
-	fighter1->SetEnemyAttrib2(250,2.0,1.0,ATTACK2,D3DXVECTOR3(80.0,5.0,0.0));
+	fighter1->SetEnemyAttrib2(250,4.0,1.0,ATTACK2,D3DXVECTOR3(80.0,5.0,0.0));
+
+	enemies.push_front(fighter1);
 
 	enemies.push_front(viper1);enemies.push_front(viper2); enemies.push_front(viper3);
 	enemies.push_front(viper4);enemies.push_front(viper5); enemies.push_front(viper6);
 	enemies.push_front(viper7);enemies.push_front(viper8); enemies.push_front(viper9);
 
-	/*enemies.push_front(scoot1);enemies.push_front(scoot2);enemies.push_front(scoot3);*/
-	enemies.push_front(fighter1);
-	//enemies.push_front(scoot4);enemies.push_front(scoot4);
+	enemies.push_front(scoot1);enemies.push_front(scoot2);enemies.push_front(scoot3);
+	enemies.push_front(scoot4);enemies.push_front(scoot5);
 	
 }
 

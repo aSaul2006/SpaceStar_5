@@ -397,6 +397,7 @@ Scooter::Scooter()
 	D3DXMatrixTranslation(&translateMat, 0, 0, 0);
 	m_position = m_velocity = D3DXVECTOR3(0, 0, 0);
 	angle = 0.0;
+	m_rotateAngle = 0.0;
 	track = health = maxHealth = 0;	// change later if needed
 	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
 	//Initialize our model
@@ -553,25 +554,25 @@ void Scooter::update(float dt, Player * player)
 	case ATTACK1:
 		m_position.x -= m_speed * dt;
 		m_position.y += m_speed * dt;
-		if(m_position.y >= 5)
+		if(m_position.y >= 5 || m_position.x <= -10)
 			m_attackType = ATTACK2;
 		break;
 	case ATTACK2:
 		m_position.x -= m_speed * dt;
 		m_position.y -= m_speed * dt;
-		if(m_position.y <= 0)
+		if(m_position.y <= 0 || m_position.x <= -10)
 			m_attackType = ATTACK3;
 		break;
 	case ATTACK3:
 		m_position.x += m_speed * dt;
 		m_position.y -= m_speed * dt;
-		if(m_position.y <= -7)
+		if(m_position.y <= -7 || m_position.x >= 10)
 			m_attackType = ATTACK4;
 		break;
 	case ATTACK4:
 		m_position.x += m_speed * dt;
 		m_position.y += m_speed * dt;
-		if(m_position.y >= 0)
+		if(m_position.y >= 0 || m_position.x >= 10)
 			m_attackType = ATTACK1;
 		break;
 	case ATTACK5:
@@ -579,12 +580,12 @@ void Scooter::update(float dt, Player * player)
 		if(m_position.x <= 10)
 			m_attackType = ATTACK1;
 		break;
-	//case AVOID1:
-	//	 
-	//	break;
-	//case AVOID2:
-	//	
-	//	break;
+	case AVOID1:
+		 
+		break;
+	case AVOID2:
+		
+		break;
 	}
 
 	//fire weapon
@@ -825,7 +826,7 @@ void Fighter::update(float dt, Player * player)
 		break;
 	case ATTACK2:
 		m_position.x -= m_speed * dt;
-		if(m_position.x <= 0)
+		if(m_position.x <= -10)
 		{
 			m_attackType = ATTACK3;
 		}

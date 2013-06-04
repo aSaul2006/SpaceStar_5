@@ -106,9 +106,9 @@ void GameScreen::Update(GameState& gameState, float dt)
 		int pickAWave = rand() % 5;
 		switch(pickAWave)
 		{
-		case 0:
-			wave->AttackPattern(pEnemies);
-			break;
+		//case 0:
+		//	wave->AttackPattern(pEnemies);
+		//	break;
 		case 1:
 			wave2->AttackPattern(pEnemies);
 			break;
