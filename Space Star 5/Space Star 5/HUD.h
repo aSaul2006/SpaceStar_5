@@ -14,12 +14,15 @@ private:
 
 	string score;
 	string lives;
+
+	RECT gaugeRect;
 public:
 	HUD(void);
 	~HUD(void);
 
 	void Initialize(void);
-	void Render(float currentHealth, float maxHealth, int playerScore, short playerLives);
+	void Render(float currentHealth, float maxHealth, int playerScore, short playerLives,
+		float currentGauge, float maxGauge);
 	void Shutdown(void);
 };
 
