@@ -14,6 +14,7 @@ Player::Player(void)
 	rollNum = 0;
 	currentGauge = 100.0f;
 	maxGauge = 100.0f;
+	attackPower = 50;
 }
 
 Player::~Player(void)

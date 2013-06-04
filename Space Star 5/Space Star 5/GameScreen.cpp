@@ -106,15 +106,15 @@ void GameScreen::Update(GameState& gameState, float dt)
 		int pickAWave = rand() % 5;
 		switch(pickAWave)
 		{
-		//case 0:
-		//	wave->AttackPattern(pEnemies);
-		//	break;
+		case 0:
+			wave->AttackPattern(pEnemies);
+			break;
 		case 1:
 			wave2->AttackPattern(pEnemies);
 			break;
-		//case 2:
-		//	wave3->AttackPattern(pEnemies);
-		//	break;
+		case 2:
+			wave3->AttackPattern(pEnemies);
+			break;
 		//case 3:
 		//	wave4->AttackPattern(pEnemies);
 		//	break;
@@ -193,12 +193,12 @@ void GameScreen::Update(GameState& gameState, float dt)
 			if(projectile->GetMeshBox().Intersects(enemy->GetMeshBox()))
 			{
 				projectile->Destroy();
-				enemy->calculateDamage(50);
+				enemy->calculateDamage(player.GetAttackPower());
 				if(enemy->getHealth() <= 0)
 				{
 					enemy->destroyShip();
 					enemiesSpawned --;
-					player.IncrScore(10);
+					player.IncrScore(enemy->getShipScoreWorth());
 
 					PSys->play = true;
 					D3DXMATRIX worldMat;

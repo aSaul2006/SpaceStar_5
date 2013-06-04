@@ -26,6 +26,8 @@ private:
 	// player score variable
 	int score;
 
+	//player attack power
+	int attackPower;
 	// player lives variable
 	short lives;
 
@@ -78,7 +80,11 @@ public:
 	// Modify and access player's score
 	void IncrScore(int score) {this->score += score;}
 	int GetScore(void) {return score;}
-	
+
+	//modify and access players attack power
+	void AugmentPower(int power){this->attackPower = power;}
+	int GetAttackPower(){return this->attackPower;}
+
 	// Player behaviors
 	void CheckPlayerInput(float dt);
 	bool IfBarrelRoll(void) {return barrelRoll;}

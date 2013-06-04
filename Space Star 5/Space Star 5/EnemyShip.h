@@ -27,8 +27,8 @@ protected:
 
 	D3DXMATRIX scaleMat, rotateMat, translateMat, worldMat;
 	D3DXVECTOR3 m_position, m_velocity;
-	int health, maxHealth;
-	float m_speed, m_fireRate, m_rotateAngle;
+	int health, maxHealth, shipScoreWorth;
+	float m_speed, m_fireRate, m_rotateAngle, mainWeaponAttackPower;
 	AABB meshBox;	// mesh's collision box
 	AttackType m_attackType;
 	FMOD::Sound* enemySFX;
@@ -58,6 +58,8 @@ public:
 	virtual int getHealth(){return health;}
 	virtual bool CheckObject(void) {return destroyObject;}
 	virtual D3DXVECTOR3 getPosition(){return m_position;}
+	virtual float getMainWeaponAttackPower(){return mainWeaponAttackPower;}
+	virtual int getShipScoreWorth(){return shipScoreWorth;}
 	// get collision box
 	AABB GetMeshBox()
 	{

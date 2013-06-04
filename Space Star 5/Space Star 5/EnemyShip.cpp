@@ -64,9 +64,12 @@ Viper::Viper()
 	m_rotateAngle = 0;
 	angle = 0.0;
 	track = health = maxHealth = 0;	// change later if needed
-	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
+	hasSpawned = moveDir = isHealthZero = destroyObject = false;	// change later if needed
+	isHidden = true;
 	//initialize our model
 	initialize();
+	mainWeaponAttackPower = 15.0;
+	shipScoreWorth = 15;
 }
 
 
@@ -250,16 +253,18 @@ void Viper::update(float dt, Player * player)
 
 		break;
 	case ATTACK4:
-		if(angle == 360)
-			angle = 0.0;
+		if(m_position.x <= 10)
+		{
+			if(angle == 360)
+				angle = 0.0;
 
-		rad_angle = (angle * 3.14)/180;
-		m_position.x -= m_speed * dt;
-		m_position.y = 2.0 * sin((double)(-rad_angle));
-		m_rotateAngle = 0;
+			rad_angle = (angle * 3.14)/180;
+			m_position.x -= m_speed * dt;
+			m_position.y = 2.0 * sin((double)(-rad_angle));
+			m_rotateAngle = 0;
 
-		angle += 1.0;
-	
+			angle += 1.0;
+		}
 		break;
 	case ATTACK5:
 		m_position.x -= m_speed * dt;
@@ -285,27 +290,32 @@ void Viper::update(float dt, Player * player)
 		m_position.x -= m_speed * dt;
 		m_position.y += m_speed * dt;
 
-		if(m_position.y > -7)
+		if(m_position.x <= 10)
 		{
-			m_rotateAngle += rotateSpeed;
-			rotate = true;
-		}
+			if(m_position.y > -7)
+			{
+				m_rotateAngle += rotateSpeed;
+				rotate = true;
+			}
 
-		if(m_position.y >= 5)
-			m_attackType = AVOID2;  
+			if(m_position.y >= 5)
+				m_attackType = AVOID2;  
+		}
 		break;
 	case AVOID2:
 		m_position.x -= m_speed * dt;
 		m_position.y -= m_speed * dt;
-
-		if(m_position.y < 5)
+		if(m_position.x <= 10)
 		{
-			m_rotateAngle -= rotateSpeed;
-			rotate = true;
-		}
+			if(m_position.y < 5)
+			{
+				m_rotateAngle -= rotateSpeed;
+				rotate = true;
+			}
 
-		if(m_position.y <= -7)
-			m_attackType = AVOID1;
+			if(m_position.y <= -7)
+				m_attackType = AVOID1;
+		}
 		break;
 	}
 
@@ -314,7 +324,7 @@ void Viper::update(float dt, Player * player)
 	{
 		if((int)playerPos.y == (int)m_position.y)
 		{
-			if(fmod(CrudeTimer::Instance()->GetTickCount(),(double)m_fireRate) == 0.0)
+			if(fmod(dt*(float)track,m_fireRate) == 0)
 				fireWeapon(2,player);
 		}
 	}
@@ -331,7 +341,7 @@ void Viper::update(float dt, Player * player)
 
 			// if the player is in a barrel roll, player takes no damage
 			if(!player->IfBarrelRoll())
-				player->DecrCurrHlth(20.0f);
+				player->DecrCurrHlth(mainWeaponAttackPower);
 		}
 
 	}
@@ -402,10 +412,12 @@ Scooter::Scooter()
 	angle = 0.0;
 	m_rotateAngle = 0.0;
 	track = health = maxHealth = 0;	// change later if needed
-	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
+	hasSpawned = moveDir = isHealthZero = destroyObject = false;	// change later if needed
+	isHidden = true;
 	//Initialize our model
 	initialize();
-
+	mainWeaponAttackPower = 10.0;
+	shipScoreWorth = 10;
 }
 
 
@@ -596,7 +608,7 @@ void Scooter::update(float dt, Player * player)
 	{
 		if((int)playerPos.y == (int)m_position.y)
 		{
-			if(fmod(CrudeTimer::Instance()->GetTickCount(),(double)m_fireRate) == 0.0)
+			if(fmod(dt*(float)track,m_fireRate) == 0)
 				fireWeapon(2,player);
 		}
 	}
@@ -612,7 +624,7 @@ void Scooter::update(float dt, Player * player)
 
 			// if the player is in a barrel roll, player takes no damage
 			if(!player->IfBarrelRoll())
-				player->DecrCurrHlth(20.0f);
+				player->DecrCurrHlth(mainWeaponAttackPower);
 		}
 
 	}
@@ -675,10 +687,13 @@ Fighter::Fighter()
 	m_position = m_velocity = D3DXVECTOR3(0, 0, 0);
 	angle = 0.0;
 	track = health = maxHealth = 0;	// change later if needed
-	hasSpawned = isHidden = moveDir = isHealthZero = destroyObject = false;	// change later if needed
+	hasSpawned = moveDir = isHealthZero = destroyObject = false;	// change later if needed
+	isHidden = true;
 	m_rotateAngle = 0.0;
 	//Initialize our model
 	initialize();
+	mainWeaponAttackPower = 25.0;
+	shipScoreWorth = 35;
 }
 
 
@@ -757,8 +772,16 @@ void Fighter::Render(ID3DXEffect* shader)
 
 void Fighter::fireWeapon(int fireRate, Player* player)
 {
-	enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(0.0,-10.0f,0.0),0.2f));
-	AudioManager::GetInstance()->PlaySFX(enemySFX);
+	if(m_attackType == ATTACK1)
+	{
+		enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(0.0,-10.0f,0.0),0.2f));
+		AudioManager::GetInstance()->PlaySFX(enemySFX);
+	}
+	else
+	{
+		enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(-10.0,0.0f,0.0),0.1f));
+		AudioManager::GetInstance()->PlaySFX(enemySFX);
+	}
 }
 
 void Fighter::renderBullet(ID3DXEffect* shader)
@@ -831,24 +854,37 @@ void Fighter::update(float dt, Player * player)
 		m_position.x -= m_speed * dt;
 		break;
 	case ATTACK2:
-		m_position.x -= m_speed * dt;
-		if(m_position.x <= -10)
+		if(m_position.x > -10)
+			m_position.x -= m_speed * dt;
+		if(m_position.x <= 10)
 		{
-			m_attackType = ATTACK3;
+			if(m_position.y > -7)
+				m_position.y -= m_speed * dt;
+			if(m_position.x <= -10 || m_position.y <= -6)
+			{
+				m_attackType = ATTACK3;
+			}
 		}
 		break;
 	case ATTACK3:
 		m_position.x += m_speed * dt;
-		if(m_position.x >= 10)
+		m_position.y += m_speed * dt;
+		if(m_position.x >= 8 || (int)m_position.y >= 4)
 		{
-			m_attackType = ATTACK2;
+			m_attackType = ATTACK4;
 		}
 		break;
 	case ATTACK4:
-	
+		if(m_position.y > -7)
+			m_position.y -= m_speed * dt; 
+		if(m_position.y <= -6)
+			m_attackType = ATTACK5;
 		break;
 	case ATTACK5:
-		
+		if(m_position.y < 5)
+			m_position.y += m_speed * dt;
+		if(m_position.y >= 4)
+			m_attackType = ATTACK2;
 		break;
 	case AVOID1:
 		 
@@ -861,10 +897,8 @@ void Fighter::update(float dt, Player * player)
 	//fire weapon
 	if(!isHidden)
 	{
-
-			if(fmod(CrudeTimer::Instance()->GetTickCount(),(double)m_fireRate) == 0.0)
+			if(fmod(dt*(float)track,m_fireRate) == 0)
 				fireWeapon(2,player);
-	
 	}
 
 	for each (Projectile* projectile in enemyBullet)
@@ -878,7 +912,7 @@ void Fighter::update(float dt, Player * player)
 
 			// if the player is in a barrel roll, player takes no damage
 			if(!player->IfBarrelRoll())
-				player->DecrCurrHlth(20.0f);
+				player->DecrCurrHlth(mainWeaponAttackPower);
 		}
 
 	}
