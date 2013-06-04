@@ -62,7 +62,7 @@ void GameScreen::Initialize(void)
 	wave3 = new ViperWave3();
 	wave4 = new ViperWave4();
 	wave5 = new ViperWave5();
-	wave->AttackPattern(pEnemies);
+	wave3->AttackPattern(pEnemies);
 	
 	// initialize particle system
 	D3DXMATRIX psysWorld;

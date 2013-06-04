@@ -173,7 +173,7 @@ void ViperWave3::AttackPattern(list<baseEnemyShip*> &enemies)
 	viper3->SetEnemyAttrib2(100.0,5.0,1.0,ATTACK2,D3DXVECTOR3(18,3,0));
 	viper4->SetEnemyAttrib2(100.0,5.0,1.0,AVOID1,D3DXVECTOR3(35,5,0));
 	viper5->SetEnemyAttrib2(100.0,5.0,1.0,AVOID2,D3DXVECTOR3(35,-7,0));
-	viper6->SetEnemyAttrib2(100.0,4.0,1.0,ATTACK4,D3DXVECTOR3(42,-7,0));
+	viper6->SetEnemyAttrib2(100.0,5.0,1.0,ATTACK4,D3DXVECTOR3(42,-7,0));
 	viper7->SetEnemyAttrib2(150.0,7.0,0.5,ATTACK3,D3DXVECTOR3(80,0,0));
 	viper8->SetEnemyAttrib2(150.0,7.0,0.5,ATTACK5,D3DXVECTOR3(90,0,0));
 	viper9->SetEnemyAttrib2(150.0,7.0,0.5,ATTACK2,D3DXVECTOR3(100,2,0));

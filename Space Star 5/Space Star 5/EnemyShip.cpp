@@ -265,6 +265,8 @@ void Viper::update(float dt, Player * player)
 
 			angle += 1.0;
 		}
+		else
+			m_position.x -= m_speed * dt;
 		break;
 	case ATTACK5:
 		m_position.x -= m_speed * dt;
@@ -372,16 +374,16 @@ void Viper::update(float dt, Player * player)
 		if(m_rotateAngle > 0)
 			m_rotateAngle -= rotateSpeed;
 	}
-	if(m_attackType != ATTACK4)
-	{
+	//if(m_attackType != ATTACK4)
+	//{
 		D3DXMatrixRotationYawPitchRoll(&rotateMat, 
 			D3DXToRadian(0.0f), D3DXToRadian(m_rotateAngle), 0);
-	}
-	else
-	{
-		D3DXMatrixRotationYawPitchRoll(&rotateMat, 
-			D3DXToRadian(0.0), D3DXToRadian(angle), 0);
-	}
+	//}
+	//else
+	//{
+	//	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
+	//		D3DXToRadian(0.0), D3DXToRadian(angle), 0);
+	//}
 	
 	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
 
