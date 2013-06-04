@@ -193,3 +193,14 @@ bool InputManager::MouseButtonPressed(short button)
 		return false;
 	}
 }
+
+//int InputManager::scan2ascii(DWORD scancode, unsigned short* result)
+//{
+//	HKL layout = GetKeyboardLayout(0);
+//	unsigned char State[256];
+//
+//	if(GetKeyboardState(State) == FALSE)
+//		return 0;
+//	UINT vk = MapVirtualKeyEx(scancode, 1, layout);
+//	return ToAsciiEx(vk,scancode,State,result,0,layout);
+//}

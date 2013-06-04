@@ -12,7 +12,9 @@ class NewScoreScreen : public CScreen
 private:
 	IDirect3DTexture9* bgTex;
 	int finalScore;
-	//Database *database;
+	std::string m_username;
+	char textBuffer[10];
+	int inputPosition;
 
 public:
 	NewScoreScreen(void);

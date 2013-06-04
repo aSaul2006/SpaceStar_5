@@ -37,6 +37,8 @@ public:
 	// only once on every press of the mouse button
 	bool MouseButtonPressed(short button);
 
+	//int scan2ascii(DWORD scanCode,unsigned short* result);
+
 	// Detect changes in mouse position and scroll
 	int MouseDeltaX(void)
 		{ return mouseState.lX; }
@@ -62,7 +64,9 @@ private:
 	IDirectInputDevice8* m_pDIMouse;	// mouse device
 	char				buffer[256];	// input variable for keyboard
 	bool				m_bKeyDown[256];// checks which key is down
+	bool				m_bLockedKeys[256];
 	DIMOUSESTATE2		mouseState;		// input variable for mouse
 	bool				buttonDown[8];		// checks which mouse button is down
+	BYTE				m_cKeyState[256];
 };
 

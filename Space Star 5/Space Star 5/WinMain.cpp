@@ -5,6 +5,7 @@ using namespace std;
 #define VC_EXTRALEAN
 
 #include "SpaceStar5.h"
+#include <cstring>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -138,6 +139,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,		// Handle to the window
 						WPARAM wparam,	// Message info
 						LPARAM lparam)	// Message info
 {
+	wchar_t msg[32];
 	// custom handle windows messages
 	switch(message)
 	{
@@ -160,9 +162,23 @@ LRESULT CALLBACK WndProc(HWND hWnd,		// Handle to the window
 					PostQuitMessage(0);
 					break;
 				}*/
+			case 0x08:
+				{
+					Initializer::GetInstance()->backSpaceName();
+				}
 			}
 
 				break;
+		}
+	case WM_CHAR:
+		{
+			if(wparam != 0x08)
+			{
+				swprintf_s(msg, L"%c", (wchar_t)wparam);
+				std::wstring temp = msg;
+				std::string temp2(temp.begin(), temp.end());
+				Initializer::GetInstance()->setUserName(temp2);
+			}
 		}
 	}
 

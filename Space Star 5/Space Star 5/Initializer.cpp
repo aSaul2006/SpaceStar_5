@@ -89,3 +89,11 @@ void Initializer::Shutdown()
 	SAFE_RELEASE(gameFont);
 	SAFE_RELEASE(m_pD3DDevice);
 }
+
+void Initializer::setUserName(std::string value)
+{
+	if(g_userName.empty())
+		g_userName = value;
+	else if(g_userName.length() < INITIALMAX)
+		g_userName += value;
+}

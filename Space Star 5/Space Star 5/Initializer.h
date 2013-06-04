@@ -17,6 +17,8 @@ using namespace std;
 // safe release macro
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
+#define INITIALMAX 10
+
 class Initializer
 {
 private:
@@ -29,6 +31,7 @@ private:
 	ID3DXSprite*		m_pD3DSprite;	// sprite variables
 
 	int finalScore;
+	std::string g_userName;
 public:
 
 	// mesh object
@@ -116,4 +119,12 @@ public:
 
 	void setfinalscore(int value){finalScore = value;}
 	int getfinalscore(){return finalScore;}
+	void setUserName(std::string value);
+	void backSpaceName()
+	{
+		if(!g_userName.empty())
+			g_userName.erase(g_userName.end()-1);
+	}
+
+	std::string getUserName(){return g_userName;}
 };
