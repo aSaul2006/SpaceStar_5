@@ -32,6 +32,8 @@ private:
 
 	int finalScore;
 	std::string g_userName;
+
+	bool isOnNewScoreScreen;
 public:
 
 	// mesh object
@@ -127,4 +129,7 @@ public:
 	}
 
 	std::string getUserName(){return g_userName;}
+	
+	void setIsOnNewScoreScreen(bool value){this->isOnNewScoreScreen = value;}
+	bool IsNewScoreScreenInView(){return this->isOnNewScoreScreen;}
 };

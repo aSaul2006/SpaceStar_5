@@ -164,7 +164,8 @@ LRESULT CALLBACK WndProc(HWND hWnd,		// Handle to the window
 				}*/
 			case 0x08:
 				{
-					Initializer::GetInstance()->backSpaceName();
+					if(Initializer::GetInstance()->IsNewScoreScreenInView())
+						Initializer::GetInstance()->backSpaceName();
 				}
 			}
 
@@ -172,12 +173,15 @@ LRESULT CALLBACK WndProc(HWND hWnd,		// Handle to the window
 		}
 	case WM_CHAR:
 		{
-			if(wparam != 0x08)
+			if(Initializer::GetInstance()->IsNewScoreScreenInView())
 			{
-				swprintf_s(msg, L"%c", (wchar_t)wparam);
-				std::wstring temp = msg;
-				std::string temp2(temp.begin(), temp.end());
-				Initializer::GetInstance()->setUserName(temp2);
+				if(wparam != 0x08)
+				{
+					swprintf_s(msg, L"%c", (wchar_t)wparam);
+					std::wstring temp = msg;
+					std::string temp2(temp.begin(), temp.end());
+					Initializer::GetInstance()->setUserName(temp2);
+				}
 			}
 		}
 	}

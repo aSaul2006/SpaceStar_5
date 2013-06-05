@@ -10,6 +10,7 @@ NewScoreScreen::NewScoreScreen()
 	finalScore = Initializer::GetInstance()->getfinalscore();
 	Initialize();
 	inputPosition = 0;
+	Initializer::GetInstance()->setIsOnNewScoreScreen(true);
 	//textBuffer[1]=('t');
 }
 
@@ -68,5 +69,6 @@ void NewScoreScreen::Render(void)
 
 void NewScoreScreen::Shutdown(void)
 {
+	Initializer::GetInstance()->setIsOnNewScoreScreen(false);
 	SAFE_RELEASE(bgTex);
 }

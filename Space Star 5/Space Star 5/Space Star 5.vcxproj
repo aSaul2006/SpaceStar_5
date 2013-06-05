@@ -83,6 +83,7 @@
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Initializer.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="ItemActor.cpp" />
     <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="Misc\CrudeTimer.cpp" />
     <ClCompile Include="Misc\FrameCounter.cpp" />
@@ -114,6 +115,8 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Initializer.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="ItemActor.h" />
+    <ClInclude Include="ItemTypes.h" />
     <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="Misc\CrudeTimer.h" />
     <ClInclude Include="Misc\FrameCounter.h" />

@@ -23,6 +23,16 @@ baseEnemyShip::baseEnemyShip()
 
 }
 
+void baseEnemyShip::Shutdown()
+{
+	if(enemySFX!=NULL)
+	{
+		enemySFX->release();
+		enemySFX = NULL;
+	}
+}
+
+
 void Viper::initialize()
 {
 	// build bounding box for the mesh
@@ -41,16 +51,6 @@ void Viper::initialize()
 	AudioManager::GetInstance()->GetSystem()->createSound("laser3.wav",FMOD_DEFAULT,0, &enemySFX);
 }
 
-
-
-void baseEnemyShip::Shutdown()
-{
-	if(enemySFX!=NULL)
-	{
-		enemySFX->release();
-		enemySFX = NULL;
-	}
-}
 
 /// Enemy class
 

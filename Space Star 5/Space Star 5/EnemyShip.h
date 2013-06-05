@@ -5,7 +5,6 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "AABB.h"
-#include "State\State.h"
 #include "AttackType.h"
 #include "Projectile.h"
 #include "Player.h"
