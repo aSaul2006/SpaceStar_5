@@ -170,7 +170,8 @@ void GameScreen::Update(GameState& gameState, float dt)
 	}
 	//enemy.update(dt,&player);
 
-	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_SPACE))
+	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_SPACE) && 
+		player.GetStatus() == Normal)
 	{
 		pList.push_front(new Projectile(player.GetPosition(), D3DXVECTOR3(20.0f, 0, 0)));
 		AudioManager::GetInstance()->PlaySFX(projSFX);

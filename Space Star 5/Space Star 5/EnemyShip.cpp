@@ -342,7 +342,7 @@ void Viper::update(float dt, Player * player)
 			projectile->Destroy();
 
 			// if the player is in a barrel roll, player takes no damage
-			if(!player->IfBarrelRoll())
+			if(player->GetStatus() == Normal)
 				player->DecrCurrHlth(mainWeaponAttackPower);
 		}
 
@@ -625,7 +625,7 @@ void Scooter::update(float dt, Player * player)
 			projectile->Destroy();
 
 			// if the player is in a barrel roll, player takes no damage
-			if(!player->IfBarrelRoll())
+			if(player->GetStatus() == Normal)
 				player->DecrCurrHlth(mainWeaponAttackPower);
 		}
 
@@ -913,7 +913,7 @@ void Fighter::update(float dt, Player * player)
 			projectile->Destroy();
 
 			// if the player is in a barrel roll, player takes no damage
-			if(!player->IfBarrelRoll())
+			if(player->GetStatus() == Normal)
 				player->DecrCurrHlth(mainWeaponAttackPower);
 		}
 

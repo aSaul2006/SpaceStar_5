@@ -10,11 +10,12 @@ Player::Player(void)
 	maxHealth = 100.0f;
 	score = 0;
 	lives = 3;
-	barrelRoll = false;
+	moveToBG = false;
 	rollNum = 0;
 	currentGauge = 100.0f;
 	maxGauge = 100.0f;
 	attackPower = 50;
+	status = Normal;
 }
 
 Player::~Player(void)
@@ -51,43 +52,18 @@ void Player::Update(float dt)
 		lives--;
 	}
 
-	if(!barrelRoll)
+	// check the player's status
+	switch(status)
 	{
+	case Normal:
 		CheckPlayerInput(dt);
-
-		if(currentGauge < 100.0f)
-		{
-			currentGauge += 25.0f * dt;
-		}
-		else if(currentGauge > 100.0f)
-		{
-			currentGauge = 100.0f;
-		}
-	}
-	else
-	{
-		float rotateSpeed = 800.0f;
-
-		rotateAngle += rotateSpeed * dt;
-		currentGauge -= 150.0f * dt;
-
-		if(currentGauge < 0.0f)
-		{
-			currentGauge = 0.0f;
-		}
-
-		if(rotateAngle >= 360.0f)
-		{
-			rotateAngle = 0.0f;
-			rollNum++;
-		}
-
-		if(rollNum >= 2)
-		{
-			rotateAngle = 0.0f;
-			rollNum = 0;
-			barrelRoll = false;
-		}
+		break;
+	case BarrelRoll:
+		UpdateBarrelRoll(dt);
+		break;
+	case Dodge:
+		UpdateDodge(dt);
+		break;
 	}
 
 	// keep up with the moving camera
@@ -173,8 +149,108 @@ void Player::CheckPlayerInput(float dt)
 	// initiate barrel roll
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_Z) && currentGauge == 100.0f)
 	{
-		barrelRoll = true;
+		status = BarrelRoll;
 		rotateAngle = 0.0f;	// reset object's rotation angle
+	}
+
+	// initiate dodge
+	else if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_X) && currentGauge == 100.0f)
+	{
+		status = Dodge;
+		moveToBG = true;
+		rotateAngle = 0.0f;
+	}
+
+	if(currentGauge < 100.0f)
+	{
+		currentGauge += 25.0f * dt;
+	}
+	else if(currentGauge > 100.0f)
+	{
+		currentGauge = 100.0f;
+	}
+}
+
+void Player::UpdateBarrelRoll(float dt)
+{
+	float rotateSpeed = 800.0f;
+
+	rotateAngle += rotateSpeed * dt;
+	currentGauge -= 150.0f * dt;
+
+	if(currentGauge < 0.0f)
+	{
+		currentGauge = 0.0f;
+	}
+
+	if(rotateAngle >= 360.0f)
+	{
+		rotateAngle = 0.0f;
+		rollNum++;
+	}
+
+	if(rollNum >= 2)
+	{
+		rotateAngle = 0.0f;
+		rollNum = 0;
+		status = Normal;
+	}
+}
+
+void Player::UpdateDodge(float dt)
+{
+	// player's speed
+	float speed = 10.0f;
+
+	// player's rotation speed
+	float rotateSpeed = 0.2f;
+
+	// check if the player needs to rotate
+	bool rotate = true;
+
+	currentGauge -= 150.0f * dt;
+
+	if(currentGauge < 0.0f)
+	{
+		currentGauge = 0.0f;
+	}
+
+	if(moveToBG)
+	{
+		position.z += speed * dt;
+		rotateAngle -= rotateSpeed;
+
+		// check the player's position on the z axis
+		if(position.z >= 5.0f)
+		{
+			moveToBG = false;
+		}
+	}
+	else
+	{
+		position.z -= speed * dt;
+		rotateAngle += rotateSpeed;
+		if(position.z <= 0.0f)
+		{
+			position.z = 0.0f;
+			status = Normal;
+		}
+	}
+
+	// check for rotation when the player moves
+	if(rotate)
+	{
+		if(rotateAngle < -45.0f)
+			rotateAngle = -45.0f;
+		if(rotateAngle > 45.0f)
+			rotateAngle = 45.0f;
+	}
+	else
+	{
+		if(rotateAngle < 0)
+			rotateAngle += rotateSpeed;
+		if(rotateAngle > 0)
+			rotateAngle -= rotateSpeed;
 	}
 }
 

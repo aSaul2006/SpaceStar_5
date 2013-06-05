@@ -7,6 +7,13 @@
 // safe release macro
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
+enum PlayerStatus
+	{
+		Normal,
+		BarrelRoll,
+		Dodge
+	};
+
 class Player
 {
 private:
@@ -32,11 +39,13 @@ private:
 	short lives;
 
 	// indicates whether the player is performing a barrel roll
-	bool barrelRoll;
 	short rollNum;
-
 	float currentGauge;
 	float maxGauge;
+
+	// indicates when the player uses the dodge command
+	bool moveToBG;
+	PlayerStatus status;
 public:
 	Player(void);
 	~Player(void);
@@ -87,6 +96,8 @@ public:
 
 	// Player behaviors
 	void CheckPlayerInput(float dt);
-	bool IfBarrelRoll(void) {return barrelRoll;}
+	void UpdateBarrelRoll(float dt);
+	void UpdateDodge(float dt);
+	PlayerStatus GetStatus(void) {return status;}
 };
 
