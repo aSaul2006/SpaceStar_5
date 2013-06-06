@@ -96,7 +96,8 @@ public:
 				delete[] texture;
 			}
 		}
-	}playerMesh, projectileMesh, viperMesh, scooterMesh, fighterMesh;
+	}playerMesh, projectileMesh, missileMesh1, viperMesh, scooterMesh, fighterMesh,
+		healthPickup, missilePickup1, starDust;
 
 	~Initializer(void);
 
@@ -113,12 +114,24 @@ public:
 	IDirect3DDevice9* GetDevice() {return m_pD3DDevice;}
 	ID3DXFont* GetFont() {return gameFont;}
 	ID3DXSprite* GetSprite() {return m_pD3DSprite;}
+	//player mesh
 	MeshObject GetPlayerMesh() {return playerMesh;}
+	
+	//projectile mesh
 	MeshObject GetProjectileMesh() {return projectileMesh;}
+	MeshObject GetMissileMesh1() {return missileMesh1;}
+
+	//Pickup meshes
+	MeshObject GetMissilePickupMesh() {return missilePickup1;}
+	MeshObject GetHealthPickupMesh() {return healthPickup;}
+	MeshObject GetStarDushMesh() {return starDust;}
+	
+	//Enemy meshes
 	MeshObject GetViperMesh() {return viperMesh;}
 	MeshObject GetScooterMesh() {return scooterMesh;}
 	MeshObject GetFighterMesh() {return fighterMesh;}
 
+	//NewScoreScreen Accessors
 	void setfinalscore(int value){finalScore = value;}
 	int getfinalscore(){return finalScore;}
 	void setUserName(std::string value);

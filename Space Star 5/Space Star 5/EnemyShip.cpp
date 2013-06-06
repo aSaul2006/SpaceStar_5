@@ -67,7 +67,7 @@ Viper::Viper()
 	hasSpawned = moveDir = isHealthZero = destroyObject = false;	// change later if needed
 	isHidden = true;
 	//initialize our model
-	initialize();
+	this->initialize();
 	mainWeaponAttackPower = 15.0;
 	shipScoreWorth = 15;
 }

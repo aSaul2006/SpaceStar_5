@@ -73,10 +73,17 @@ void Initializer::Initialize(HWND hWnd, IDirect3D9* m_pD3DObject,
 
 	// Create player mesh
 	playerMesh.Init(L"frigate.x");
+	//create projectile meshes
 	projectileMesh.Init(L"sphere.x");
+	missileMesh1.Init(L"missile1.X");
+	//create enemy ship meshes
 	viperMesh.Init(L"viperShip.x");
 	scooterMesh.Init(L"tooter.X");
 	fighterMesh.Init(L"fighterShip.X");
+	//create item actor meshes
+	missilePickup1.Init(L"missileItemActor.X");
+	healthPickup.Init(L"healthItemActor.X");
+	starDust.Init(L"starDustItemActor.X");
 }
 
 void Initializer::Shutdown()

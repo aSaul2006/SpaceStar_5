@@ -7,15 +7,17 @@
 
 #include <d3d9.h>
 #include <d3dx9.h>
+#include <list>
 #include "AABB.h"
 #include "AudioManager.h"
+#include "EnemyShip.h"
 
 // safe release macro
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
 class ItemActor
 {
-private:
+protected:
 	D3DXMATRIX scaleMat, rotateMat, translateMat, worldMat;
 	D3DXVECTOR3 m_position;
 	int health, maxHealth;
@@ -33,12 +35,12 @@ public:
 	/*
 	 * Update <Item> object
 	 */
-	virtual void Update()=0;
+	virtual void Update(float dt, baseEnemyShip* enemy)=0;
 
 	/*
 	 * Render <Item> object
 	 */
-	virtual void Render()=0;
+	virtual void Render(ID3DXEffect* shader)=0;
 	
 	/*
 	 * Clean up mess
@@ -74,4 +76,54 @@ public:
 	}
 };
 
+
+//-----------------------------------------------------------------------------
+//************************* Health Pick up class ******************************
+//-----------------------------------------------------------------------------
+/*
+ *
+ *
+ */
+//------------------------------------------------------------------------------
+
+class HealthItemActor : public ItemActor
+{
+private:
+
+public:
+	//constructor 
+	HealthItemActor(void);
+	//destructor
+	~HealthItemActor(void);
+
+	ItemActor* DropItem(void);
+	void Update(float dt, baseEnemyShip* enemy);
+	void Render(ID3DXEffect* shader);
+	void Initialize(void);
+};
+
+//-----------------------------------------------------------------------------
+//************************* Missile 1 Pick up class ***************************
+//-----------------------------------------------------------------------------
+/*
+ *
+ *
+ */
+//------------------------------------------------------------------------------
+
+class Missile1ItemActor : public ItemActor
+{
+private:
+
+public:
+	//constructor
+	Missile1ItemActor(void);
+	//destructor
+	~Missile1ItemActor(void);
+
+	ItemActor* DropItem(void);
+	void Update(float dt, baseEnemyShip* enemy);
+	void Render(ID3DXEffect* shader);
+	void Initialize(void);
+};
 #endif
