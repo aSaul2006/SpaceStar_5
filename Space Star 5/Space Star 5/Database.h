@@ -15,5 +15,8 @@ public:
 	bool open();
 	void insertScore(char *name, int score);
 	bool checkForHighScore(int score);
+	//sqlite3 getDatabase();
+	//void removeLowScore();
+	//void getHighScores(string& print);
 	void close();
 };

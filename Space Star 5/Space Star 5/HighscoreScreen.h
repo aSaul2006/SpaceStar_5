@@ -7,19 +7,23 @@
 //safe release
 #define SAFE_RELEASE(x) if(x){x->Release(); x=0;}
 
-class NewScoreScreen : public CScreen
+class HighscoreScreen : public CScreen
 {
 private:
 	IDirect3DTexture9* bgTex;
-	int finalScore;
 	Database *database;
+	string* names;
+	string* scores;
 
 public:
-	NewScoreScreen(void);
-	~NewScoreScreen(void);
+	HighscoreScreen(void);
+	~HighscoreScreen(void);
 
 	void Initialize(void);
 	void Update(GameState& gameState, float dt);
 	void Render(void);
 	void Shutdown(void);
+
+	void getHighscores();
+
 };

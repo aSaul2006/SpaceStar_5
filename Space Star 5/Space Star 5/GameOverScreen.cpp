@@ -11,6 +11,7 @@ GameOverScreen::GameOverScreen()
 
 	database = new Database();
 	char *name = "ZMF";
+	//newScore = false;
 
 	database->open();
 	newScore = database->checkForHighScore(finalScore);
@@ -38,7 +39,8 @@ void GameOverScreen::Update(GameState& gameState, float dt)
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_RETURN))
 	{
 		if(newScore)
-			gameState = NewScore;
+			//gameState= NewScore;
+			gameState = HighScore;//inserted for testing purposes
 		else
 			gameState = MainMenu;
 	}

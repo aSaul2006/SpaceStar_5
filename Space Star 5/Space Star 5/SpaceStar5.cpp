@@ -88,6 +88,22 @@ void SpaceStar5::Update(float dt)
 			AudioManager::GetInstance()->PlayBGM(titleBGM);
 		}
 		break;
+	case NewScore:
+		if(gameScreen.front()->GetScreenType() != NewScoreType)
+		{
+			gameScreen.pop_front();
+			gameScreen.push_front(new NewScoreScreen());
+			AudioManager::GetInstance()->PlayBGM(titleBGM);
+		}
+		break;
+	case HighScore:
+		if(gameScreen.front()->GetScreenType() != HighScoreType)
+		{
+			gameScreen.pop_front();
+			gameScreen.push_front(new HighscoreScreen());
+			AudioManager::GetInstance()->PlayBGM(titleBGM);
+		}
+		break;
 	case Exit:
 		PostQuitMessage(0);
 		break;
