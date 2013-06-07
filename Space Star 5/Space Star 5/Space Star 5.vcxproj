@@ -80,6 +80,7 @@
     <ClCompile Include="Entity\EntityManager.cpp" />
     <ClCompile Include="GameOverScreen.cpp" />
     <ClCompile Include="GameScreen.cpp" />
+    <ClCompile Include="HighscoreScreen.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Initializer.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="Entity\EntityNames.h" />
     <ClInclude Include="GameOverScreen.h" />
     <ClInclude Include="GameScreen.h" />
+    <ClInclude Include="HighscoreScreen.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Initializer.h" />
     <ClInclude Include="InputManager.h" />

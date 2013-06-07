@@ -1,9 +1,12 @@
 #include "HighscoreScreen.h"
 #include <stdio.h>
 
+int rows = 0;
+
 HighscoreScreen::HighscoreScreen()
 {
 	print = "";
+	type = HighScoreType;
 	database = new Database();
 	names = new string[10];
 	scores = new string[10];
@@ -39,22 +42,13 @@ void HighscoreScreen::Render(void)
 	Initializer::GetInstance()->GetSprite()->End();
 	RECT rect;
 	D3DCOLOR fontColor;
+	print = "Highscores\n";
 
-
+	for(int i =0;i < rows;i++)
+	{
+		print += names[i] + "    " + scores[i] + "\n";
+	}
 	
-	print = "Highscores\n" + names[0] + "    " + scores[0] + "\n"
-		+ names[1] + "    " + scores[1] + "\n"
-		+ names[2] + "    " + scores[2] + "\n"
-		+ names[3] + "    " + scores[3] + "\n"
-		+ names[4] + "    " + scores[4] + "\n"
-		+ names[5] + "    " + scores[5] + "\n"
-		+ names[6] + "    " + scores[6] + "\n"
-		+ names[7] + "    " + scores[7] + "\n"
-		+ names[8] + "    " + scores[8] + "\n"
-		+ names[9] + "    " + scores[9] + "\n";
-
-
-
 	SetRect(&rect, 350, 50, 450, 600);
 	fontColor = D3DCOLOR_RGBA(192, 192, 192, 255);
 
@@ -74,18 +68,27 @@ void HighscoreScreen::getHighscores()
 	if(sqlite3_open("Database/spacestarDB.sqlite", &database) == SQLITE_OK)
 	{
 		sqlite3_stmt *statement;
-		int rows = 10;
 		int index = 0;
+		int res = 0;
 		if(sqlite3_prepare_v2(database, "SELECT * FROM highscores ORDER BY score DESC;", -1, &statement, 0) == SQLITE_OK)
 		{
-			while(rows > 0)
+			while(1)
 			{
-				sqlite3_step(statement);
-				names[index] = (char*)sqlite3_column_text(statement, 1);
-				scores[index] = (char*)sqlite3_column_text(statement, 2);
+				res = sqlite3_step(statement);
 
-				index++;
-				rows--;
+				if(res == SQLITE_ROW)
+				{
+					names[index] = (char*)sqlite3_column_text(statement, 0);
+					scores[index] = (char*)sqlite3_column_text(statement, 1);
+					index ++;
+					rows ++;
+				}
+
+				if(res == SQLITE_DONE || res == SQLITE_ERROR)
+				{
+					break;
+				}
+			
 			}
 			sqlite3_finalize(statement);
 		}

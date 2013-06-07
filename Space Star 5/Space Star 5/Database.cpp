@@ -1,5 +1,7 @@
 #include "Database.h"
 #include <iostream>
+#include <Windows.h>
+
 
 Database::Database()
 {
@@ -18,15 +20,22 @@ bool Database::open()
 	return false;
 }
 
-void Database::insertScore(char *name, int score)
+void Database::insertScore(std::string name, int score)
 {
 	sqlite3_stmt *statement;
+
 	if(sqlite3_prepare_v2(database, "INSERT INTO highscores VALUES(?,?);", -1, &statement, NULL) == SQLITE_OK)
 	{
-		sqlite3_bind_text(statement, 1, name, strlen(name), 0);
-		sqlite3_bind_int(statement, 2, score);
+		sqlite3_bind_text(statement, 0, name.c_str(), strlen(name.c_str()), 0);
+		sqlite3_bind_int(statement, 1, score);
 		sqlite3_step(statement);
 		sqlite3_finalize(statement);
+	}
+	else
+	{
+		
+		std::wstring msg = L"Insert Failed" ;
+		MessageBox(NULL,msg.c_str(),L"DATABASE ERROR", MB_OK | MB_ICONINFORMATION);
 	}
 }
 

@@ -138,6 +138,9 @@
     <ClCompile Include="ItemActor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HighscoreScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SpaceStar5.h">
@@ -240,6 +243,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ItemTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HighscoreScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

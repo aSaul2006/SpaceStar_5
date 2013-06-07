@@ -162,7 +162,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,		// Handle to the window
 					PostQuitMessage(0);
 					break;
 				}*/
-			case 0x08:
+			case VK_BACK:
 				{
 					if(Initializer::GetInstance()->IsNewScoreScreenInView())
 						Initializer::GetInstance()->backSpaceName();
@@ -175,7 +175,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,		// Handle to the window
 		{
 			if(Initializer::GetInstance()->IsNewScoreScreenInView())
 			{
-				if(wparam != 0x08)
+				if(wparam != VK_BACK)
 				{
 					swprintf_s(msg, L"%c", (wchar_t)wparam);
 					std::wstring temp = msg;

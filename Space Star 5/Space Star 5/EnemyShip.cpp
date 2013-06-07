@@ -608,11 +608,11 @@ void Scooter::update(float dt, Player * player)
 	//fire weapon
 	if(!isHidden)
 	{
-		if((int)playerPos.y == (int)m_position.y)
-		{
+		//if((int)playerPos.y == (int)m_position.y)
+		//{
 			if(fmod(dt*(float)track,m_fireRate) == 0)
 				fireWeapon(2,player);
-		}
+		//}
 	}
 
 	for each (Projectile* projectile in enemyBullet)

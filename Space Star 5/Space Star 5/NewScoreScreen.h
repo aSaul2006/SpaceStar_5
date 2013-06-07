@@ -13,6 +13,7 @@ private:
 	IDirect3DTexture9* bgTex;
 	int finalScore;
 	Database *database;
+	std::string m_username;
 
 public:
 	NewScoreScreen(void);
