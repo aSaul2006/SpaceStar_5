@@ -46,10 +46,12 @@ struct AABB
 
 	bool Intersects(AABB otherBox)
 	{
-		if(maxPt.x < otherBox.minPt.x ||
-			maxPt.y < otherBox.minPt.y ||
-			minPt.x > otherBox.maxPt.x ||
-			minPt.y > otherBox.maxPt.y)
+		if(minPt.x > otherBox.maxPt.x ||
+			otherBox.minPt.x > maxPt.x ||
+			minPt.y > otherBox.maxPt.y ||
+			otherBox.minPt.y > maxPt.y ||
+			minPt.z > otherBox.maxPt.z ||
+			otherBox.minPt.z > maxPt.z)
 		{
 			return false;
 		}

@@ -39,4 +39,6 @@ public:
 	void DecreaseEyePos(int num);
 	
 	float GetCameraSpeed() {return cameraSpeed;}
+
+	void SetEyePos(D3DXVECTOR3 newPos) {eyePos = newPos;}
 };

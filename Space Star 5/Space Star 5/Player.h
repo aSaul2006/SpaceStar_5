@@ -11,7 +11,8 @@ enum PlayerStatus
 	{
 		Normal,
 		BarrelRoll,
-		Dodge
+		Dodge,
+		MovePlane
 	};
 
 class Player
@@ -44,8 +45,16 @@ private:
 	float maxGauge;
 
 	// indicates when the player uses the dodge command
-	bool moveToBG;
+	bool moveToBG;	// move to the background
+	bool moveToFG;	// move to the foreground
+	bool rotate;
 	PlayerStatus status;
+	float ambientBlue;
+
+	// const variables
+	static const float speed;
+	static const float rotateSpeed;
+
 public:
 	Player(void);
 	~Player(void);
@@ -98,6 +107,6 @@ public:
 	void CheckPlayerInput(float dt);
 	void UpdateBarrelRoll(float dt);
 	void UpdateDodge(float dt);
+	void MoveToSecondPlane(float dt);
 	PlayerStatus GetStatus(void) {return status;}
 };
-

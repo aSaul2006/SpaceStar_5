@@ -1,5 +1,7 @@
 #include "Player.h"
 
+const float Player::speed = 10.0f;
+const float Player::rotateSpeed = 0.2f;
 
 Player::Player(void)
 {
@@ -11,11 +13,13 @@ Player::Player(void)
 	score = 0;
 	lives = 3;
 	moveToBG = false;
+	moveToFG = false;
 	rollNum = 0;
 	currentGauge = 100.0f;
 	maxGauge = 100.0f;
 	attackPower = 50;
 	status = Normal;
+	ambientBlue = 0.1f;
 }
 
 Player::~Player(void)
@@ -52,6 +56,8 @@ void Player::Update(float dt)
 		lives--;
 	}
 
+	rotate = false;
+
 	// check the player's status
 	switch(status)
 	{
@@ -64,10 +70,26 @@ void Player::Update(float dt)
 	case Dodge:
 		UpdateDodge(dt);
 		break;
+	case MovePlane:
+		MoveToSecondPlane(dt);
+		break;
 	}
 
-	// keep up with the moving camera
-	//position.x += Camera::GetInstance()->GetCameraSpeed() * dt;
+	// check for rotation when the player moves
+	if(rotate && status != BarrelRoll)
+	{
+		if(rotateAngle < -45.0f)
+			rotateAngle = -45.0f;
+		if(rotateAngle > 45.0f)
+			rotateAngle = 45.0f;
+	}
+	else if(!rotate && status != BarrelRoll)
+	{
+		if(rotateAngle < 0)
+			rotateAngle += rotateSpeed;
+		if(rotateAngle > 0)
+			rotateAngle -= rotateSpeed;
+	}
 
 	// Set rotation matrix to rotate the player
 	// Yaw = y; Pitch = x; Roll = z
@@ -84,15 +106,6 @@ void Player::Update(float dt)
 
 void Player::CheckPlayerInput(float dt)
 {
-	// player's speed
-	float speed = 10.0f;
-
-	// player's rotation speed
-	float rotateSpeed = 0.2f;
-
-	// check if the player needs to rotate
-	bool rotate = false;
-
 	// Move player up
 	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_UP))
 	{
@@ -130,22 +143,6 @@ void Player::CheckPlayerInput(float dt)
 			position.x += speed * dt;
 	}
 
-	// check for rotation when the player moves
-	if(rotate)
-	{
-		if(rotateAngle < -45.0f)
-			rotateAngle = -45.0f;
-		if(rotateAngle > 45.0f)
-			rotateAngle = 45.0f;
-	}
-	else
-	{
-		if(rotateAngle < 0)
-			rotateAngle += rotateSpeed;
-		if(rotateAngle > 0)
-			rotateAngle -= rotateSpeed;
-	}
-
 	// initiate barrel roll
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_Z) && currentGauge == 100.0f)
 	{
@@ -159,6 +156,23 @@ void Player::CheckPlayerInput(float dt)
 		status = Dodge;
 		moveToBG = true;
 		rotateAngle = 0.0f;
+	}
+
+	// move to the second plane
+	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_A))
+	{
+		status = MovePlane;
+		rotateAngle = 0.0f;
+		if(position.z == 0.0f)
+		{
+			moveToBG = true;
+			moveToFG = false;
+		}
+		else
+		{
+			moveToBG = false;
+			moveToFG = true;
+		}
 	}
 
 	if(currentGauge < 100.0f)
@@ -199,15 +213,6 @@ void Player::UpdateBarrelRoll(float dt)
 
 void Player::UpdateDodge(float dt)
 {
-	// player's speed
-	float speed = 10.0f;
-
-	// player's rotation speed
-	float rotateSpeed = 0.2f;
-
-	// check if the player needs to rotate
-	bool rotate = true;
-
 	currentGauge -= 150.0f * dt;
 
 	if(currentGauge < 0.0f)
@@ -219,6 +224,7 @@ void Player::UpdateDodge(float dt)
 	{
 		position.z += speed * dt;
 		rotateAngle -= rotateSpeed;
+		rotate = true;
 
 		// check the player's position on the z axis
 		if(position.z >= 5.0f)
@@ -230,27 +236,68 @@ void Player::UpdateDodge(float dt)
 	{
 		position.z -= speed * dt;
 		rotateAngle += rotateSpeed;
+		rotate = true;
+
 		if(position.z <= 0.0f)
 		{
 			position.z = 0.0f;
 			status = Normal;
 		}
 	}
+}
 
-	// check for rotation when the player moves
-	if(rotate)
+void Player::MoveToSecondPlane(float dt)
+{
+	// check if the player is moving to the background...
+	if(moveToBG)
 	{
-		if(rotateAngle < -45.0f)
-			rotateAngle = -45.0f;
-		if(rotateAngle > 45.0f)
-			rotateAngle = 45.0f;
+		position.z += speed * dt;
+		rotateAngle -= rotateSpeed;
+		rotate = true;
+
+		ambientBlue += 0.1f;
+		if(ambientBlue >= 10.0f)
+			ambientBlue = 10.0f;
+
+		// check the player's position on the z axis
+		if(position.z >= 5.0f)
+		{
+			position.z = 5.0f;
+			moveToBG = false;
+			status = Normal;
+			ambientBlue = 10.0f;
+		}
+
+		for(int i = 0; i < Initializer::GetInstance()->playerMesh.numMaterials; i++)
+		{
+			Initializer::GetInstance()->playerMesh.modelMaterial[i].Ambient.b = ambientBlue;
+		}
 	}
-	else
+
+	// ...or if the player is moving to the foreground
+	else if(moveToFG)
 	{
-		if(rotateAngle < 0)
-			rotateAngle += rotateSpeed;
-		if(rotateAngle > 0)
-			rotateAngle -= rotateSpeed;
+		position.z -= speed * dt;
+		rotateAngle += rotateSpeed;
+		rotate = true;
+
+		ambientBlue -= 0.1f;
+		if(ambientBlue <= 0.1f)
+			ambientBlue = 0.1f;
+
+		// check the player's position on the z axis
+		if(position.z <= 0.0f)
+		{
+			position.z = 0.0f;
+			moveToFG = false;
+			status = Normal;
+			ambientBlue = 0.1f;
+		}
+
+		for(int i = 0; i < Initializer::GetInstance()->playerMesh.numMaterials; i++)
+		{
+			Initializer::GetInstance()->playerMesh.modelMaterial[i].Ambient.b = ambientBlue;
+		}
 	}
 }
 
