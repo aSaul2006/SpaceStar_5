@@ -327,7 +327,7 @@ void Viper::update(float dt, Player * player)
 		if((int)playerPos.y == (int)m_position.y)
 		{
 			if(fmod(dt*(float)track,m_fireRate) == 0)
-				fireWeapon(2,player);
+ 				fireWeapon(2,player);
 		}
 	}
 

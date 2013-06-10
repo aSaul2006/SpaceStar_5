@@ -11,6 +11,7 @@
 #include "AABB.h"
 #include "AudioManager.h"
 #include "EnemyShip.h"
+#include "ItemTypes.h"
 
 // safe release macro
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -20,11 +21,14 @@ class ItemActor
 protected:
 	D3DXMATRIX scaleMat, rotateMat, translateMat, worldMat;
 	D3DXVECTOR3 m_position;
+	D3DXVECTOR3	m_rotateAngle;
 	int health, maxHealth;
-	float m_speed, m_rotateAngle;
+	float m_speed;
 	AABB meshBox;	// mesh's collision box
 	FMOD::Sound* itemSFX;
 	bool destroyObject;
+	ItemType typeOfItemDropped;
+
 public:
 
 	/*
@@ -51,7 +55,7 @@ public:
 	 * Choose a random pickup item to drop
 	 * @Returns a pointer to <ItemActor*> object initialized 
 	 */
-	virtual ItemActor* DropItem()=0;
+	void DropItem(std::list<ItemActor*> &item, D3DXVECTOR3 pos);
 
 	//Constructor/Destructor
 	ItemActor(void);
@@ -67,6 +71,10 @@ public:
 	 */
 	virtual D3DXVECTOR3 getPosition(){return m_position;}
 
+	virtual void DestroyItem(bool value) { destroyObject = value;}
+
+	ItemType getItemType() {return typeOfItemDropped;}
+	
 	// get collision box
 	AABB GetMeshBox()
 	{
@@ -92,11 +100,10 @@ private:
 
 public:
 	//constructor 
-	HealthItemActor(void);
+	HealthItemActor(D3DXVECTOR3 pos);
 	//destructor
 	~HealthItemActor(void);
 
-	ItemActor* DropItem(void);
 	void Update(float dt, baseEnemyShip* enemy);
 	void Render(ID3DXEffect* shader);
 	void Initialize(void);
@@ -117,11 +124,10 @@ private:
 
 public:
 	//constructor
-	Missile1ItemActor(void);
+	Missile1ItemActor(D3DXVECTOR3 pos);
 	//destructor
 	~Missile1ItemActor(void);
 
-	ItemActor* DropItem(void);
 	void Update(float dt, baseEnemyShip* enemy);
 	void Render(ID3DXEffect* shader);
 	void Initialize(void);

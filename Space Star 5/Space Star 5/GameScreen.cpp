@@ -9,6 +9,7 @@ ViperWave2 * wave2;
 ViperWave3 * wave3;
 ViperWave4 * wave4;
 ViperWave5 * wave5;
+ItemActor* ItemManager;
 
 default_random_engine generator;
 uniform_int_distribution<int> randSpeed(4,6);
@@ -126,16 +127,6 @@ void GameScreen::Update(GameState& gameState, float dt)
 
 	for each(baseEnemyShip* enemy in pEnemies)
 	{
-		//if(!enemy->hasSpawned)
-		//{
-		//	int enemySpeed = (rand()%(6-3))+3;;
-		//	float enemyYpos =(rand()%(5-(-7)))+(-7);
-
-		//	enemy->initializeEnemyShip();
-		//	enemy->SetEnemyAttrib(100,enemySpeed,2.0f,D3DXVECTOR3(8.0f,enemyYpos,0.0f));
-		//	enemy->hasSpawned = true;
-		//}
-
 		enemy->update(dt,&player);
 
 		//check for enemies exiting the viewable screen
@@ -155,7 +146,57 @@ void GameScreen::Update(GameState& gameState, float dt)
 				enemy->hideShip(false);
 		}
 
-		
+		if(enemy->GetMeshBox().Intersects(player.GetMeshBox()))
+		{
+			player.DecrCurrHlth(50.0f);
+			enemy->SetHealth(0);
+			enemy->destroyShip();
+			enemiesSpawned --;
+
+			PSys->play = true;
+			D3DXMATRIX worldMat;
+			D3DXMatrixTranslation(&worldMat, 
+				enemy->getPosition().x, enemy->getPosition().y, enemy->getPosition().z);
+			PSys->SetWorldMat(worldMat);
+
+		}
+
+		////update for ItemActor
+		//for each(ItemActor* item in pItemsDropped)
+		//{
+		//	item->Update(dt, enemy);
+
+		//	if(!Camera::GetInstance()->IsVisible(item->GetMeshBox()))
+		//	{
+		//		if(item->getPosition().x < -12)
+		//		{
+		//			item->DestroyItem(true);
+		//		}
+		//	}
+
+		//	//check collision with player
+		//	if(item->GetMeshBox().Intersects(player.GetMeshBox()))
+		//	{
+		//		switch(item->getItemType())
+		//		{
+		//		case HEALTH:
+		//			if(player.GetCurrHlth() <= 50.0)
+		//				player.IncrCurrHlth(50.0);
+		//			else if(player.GetCurrHlth() > 50)
+		//				player.SetCurrHlth(100.0);
+		//			item->DestroyItem(true);
+		//			break;
+		//		case MISSILES:
+		//			if(player.GetMissile1Amount() <= 10)
+		//				player.IncrMissile1Amount();
+		//			item->DestroyItem(true);
+		//			break;
+		//		case STARDUST:
+		//			break;
+		//		}
+		//	}
+		//}
+				
 	}
 	
 	//zoom in and out for debugging purposes ehh
@@ -191,10 +232,12 @@ void GameScreen::Update(GameState& gameState, float dt)
 		// testing collision
 		for each(baseEnemyShip* enemy in pEnemies)
 		{
+
 			if(projectile->GetMeshBox().Intersects(enemy->GetMeshBox()))
 			{
 				projectile->Destroy();
 				enemy->calculateDamage(player.GetAttackPower());
+
 				if(enemy->getHealth() <= 0)
 				{
 					enemy->destroyShip();
@@ -206,6 +249,27 @@ void GameScreen::Update(GameState& gameState, float dt)
 					D3DXMatrixTranslation(&worldMat, 
 						enemy->getPosition().x, enemy->getPosition().y, enemy->getPosition().z);
 					PSys->SetWorldMat(worldMat);
+
+					//// Drop at least one item for each 5 enemies killed
+					//int chanceToDropItem = (rand() % 5) + 1;
+					//switch(chanceToDropItem)
+					//{
+					//case 1:
+					//	ItemManager->DropItem(pItemsDropped, enemy->getPosition());
+					//	break;
+					//case 2:
+					//	ItemManager->DropItem(pItemsDropped, enemy->getPosition());
+					//	break;
+					//case 3:
+					//	ItemManager->DropItem(pItemsDropped, enemy->getPosition());
+					//	break;
+					//case 4:
+					//	ItemManager->DropItem(pItemsDropped, enemy->getPosition());
+					//	break;
+					//case 5:
+					//	ItemManager->DropItem(pItemsDropped, enemy->getPosition());
+					//	break;
+					//}
 				}
 			}
 		}
@@ -233,6 +297,23 @@ void GameScreen::Update(GameState& gameState, float dt)
 		else
 			i++;
 	}
+
+	//if(pItemsDropped.size() > 0)
+	//{
+	//	for(list<ItemActor*>::const_iterator i = pItemsDropped.begin(), end = pItemsDropped.end(); i != end;)
+	//	{
+	//		if((*i)->CheckObject())
+	//		{
+	//			if(*i)
+	//			{
+	//				delete(*i);
+	//				i = pItemsDropped.erase(i);
+	//			}
+	//		}
+	//		else
+	//			i ++;
+	//	}
+	//}
 
 	//end the game if the player is out of health and lives
 	if(player.GetCurrHlth() <= 0 && player.GetNumLives() <= 0)
@@ -271,7 +352,7 @@ void GameScreen::Render(void)
 	for each(Projectile* projectile in pList)
 	{
 
-			projectile->Render(shader);
+		projectile->Render(shader);
 		
 	}
 
@@ -284,6 +365,12 @@ void GameScreen::Render(void)
 			enemy->renderBullet(shader);
 	
 		}
+	}
+
+	//render items dropped
+	for each (ItemActor* item in pItemsDropped)
+	{
+		item->Render(shader);
 	}
 
 }
@@ -314,6 +401,16 @@ void GameScreen::Shutdown(void)
 		{
 			delete (*i);
 			i = pEnemies.erase(i);
+		}
+	}
+
+	if(pItemsDropped.size() > 0)
+	{
+		for(list<ItemActor*>::const_iterator i = pItemsDropped.begin(),
+			end = pItemsDropped.end(); i != end;)
+		{
+			delete (*i);
+			i = pItemsDropped.erase(i);
 		}
 	}
 }

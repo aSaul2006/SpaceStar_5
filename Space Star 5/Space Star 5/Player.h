@@ -36,8 +36,12 @@ private:
 
 	//player attack power
 	int attackPower;
+	
 	// player lives variable
 	short lives;
+
+	// player missile1 ammo variable
+	short missile1Ammo;
 
 	// indicates whether the player is performing a barrel roll
 	short rollNum;
@@ -102,6 +106,11 @@ public:
 	//modify and access players attack power
 	void AugmentPower(int power){this->attackPower = power;}
 	int GetAttackPower(){return this->attackPower;}
+
+	//modify and access players missile1 amount
+	void setMissile1Amount(int value) {missile1Ammo = value;}
+	void IncrMissile1Amount(){missile1Ammo += 2;}
+	short GetMissile1Amount(){return missile1Ammo;}
 
 	// Player behaviors
 	void CheckPlayerInput(float dt);

@@ -5,7 +5,7 @@
 
 ItemActor::ItemActor(void)
 {
-
+	
 }
 ItemActor::~ItemActor()
 {
@@ -21,6 +21,34 @@ void ItemActor::Shutdown()
 	}
 }
 
+void ItemActor::DropItem(std::list<ItemActor*> &items,D3DXVECTOR3 pos)
+{
+	int pickAnItem = (rand() % 4) + 1;
+
+	ItemActor* item;
+		switch(pickAnItem)
+		{
+		case 1:
+			item = new HealthItemActor(pos);
+			items.push_front(item);
+			break;
+		case 2:
+			item = new Missile1ItemActor(pos);
+			items.push_front(item);
+			break;
+		case 3:
+			item = new HealthItemActor(pos);
+			items.push_front(item);
+			break;
+		case 4:
+			item = new Missile1ItemActor(pos);
+			items.push_front(item);
+			break;
+		}
+
+		
+}
+
 //-----------------------------------------------------------------------------
 //************************* Health Pick up class ******************************
 //-----------------------------------------------------------------------------
@@ -29,30 +57,39 @@ void ItemActor::Shutdown()
  *
  */
 //------------------------------------------------------------------------------
-HealthItemActor::HealthItemActor(void)
+HealthItemActor::HealthItemActor(D3DXVECTOR3 pos)
 {
 	// Initialize variables to 0 or NULL
-	D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
+	D3DXMatrixScaling(&scaleMat, 0.1f, 0.1f, 0.1f);
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
 	D3DXMatrixTranslation(&translateMat, 0, 0, 0);
-	m_position = D3DXVECTOR3(0, 0, 0);
-	m_rotateAngle = 0;
-	m_speed = 0;
+	m_position = pos;
+	m_rotateAngle = D3DXVECTOR3(0.0f,0.0f,0.0f);
+	m_speed = 0.5;
 	this->Initialize();
+	typeOfItemDropped = HEALTH;
+	destroyObject = false;
 }
 
 HealthItemActor::~HealthItemActor(void)
 {
 }
 
-ItemActor* HealthItemActor::DropItem(void)
-{
-	return new HealthItemActor();
-}
-
 void HealthItemActor::Update(float dt, baseEnemyShip* enemy)
 {
+	m_position.x -= m_speed * dt;
 
+	//m_rotateAngle.y += .05;
+
+	//if(m_rotateAngle.y == 360)
+	//	m_rotateAngle.y = 0;
+
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
+		D3DXToRadian(m_rotateAngle.y), 0, 0);
+
+	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
+
+	worldMat = scaleMat * rotateMat* translateMat;
 }
 
 void HealthItemActor::Render(ID3DXEffect* shader)
@@ -133,33 +170,38 @@ void HealthItemActor::Initialize(void)
  */
 //------------------------------------------------------------------------------
 
-Missile1ItemActor::Missile1ItemActor(void)
+Missile1ItemActor::Missile1ItemActor(D3DXVECTOR3 pos)
 {
 	// Initialize variables to 0 or NULL
-	D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
+	D3DXMatrixScaling(&scaleMat, 0.1f, 0.1f, 0.1f);
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
 	D3DXMatrixTranslation(&translateMat, 0, 0, 0);
-	m_position = D3DXVECTOR3(0, 0, 0);
-	m_rotateAngle = 0;
-	m_speed = 0;
+	m_position = pos;
+	m_rotateAngle = D3DXVECTOR3(0.0f,0.0f,0.0f);
+	m_speed = 0.5;
 	this->Initialize();
+	typeOfItemDropped = MISSILES;
+	destroyObject = false;
 }
 
 Missile1ItemActor::~Missile1ItemActor(void)
 {
 }
 
-//this needs a lot of work.  I want to first make a ratio of items dropped vs. not dropped
-//then in this function we determine which sort of item is dropped.  
-//I would say at least 1 in 10 to 1 in 5 enemies drop an item.
-ItemActor* Missile1ItemActor::DropItem(void)
-{
-	return new Missile1ItemActor();
-}
-
 void Missile1ItemActor::Update(float dt, baseEnemyShip* enemy)
 {
+	m_position.x -= m_speed * dt;
 
+	m_rotateAngle.y += .05f;
+	if(m_rotateAngle.y == 360)
+		m_rotateAngle.y = 0;
+
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
+		D3DXToRadian(m_rotateAngle.y), 0,0);
+
+	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
+
+	worldMat = scaleMat * rotateMat* translateMat;
 }
 
 void Missile1ItemActor::Render(ID3DXEffect* shader)

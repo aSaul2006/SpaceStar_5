@@ -20,6 +20,7 @@ Player::Player(void)
 	attackPower = 50;
 	status = Normal;
 	ambientBlue = 0.1f;
+	missile1Ammo = 0;
 }
 
 Player::~Player(void)

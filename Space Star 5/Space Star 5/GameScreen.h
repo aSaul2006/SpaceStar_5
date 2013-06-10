@@ -11,6 +11,8 @@
 #include "Misc\CrudeTimer.h"
 #include "AttackWaves.h"
 #include "PSystem.h"
+#include "ItemActor.h"
+#include "ItemTypes.h"
 
 class GameScreen : public CScreen
 {
@@ -28,6 +30,7 @@ private:
 	list<Projectile*> pList;
 	list<baseEnemyShip*> pEnemies;
 	list<AttackWaves*> pWave;
+	list<ItemActor*> pItemsDropped;
 	Viper viper;
 
 	double spawnTime;

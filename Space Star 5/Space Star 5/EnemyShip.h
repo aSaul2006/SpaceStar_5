@@ -59,6 +59,7 @@ public:
 	virtual D3DXVECTOR3 getPosition(){return m_position;}
 	virtual float getMainWeaponAttackPower(){return mainWeaponAttackPower;}
 	virtual int getShipScoreWorth(){return shipScoreWorth;}
+	void SetHealth(int value) {health = value;}
 	// get collision box
 	AABB GetMeshBox()
 	{
