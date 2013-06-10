@@ -14,11 +14,12 @@ ItemActor::~ItemActor()
 
 void ItemActor::Shutdown()
 {
-	if(itemSFX!=NULL)
+	// uncomment when sound gets added
+	/*if(itemSFX!=NULL)
 	{
 		itemSFX->release();
 		itemSFX = NULL;
-	}
+	}*/
 }
 
 void ItemActor::DropItem(std::list<ItemActor*> &items,D3DXVECTOR3 pos)

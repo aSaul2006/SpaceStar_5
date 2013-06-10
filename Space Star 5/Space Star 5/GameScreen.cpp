@@ -161,41 +161,41 @@ void GameScreen::Update(GameState& gameState, float dt)
 
 		}
 
-		////update for ItemActor
-		//for each(ItemActor* item in pItemsDropped)
-		//{
-		//	item->Update(dt, enemy);
+		//update for ItemActor
+		for each(ItemActor* item in pItemsDropped)
+		{
+			item->Update(dt, enemy);
 
-		//	if(!Camera::GetInstance()->IsVisible(item->GetMeshBox()))
-		//	{
-		//		if(item->getPosition().x < -12)
-		//		{
-		//			item->DestroyItem(true);
-		//		}
-		//	}
+			if(!Camera::GetInstance()->IsVisible(item->GetMeshBox()))
+			{
+				if(item->getPosition().x < -12)
+				{
+					item->DestroyItem(true);
+				}
+			}
 
-		//	//check collision with player
-		//	if(item->GetMeshBox().Intersects(player.GetMeshBox()))
-		//	{
-		//		switch(item->getItemType())
-		//		{
-		//		case HEALTH:
-		//			if(player.GetCurrHlth() <= 50.0)
-		//				player.IncrCurrHlth(50.0);
-		//			else if(player.GetCurrHlth() > 50)
-		//				player.SetCurrHlth(100.0);
-		//			item->DestroyItem(true);
-		//			break;
-		//		case MISSILES:
-		//			if(player.GetMissile1Amount() <= 10)
-		//				player.IncrMissile1Amount();
-		//			item->DestroyItem(true);
-		//			break;
-		//		case STARDUST:
-		//			break;
-		//		}
-		//	}
-		//}
+			//check collision with player
+			if(item->GetMeshBox().Intersects(player.GetMeshBox()))
+			{
+				switch(item->getItemType())
+				{
+				case HEALTH:
+					if(player.GetCurrHlth() <= 50.0)
+						player.IncrCurrHlth(50.0);
+					else if(player.GetCurrHlth() > 50)
+						player.SetCurrHlth(100.0);
+					item->DestroyItem(true);
+					break;
+				case MISSILES:
+					if(player.GetMissile1Amount() <= 10)
+						player.IncrMissile1Amount();
+					item->DestroyItem(true);
+					break;
+				case STARDUST:
+					break;
+				}
+			}
+		}
 				
 	}
 	
@@ -250,26 +250,26 @@ void GameScreen::Update(GameState& gameState, float dt)
 						enemy->getPosition().x, enemy->getPosition().y, enemy->getPosition().z);
 					PSys->SetWorldMat(worldMat);
 
-					//// Drop at least one item for each 5 enemies killed
-					//int chanceToDropItem = (rand() % 5) + 1;
-					//switch(chanceToDropItem)
-					//{
-					//case 1:
-					//	ItemManager->DropItem(pItemsDropped, enemy->getPosition());
-					//	break;
-					//case 2:
-					//	ItemManager->DropItem(pItemsDropped, enemy->getPosition());
-					//	break;
-					//case 3:
-					//	ItemManager->DropItem(pItemsDropped, enemy->getPosition());
-					//	break;
-					//case 4:
-					//	ItemManager->DropItem(pItemsDropped, enemy->getPosition());
-					//	break;
-					//case 5:
-					//	ItemManager->DropItem(pItemsDropped, enemy->getPosition());
-					//	break;
-					//}
+					// Drop at least one item for each 5 enemies killed
+					int chanceToDropItem = (rand() % 5) + 1;
+					switch(chanceToDropItem)
+					{
+					case 1:
+						ItemManager->DropItem(pItemsDropped, enemy->getPosition());
+						break;
+					case 2:
+						ItemManager->DropItem(pItemsDropped, enemy->getPosition());
+						break;
+					case 3:
+						ItemManager->DropItem(pItemsDropped, enemy->getPosition());
+						break;
+					case 4:
+						ItemManager->DropItem(pItemsDropped, enemy->getPosition());
+						break;
+					case 5:
+						ItemManager->DropItem(pItemsDropped, enemy->getPosition());
+						break;
+					}
 				}
 			}
 		}
@@ -298,22 +298,22 @@ void GameScreen::Update(GameState& gameState, float dt)
 			i++;
 	}
 
-	//if(pItemsDropped.size() > 0)
-	//{
-	//	for(list<ItemActor*>::const_iterator i = pItemsDropped.begin(), end = pItemsDropped.end(); i != end;)
-	//	{
-	//		if((*i)->CheckObject())
-	//		{
-	//			if(*i)
-	//			{
-	//				delete(*i);
-	//				i = pItemsDropped.erase(i);
-	//			}
-	//		}
-	//		else
-	//			i ++;
-	//	}
-	//}
+	if(pItemsDropped.size() > 0)
+	{
+		for(list<ItemActor*>::const_iterator i = pItemsDropped.begin(), end = pItemsDropped.end(); i != end;)
+		{
+			if((*i)->CheckObject())
+			{
+				if(*i)
+				{
+					delete(*i);
+					i = pItemsDropped.erase(i);
+				}
+			}
+			else
+				i ++;
+		}
+	}
 
 	//end the game if the player is out of health and lives
 	if(player.GetCurrHlth() <= 0 && player.GetNumLives() <= 0)
