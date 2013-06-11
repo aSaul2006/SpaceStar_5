@@ -21,6 +21,7 @@ Player::Player(void)
 	status = Normal;
 	ambientBlue = 0.1f;
 	missile1Ammo = 0;
+	starCount = 0;
 }
 
 Player::~Player(void)
@@ -353,7 +354,7 @@ void Player::Render(ID3DXEffect* shader)
 
 
 	// Render the player's HUD
-	playerHUD.Render(currentHealth, maxHealth, score, lives, currentGauge, maxGauge);
+	playerHUD.Render(currentHealth, maxHealth, score, lives, currentGauge, maxGauge, missile1Ammo, starCount);
 }
 
 /// Release the object's variables

@@ -22,6 +22,7 @@ GameScreen::GameScreen(void)
 	enemiesSpawned = 0;
 	spawnTime = 0.0;
 	enemyDestroyedCount = 0;
+	track = 0;
 }
 
 GameScreen::~GameScreen(void)
@@ -96,12 +97,6 @@ void GameScreen::Update(GameState& gameState, float dt)
 	}
 	
 
-	//if(enemiesSpawned <= 5 && (CrudeTimer::Instance()->GetTickCount() - spawnTime) >= 2)
-	//{
-	//	pEnemies.push_front(new Enemy());
-	//	spawnTime = CrudeTimer::Instance()->GetTickCount();
-	//	enemiesSpawned ++;
-	//}
 	if(pEnemies.empty())
 	{
 		int pickAWave = rand() % 5;
@@ -116,12 +111,6 @@ void GameScreen::Update(GameState& gameState, float dt)
 		case 2:
 			wave3->AttackPattern(pEnemies);
 			break;
-		//case 3:
-		//	wave4->AttackPattern(pEnemies);
-		//	break;
-		//case 4:
-		//	wave5->AttackPattern(pEnemies);
-		//	break;
 		}
 	}
 
@@ -160,42 +149,6 @@ void GameScreen::Update(GameState& gameState, float dt)
 			PSys->SetWorldMat(worldMat);
 
 		}
-
-		//update for ItemActor
-		for each(ItemActor* item in pItemsDropped)
-		{
-			item->Update(dt, enemy);
-
-			if(!Camera::GetInstance()->IsVisible(item->GetMeshBox()))
-			{
-				if(item->getPosition().x < -12)
-				{
-					item->DestroyItem(true);
-				}
-			}
-
-			//check collision with player
-			if(item->GetMeshBox().Intersects(player.GetMeshBox()))
-			{
-				switch(item->getItemType())
-				{
-				case HEALTH:
-					if(player.GetCurrHlth() <= 50.0)
-						player.IncrCurrHlth(50.0);
-					else if(player.GetCurrHlth() > 50)
-						player.SetCurrHlth(100.0);
-					item->DestroyItem(true);
-					break;
-				case MISSILES:
-					if(player.GetMissile1Amount() <= 10)
-						player.IncrMissile1Amount();
-					item->DestroyItem(true);
-					break;
-				case STARDUST:
-					break;
-				}
-			}
-		}
 				
 	}
 	
@@ -216,6 +169,13 @@ void GameScreen::Update(GameState& gameState, float dt)
 	{
 		pList.push_front(new Projectile(player.GetPosition(), D3DXVECTOR3(20.0f, 0, 0)));
 		AudioManager::GetInstance()->PlaySFX(projSFX);
+	}
+
+	//fire missile
+	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_LCONTROL) &&
+		player.GetMissile1Amount() > 0)
+	{
+		player.DecrMissile1Amount(1);
 	}
 
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_ESCAPE))
@@ -252,25 +212,72 @@ void GameScreen::Update(GameState& gameState, float dt)
 
 					// Drop at least one item for each 5 enemies killed
 					int chanceToDropItem = (rand() % 5) + 1;
-					switch(chanceToDropItem)
+	 				switch(chanceToDropItem)
 					{
-					case 1:
-						ItemManager->DropItem(pItemsDropped, enemy->getPosition());
-						break;
-					case 2:
-						ItemManager->DropItem(pItemsDropped, enemy->getPosition());
-						break;
+					case 1:	break;
+					case 2: break;
 					case 3:
 						ItemManager->DropItem(pItemsDropped, enemy->getPosition());
 						break;
-					case 4:
-						ItemManager->DropItem(pItemsDropped, enemy->getPosition());
-						break;
-					case 5:
-						ItemManager->DropItem(pItemsDropped, enemy->getPosition());
-						break;
+					case 4: break;
+					case 5: break;
 					}
 				}
+			}
+		}
+	}
+
+	//Intermittenly produce a stardust mesh
+	if(fmod(dt*(float)track,GetRandDropRate()) == 0)
+	{
+		pItemsDropped.push_front(new StarDustItemActor());
+	}
+
+	// Check Item collisions		
+	for each(ItemActor* item in pItemsDropped)
+	{
+		//check collision with player
+		if(item->GetMeshBox().Intersects(player.GetMeshBox()))
+		{
+			switch(item->getItemType())
+			{
+			case HEALTH:
+				if(player.GetCurrHlth() <= 50.0)
+					player.IncrCurrHlth(50.0);
+				else if(player.GetCurrHlth() > 50)
+					player.SetCurrHlth(100.0);
+				break;
+			case MISSILES:
+				if(player.GetMissile1Amount() <= 8)
+					player.IncrMissile1Amount(2);
+				else if(player.GetMissile1Amount() == 9)
+					player.IncrMissile1Amount(1);
+				break;
+			case STARDUST:
+				if(player.GetStarCount() < 20)
+					player.IncrStarCount();
+				if(player.GetStarCount() == 20)
+				{
+					//give our player an extra life and set star count back to zero
+					player.IncrLives();
+					player.SetStarCountToZero();
+				}					
+				break;
+			}
+			item->DestroyItem(true);
+		}
+	}
+
+	//update for ItemActor
+	for each(ItemActor* item in pItemsDropped)
+	{
+		item->Update(dt);
+
+		if(!Camera::GetInstance()->IsVisible(item->GetMeshBox()))
+		{
+			if(item->getPosition().x < -12)
+			{
+				item->DestroyItem(true);
 			}
 		}
 	}
@@ -325,7 +332,9 @@ void GameScreen::Update(GameState& gameState, float dt)
 
 	//add win case for player here
 
-	
+	track++;
+	if(track == 720)
+		track = 0;
 	
 }
 

@@ -39,7 +39,7 @@ public:
 	/*
 	 * Update <Item> object
 	 */
-	virtual void Update(float dt, baseEnemyShip* enemy)=0;
+	virtual void Update(float dt)=0;
 
 	/*
 	 * Render <Item> object
@@ -104,10 +104,43 @@ public:
 	//destructor
 	~HealthItemActor(void);
 
-	void Update(float dt, baseEnemyShip* enemy);
+	void Update(float dt);
 	void Render(ID3DXEffect* shader);
 	void Initialize(void);
 };
+
+
+//-----------------------------------------------------------------------------
+//************************* StarDust Pick up class ***************************
+//-----------------------------------------------------------------------------
+/*
+ *
+ *
+ */
+//------------------------------------------------------------------------------
+
+class StarDustItemActor : public ItemActor
+{
+private:
+	float xpos;
+	float ypos;
+public:
+	//constructor
+	StarDustItemActor();
+	//destructor
+	~StarDustItemActor(void);
+
+	void Update(float dt);
+	void Render(ID3DXEffect* shader);
+	void Initialize(void);
+	//void SetXPosition(float xpos){this->xpos = xpos;}
+	//void SetYPosition(float ypos){this->ypos = ypos;}
+	void SetPosition()
+	{
+		m_position = D3DXVECTOR3(this->xpos, this->ypos,0.0);
+	}
+};
+
 
 //-----------------------------------------------------------------------------
 //************************* Missile 1 Pick up class ***************************
@@ -128,7 +161,7 @@ public:
 	//destructor
 	~Missile1ItemActor(void);
 
-	void Update(float dt, baseEnemyShip* enemy);
+	void Update(float dt);
 	void Render(ID3DXEffect* shader);
 	void Initialize(void);
 };

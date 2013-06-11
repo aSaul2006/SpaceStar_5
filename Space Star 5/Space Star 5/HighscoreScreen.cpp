@@ -10,8 +10,8 @@ HighscoreScreen::HighscoreScreen()
 	database = new Database();
 	names = new string[10];
 	scores = new string[10];
-	getHighscores();
 	Initialize();
+	getHighscores();
 }
 
 HighscoreScreen::~HighscoreScreen(void)
@@ -44,9 +44,9 @@ void HighscoreScreen::Render(void)
 	D3DCOLOR fontColor;
 	print = "Highscores\n";
 
-	for(int i =0;i < rows;i++)
+	for(int i =0;i < rows, i < 10;i++)
 	{
-		print += names[i] + "    " + scores[i] + "\n";
+		print += names[i] + "    " + scores[i] + "\n\n";
 	}
 	
 	SetRect(&rect, 350, 50, 450, 600);

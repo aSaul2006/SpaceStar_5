@@ -14,6 +14,8 @@ private:
 	Database *database;
 	string* names;
 	string* scores;
+	int finalScore;
+	string m_username;
 
 public:
 	HighscoreScreen(void);

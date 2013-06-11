@@ -37,7 +37,7 @@ void NewScoreScreen::Update(GameState& gameState, float dt)
 	{
 		//The call to insertScore isn't working.  An error gets hung up some UNIX definitions
 		//Which I don't think it should be hitting at all.
-		//database->insertScore(m_username, finalScore); // for testing until user initials input is added
+		InsertData();
 		gameState = HighScore;
 	}
 
@@ -49,22 +49,29 @@ void NewScoreScreen::Render(void)
 	Initializer::GetInstance()->GetSprite()->Begin(D3DXSPRITE_ALPHABLEND);
 	Initializer::GetInstance()->GetSprite()->Draw(bgTex, 0, 0, 0, D3DCOLOR_ARGB(255, 255, 255, 255));
 	Initializer::GetInstance()->GetSprite()->End();
-	RECT rect,textBox;
+	RECT rect1,rect2,textBox;
 	D3DCOLOR fontColor;
 	char temp[128];
 	itoa(finalScore,temp,10);
 	std::string score = temp;
 
-	print = "New High Score!\n\n\nEnter Your Initials";
+	print = "New High Score!";
+	std::string msg = "Enter Your Initials: ";
 	//print = "New High Score!\n" + score +
 			//"\n\nEnter Your Initials";
+	LPDIRECT3DSURFACE9 surf;
 
-	SetRect(&rect, 350, 400, 450, 600);
-	SetRect(&textBox,600,500,800,600);
+	SetRect(&rect1, 350, 400, 450, 450);
+	SetRect(&rect2, 350, 450, 450, 500);
+	SetRect(&textBox,350,500,450,550);
+	
 	fontColor = D3DCOLOR_RGBA(192, 192, 192, 255);
-
+	
 	//draw text
-	Initializer::GetInstance()->GetFont()->DrawTextA(0, print.c_str(), -1, &rect,
+	Initializer::GetInstance()->GetFont()->DrawTextA(0, print.c_str(), -1, &rect1,
+		DT_CENTER | DT_NOCLIP, fontColor);
+
+	Initializer::GetInstance()->GetFont()->DrawTextA(0, msg.c_str(), -1, &rect2,
 		DT_CENTER | DT_NOCLIP, fontColor);
 
 	Initializer::GetInstance()->GetFont()->DrawTextA(0,m_username.c_str(), -1, &textBox,
@@ -77,6 +84,29 @@ void NewScoreScreen::Render(void)
 void NewScoreScreen::Shutdown(void)
 {
 	Initializer::GetInstance()->setIsOnNewScoreScreen(false);
+	database->close();
 	SAFE_RELEASE(bgTex);
 }
 
+
+void NewScoreScreen::InsertData(void)
+{
+	sqlite3_stmt *statement;
+	sqlite3 *database;
+
+	if(sqlite3_open("Database/spacestarDB.sqlite", &database) == SQLITE_OK)
+	{
+		if(sqlite3_prepare_v2(database, "INSERT INTO highscores VALUES(?,?);", -1, &statement, NULL) == SQLITE_OK)
+		{
+			sqlite3_bind_text(statement, 1, m_username.c_str(), strlen(m_username.c_str()), 0);
+			sqlite3_bind_int(statement, 2, finalScore);
+			sqlite3_step(statement);
+			sqlite3_finalize(statement);
+		}
+		else
+		{
+			std::wstring msg = L"Insert Failed" ;
+			MessageBox(NULL,msg.c_str(),L"DATABASE ERROR", MB_OK | MB_ICONINFORMATION);
+		}
+	}
+}

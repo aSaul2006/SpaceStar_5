@@ -17,7 +17,7 @@ using namespace std;
 // safe release macro
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
-#define INITIALMAX 10
+#define INITIALMAX 9
 
 class Initializer
 {
@@ -124,7 +124,7 @@ public:
 	//Pickup meshes
 	MeshObject GetMissilePickupMesh() {return missilePickup1;}
 	MeshObject GetHealthPickupMesh() {return healthPickup;}
-	MeshObject GetStarDushMesh() {return starDust;}
+	MeshObject GetStarDustMesh() {return starDust;}
 	
 	//Enemy meshes
 	MeshObject GetViperMesh() {return viperMesh;}

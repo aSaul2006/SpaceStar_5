@@ -14,10 +14,13 @@ Database::~Database()
 
 bool Database::open()
 {
+	bool retCode;
 	if(sqlite3_open(filename, &database) == SQLITE_OK)
-		return true;
+		retCode = true;
 
-	return false;
+	else
+		retCode = false;
+	return retCode;
 }
 
 void Database::insertScore(std::string name, int score)
@@ -33,7 +36,6 @@ void Database::insertScore(std::string name, int score)
 	}
 	else
 	{
-		
 		std::wstring msg = L"Insert Failed" ;
 		MessageBox(NULL,msg.c_str(),L"DATABASE ERROR", MB_OK | MB_ICONINFORMATION);
 	}

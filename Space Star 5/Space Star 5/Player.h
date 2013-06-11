@@ -43,6 +43,9 @@ private:
 	// player missile1 ammo variable
 	short missile1Ammo;
 
+	// accrued star's
+	int starCount;
+
 	// indicates whether the player is performing a barrel roll
 	short rollNum;
 	float currentGauge;
@@ -98,6 +101,7 @@ public:
 	float GetMaxHlth(void)	{return maxHealth;}
 
 	short GetNumLives(void) {return lives;}
+	void IncrLives(void) {lives = lives + 1;}
 
 	// Modify and access player's score
 	void IncrScore(int score) {this->score += score;}
@@ -109,8 +113,18 @@ public:
 
 	//modify and access players missile1 amount
 	void setMissile1Amount(int value) {missile1Ammo = value;}
-	void IncrMissile1Amount(){missile1Ammo += 2;}
+	void IncrMissile1Amount(int value){missile1Ammo = missile1Ammo + value;}
+	void DecrMissile1Amount(int value)
+	{
+		if(missile1Ammo > 0)
+			missile1Ammo = missile1Ammo - value;
+	}
 	short GetMissile1Amount(){return missile1Ammo;}
+
+	//modify and access players star count
+	void IncrStarCount() {starCount = starCount + 1;}
+	void SetStarCountToZero() {starCount = 0;}
+	int GetStarCount() {return starCount;}
 
 	// Player behaviors
 	void CheckPlayerInput(float dt);

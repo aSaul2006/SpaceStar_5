@@ -42,6 +42,9 @@ private:
 	PSystem* PSys;
 	float psysTime;
 
+	//drop rate....does this even make sense lol
+	int track;
+
 public:
 	GameScreen(void);
 	~GameScreen(void);
@@ -52,5 +55,7 @@ public:
 	void Shutdown(void);
 
 	int GetFinalScore() {return player.GetScore();}
+
+	int GetRandDropRate(){return (rand() % 15 + 7);}
 };
 

@@ -23,4 +23,5 @@ public:
 	void Update(GameState& gameState, float dt);
 	void Render(void);
 	void Shutdown(void);
+	void InsertData(void);
 };

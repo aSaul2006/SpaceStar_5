@@ -76,14 +76,14 @@ HealthItemActor::~HealthItemActor(void)
 {
 }
 
-void HealthItemActor::Update(float dt, baseEnemyShip* enemy)
+void HealthItemActor::Update(float dt)
 {
 	m_position.x -= m_speed * dt;
 
-	//m_rotateAngle.y += .05;
+	m_rotateAngle.y += .05;
 
-	//if(m_rotateAngle.y == 360)
-	//	m_rotateAngle.y = 0;
+	if(m_rotateAngle.y == 360)
+		m_rotateAngle.y = 0;
 
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
 		D3DXToRadian(m_rotateAngle.y), 0, 0);
@@ -163,6 +163,126 @@ void HealthItemActor::Initialize(void)
 
 
 //-----------------------------------------------------------------------------
+//************************* StarDust Pick up class ***************************
+//-----------------------------------------------------------------------------
+/*
+ *
+ *
+ */
+//------------------------------------------------------------------------------
+
+StarDustItemActor::StarDustItemActor()
+{
+	// Initialize variables to 0 or NULL
+	D3DXMatrixScaling(&scaleMat, 0.5f, 0.5f, 0.5f);
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
+	D3DXMatrixTranslation(&translateMat, 0, 0, 0);
+	xpos = 12.0;
+	ypos = (rand()%(5-(-7)))+(-7);
+	this->SetPosition();
+	m_rotateAngle = D3DXVECTOR3(0.0f,0.0f,0.0f);
+	m_speed = 3.0;
+	this->Initialize();
+	typeOfItemDropped = STARDUST;
+	destroyObject = false;
+}
+
+StarDustItemActor::~StarDustItemActor(void)
+{
+}
+
+void StarDustItemActor::Update(float dt)
+{
+	m_position.x -= m_speed * dt;
+
+	m_rotateAngle.y += .05f;
+	m_rotateAngle.z += .05f;
+	if(m_rotateAngle.z == 180)
+		m_rotateAngle.z = 0;
+	if(m_rotateAngle.y == 360)
+		m_rotateAngle.y = 0;
+
+	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
+		D3DXToRadian(m_rotateAngle.y), 0,D3DXToRadian(m_rotateAngle.z));
+
+	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
+
+	worldMat = scaleMat * rotateMat* translateMat;
+}
+
+void StarDustItemActor::Render(ID3DXEffect* shader)
+{
+	D3DXMATRIX WVPMat, WITMat;
+
+	// Scale, Rotate, and translate the model's worldMat
+	worldMat = scaleMat * rotateMat * translateMat;
+
+	WVPMat = worldMat * Camera::GetInstance()->GetViewMat() * 
+		Camera::GetInstance()->GetProjMat();
+
+	D3DXMatrixInverse(&WITMat, 0, &worldMat);
+	D3DXMatrixTranspose(&WITMat, &WITMat);
+
+	//shader->SetTexture("tex", player.GetTexture());
+	shader->SetMatrix("worldViewProjectionMatrix", &WVPMat);
+	shader->SetMatrix("worldInverseTransposeMatrix", &WITMat);
+	shader->SetMatrix("worldMatrix", &worldMat);
+	shader->SetValue("eyePos", &Camera::GetInstance()->GetEyePos(), 
+		sizeof(D3DXVECTOR3));
+
+	// all of our draw calls go here
+	shader->SetTechnique("tech0");
+	UINT numPasses = 0;
+	shader->Begin(&numPasses, 0);
+	for(UINT i = 0; i < numPasses; i++)
+	{
+		shader->BeginPass(i);
+		for(DWORD j = 0; j < 
+			Initializer::GetInstance()->GetStarDustMesh().numMaterials; j++)
+		{
+			shader->SetValue("ambientMaterial", 
+				&Initializer::GetInstance()->GetStarDustMesh().modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
+			shader->SetValue("diffuseMaterial", 
+				&Initializer::GetInstance()->GetStarDustMesh().modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
+			shader->SetValue("specularMaterial", 
+				&Initializer::GetInstance()->GetStarDustMesh().modelMaterial[j].Specular, sizeof(D3DXCOLOR));
+			shader->SetFloat("specularPower", 
+				Initializer::GetInstance()->GetStarDustMesh().modelMaterial[j].Power);
+			shader->SetTexture("tex", 
+				Initializer::GetInstance()->GetStarDustMesh().texture[j]);
+			shader->SetBool("usingTexture", true);
+			shader->CommitChanges();
+			Initializer::GetInstance()->GetStarDustMesh().mesh->DrawSubset(j);
+		}
+		shader->EndPass();
+	}
+	shader->End();
+}
+
+void StarDustItemActor::Initialize(void)
+{
+	// build bounding box for the mesh
+	BYTE* vertices = NULL;
+	Initializer::GetInstance()->GetStarDustMesh().mesh->LockVertexBuffer(
+		D3DLOCK_READONLY, (LPVOID*)&vertices);
+
+	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, 
+		Initializer::GetInstance()->GetStarDustMesh().mesh->GetNumVertices(),
+		D3DXGetFVFVertexSize(
+		Initializer::GetInstance()->GetStarDustMesh().mesh->GetFVF()), 
+		&meshBox.minPt, &meshBox.maxPt);
+
+	Initializer::GetInstance()->GetStarDustMesh().mesh->UnlockVertexBuffer();
+
+	//Add a sound later when I come up with something
+	//AudioManager::GetInstance()->GetSystem()->createSound("laser3.wav",FMOD_DEFAULT,0, &itemSFX);
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------
 //************************* Missile 1 Pick up class ***************************
 //-----------------------------------------------------------------------------
 /*
@@ -189,11 +309,14 @@ Missile1ItemActor::~Missile1ItemActor(void)
 {
 }
 
-void Missile1ItemActor::Update(float dt, baseEnemyShip* enemy)
+void Missile1ItemActor::Update(float dt)
 {
 	m_position.x -= m_speed * dt;
 
 	m_rotateAngle.y += .05f;
+	m_rotateAngle.z += .05f;
+	if(m_rotateAngle.z == 180)
+		m_rotateAngle.z = 0;
 	if(m_rotateAngle.y == 360)
 		m_rotateAngle.y = 0;
 

@@ -54,10 +54,11 @@ void HUD::Initialize(void)
 		Initializer::GetInstance()->GetDevice(),
 		L"health bar main.png", width[2], height[2], 0, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
 		D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &healthBar[2]);
+
 }
 	
 void HUD::Render(float currentHealth, float maxHealth, int playerScore, short playerLives,
-	float currentGauge, float maxGauge)
+	float currentGauge, float maxGauge, short missileCount, int stardustCount)
 {
 	float remainingHealth = width[2] - (width[2] * ((maxHealth - currentHealth) / maxHealth));
 	barRect[2].right = remainingHealth;
@@ -86,13 +87,19 @@ void HUD::Render(float currentHealth, float maxHealth, int playerScore, short pl
 	Initializer::GetInstance()->GetSprite()->End();
 
 	// Render the score and lives
-	RECT scorePos, livesPos;
+	RECT scorePos, livesPos, missileCountPos;
 	D3DCOLOR fontColor;
 	fontColor = D3DCOLOR_RGBA(192, 192, 192, 255);
 	SetRect(&scorePos, 600, 0, 700, 50);
 	SetRect(&livesPos, 120, 10, 220, 20);
-	score = "Score: " + to_string(static_cast<long long>(playerScore));
+	SetRect(&missileCountPos, 600, 50, 700, 100);
+	
+	score = "Score: " + to_string(static_cast<long long>(playerScore)) +
+			"\nBombs: " + to_string(static_cast<long long>(missileCount)) +
+			"\nStardust: " + to_string(static_cast<long long>(stardustCount));
 	lives = "Lives: " + to_string(static_cast<long long>(playerLives));
+	//missiles1 = "Bombs: " + to_string(static_cast<long long>(missileCount)) + 
+	//			" \nStardust: " + to_string(static_cast<long long>(stardustCount));
 
 	// Draw score
 	Initializer::GetInstance()->GetFont()->DrawTextA(0, score.c_str(),
@@ -100,8 +107,15 @@ void HUD::Render(float currentHealth, float maxHealth, int playerScore, short pl
 		DT_CENTER | DT_NOCLIP,
 		fontColor);
 
+	// Draw Lives
 	Initializer::GetInstance()->GetFont()->DrawTextA(0, lives.c_str(),
 		-1, &livesPos, 
+		DT_CENTER | DT_NOCLIP,
+		fontColor);
+	
+	//Draw Missile Count
+	Initializer::GetInstance()->GetFont()->DrawTextA(0, missiles1.c_str(),
+		-1, &missileCountPos,
 		DT_CENTER | DT_NOCLIP,
 		fontColor);
 
