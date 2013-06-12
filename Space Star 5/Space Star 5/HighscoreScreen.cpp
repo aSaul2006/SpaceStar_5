@@ -13,10 +13,7 @@ HighscoreScreen::HighscoreScreen()
 	scoreStore = "";
 	Initialize();
 	getHighscores();
-	for(int i =0;i < rows;i++)
-	{
-		scoreStore += names[i] + "    " + scores[i] + "\n\n";
-	}
+
 }
 
 HighscoreScreen::~HighscoreScreen(void)
@@ -49,6 +46,11 @@ void HighscoreScreen::Render(void)
 	D3DCOLOR fontColor;
 	print = "H\ni\ng\nh\ns\nc\no\nr\ne\ns\n";
 	
+	for(int i =0;i < rows;i++)
+	{
+		scoreStore += names[i] + "    " + scores[i] + "\n\n";
+	}
+
 	SetRect(&rect, 25, 0, 400, 600);
 	SetRect(&scoreRect,300,0,800,600);
 	fontColor = D3DCOLOR_RGBA(192, 192, 192, 255);
