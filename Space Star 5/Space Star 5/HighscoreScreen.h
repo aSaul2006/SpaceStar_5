@@ -18,6 +18,8 @@ private:
 	int finalScore;
 	string m_username;
 
+	int rows;
+
 public:
 	HighscoreScreen(void);
 	~HighscoreScreen(void);

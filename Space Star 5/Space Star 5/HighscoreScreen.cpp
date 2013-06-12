@@ -1,8 +1,6 @@
 #include "HighscoreScreen.h"
 #include <stdio.h>
 
-int rows = 0;
-
 HighscoreScreen::HighscoreScreen()
 {
 	print = "";
@@ -10,6 +8,7 @@ HighscoreScreen::HighscoreScreen()
 	database = new Database();
 	names = new string[10];
 	scores = new string[10];
+	rows = 0;
 	scoreStore = "";
 	Initialize();
 	getHighscores();
@@ -67,6 +66,9 @@ void HighscoreScreen::Render(void)
 void HighscoreScreen::Shutdown(void)
 {
 	SAFE_RELEASE(bgTex);
+	delete database;
+	delete names;
+	delete scores;
 }
 
 void HighscoreScreen::getHighscores()
