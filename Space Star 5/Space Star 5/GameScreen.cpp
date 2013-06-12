@@ -233,6 +233,20 @@ void GameScreen::Update(GameState& gameState, float dt)
 		pItemsDropped.push_front(new StarDustItemActor());
 	}
 
+	//update for ItemActor
+	for each(ItemActor* item in pItemsDropped)
+	{
+		item->Update(dt);
+
+		if(!Camera::GetInstance()->IsVisible(item->GetMeshBox()))
+		{
+			if(item->getPosition().x < -12)
+			{
+				item->DestroyItem(true);
+			}
+		}
+	}
+
 	// Check Item collisions		
 	for each(ItemActor* item in pItemsDropped)
 	{
@@ -265,20 +279,6 @@ void GameScreen::Update(GameState& gameState, float dt)
 				break;
 			}
 			item->DestroyItem(true);
-		}
-	}
-
-	//update for ItemActor
-	for each(ItemActor* item in pItemsDropped)
-	{
-		item->Update(dt);
-
-		if(!Camera::GetInstance()->IsVisible(item->GetMeshBox()))
-		{
-			if(item->getPosition().x < -12)
-			{
-				item->DestroyItem(true);
-			}
 		}
 	}
 
