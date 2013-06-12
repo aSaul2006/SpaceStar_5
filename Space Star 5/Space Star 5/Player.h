@@ -54,6 +54,8 @@ private:
 	// indicates when the player uses the dodge command
 	bool moveToBG;	// move to the background
 	bool moveToFG;	// move to the foreground
+	bool inBG;		// checks to see if the player is in the background or not
+
 	bool rotate;
 	PlayerStatus status;
 	float ambientBlue;

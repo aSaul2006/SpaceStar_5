@@ -14,6 +14,7 @@ Player::Player(void)
 	lives = 3;
 	moveToBG = false;
 	moveToFG = false;
+	inBG = false;
 	rollNum = 0;
 	currentGauge = 100.0f;
 	maxGauge = 100.0f;
@@ -133,16 +134,31 @@ void Player::CheckPlayerInput(float dt)
 	// move player left
 	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_LEFT))
 	{
-		if(position.x > -7)
-			position.x -= speed * dt;
-		
+		if(!inBG)
+		{
+			if(position.x > -7)
+				position.x -= speed * dt;
+		}
+		else
+		{
+			if(position.x < 8)
+				position.x += speed * dt;
+		}
 	}
 
 	// move player right
 	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_RIGHT))
 	{
-		if(position.x < 8)
-			position.x += speed * dt;
+		if(!inBG)
+		{
+			if(position.x < 8)
+				position.x += speed * dt;
+		}
+		else
+		{
+			if(position.x > -7)
+				position.x -= speed * dt;
+		}
 	}
 
 	// initiate barrel roll
@@ -257,22 +273,23 @@ void Player::MoveToSecondPlane(float dt)
 		rotateAngle -= rotateSpeed;
 		rotate = true;
 
-		ambientBlue += 0.1f;
-		if(ambientBlue >= 10.0f)
-			ambientBlue = 10.0f;
-
 		// check the player's position on the z axis
+		if(position.z >= 2.5f)
+		{
+			D3DXVECTOR3 newEyePos(
+				Camera::GetInstance()->GetEyePos().x,
+				Camera::GetInstance()->GetEyePos().y,
+				15.0f);
+			Camera::GetInstance()->SetEyePos(newEyePos);
+		}
+
 		if(position.z >= 5.0f)
 		{
 			position.z = 5.0f;
 			moveToBG = false;
+			inBG = true;
 			status = Normal;
 			ambientBlue = 10.0f;
-		}
-
-		for(int i = 0; i < Initializer::GetInstance()->playerMesh.numMaterials; i++)
-		{
-			Initializer::GetInstance()->playerMesh.modelMaterial[i].Ambient.b = ambientBlue;
 		}
 	}
 
@@ -283,22 +300,22 @@ void Player::MoveToSecondPlane(float dt)
 		rotateAngle += rotateSpeed;
 		rotate = true;
 
-		ambientBlue -= 0.1f;
-		if(ambientBlue <= 0.1f)
-			ambientBlue = 0.1f;
-
 		// check the player's position on the z axis
+		if(position.z <= 2.5f)
+		{
+			D3DXVECTOR3 newEyePos(
+				Camera::GetInstance()->GetEyePos().x,
+				Camera::GetInstance()->GetEyePos().y,
+				-10.0f);
+			Camera::GetInstance()->SetEyePos(newEyePos);
+		}
+
 		if(position.z <= 0.0f)
 		{
 			position.z = 0.0f;
 			moveToFG = false;
+			inBG = false;
 			status = Normal;
-			ambientBlue = 0.1f;
-		}
-
-		for(int i = 0; i < Initializer::GetInstance()->playerMesh.numMaterials; i++)
-		{
-			Initializer::GetInstance()->playerMesh.modelMaterial[i].Ambient.b = ambientBlue;
 		}
 	}
 }
