@@ -35,8 +35,8 @@ void MainMenuScreen::Update(GameState& gameState, float dt)
 		choice++;
 	}
 
-	if(choice < 0) choice = 1;
-	if(choice > 1) choice = 0;
+	if(choice < 0) choice = 2;
+	if(choice > 2) choice = 0;
 
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_RETURN))
 	{
@@ -46,6 +46,9 @@ void MainMenuScreen::Update(GameState& gameState, float dt)
 			gameState = Game;
 			break;
 		case 1:
+			gameState = HighScore;
+			break;
+		case 2:
 			gameState = Exit;
 			break;
 		}
@@ -76,9 +79,21 @@ void MainMenuScreen::Render(void)
 		fontColor);
 
 	// stores the output in print variable
+	print = "Highscores";
+	SetRect(&rect, 350, 450, 450, 450);
+	if(choice == 1) fontColor = D3DCOLOR_RGBA(255, 0, 0, 255);
+	else			fontColor = D3DCOLOR_RGBA(255, 255, 255, 255);
+
+	// Draw Text
+	Initializer::GetInstance()->GetFont()->DrawTextA(0, print.c_str(),
+		-1, &rect, 
+		DT_CENTER | DT_NOCLIP,
+		fontColor);
+
+	// stores the output in print variable
 	print = "Exit";
 	SetRect(&rect, 350, 500, 450, 550);
-	if(choice == 1) fontColor = D3DCOLOR_RGBA(255, 0, 0, 255);
+	if(choice == 2) fontColor = D3DCOLOR_RGBA(255, 0, 0, 255);
 	else			fontColor = D3DCOLOR_RGBA(255, 255, 255, 255);
 
 	// Draw Text
