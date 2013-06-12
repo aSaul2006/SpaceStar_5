@@ -11,6 +11,7 @@ class NewScoreScreen : public CScreen
 {
 private:
 	IDirect3DTexture9* bgTex;
+	IDirect3DTexture9* bgInputBox;
 	int finalScore;
 	Database *database;
 	std::string m_username;

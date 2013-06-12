@@ -14,6 +14,7 @@ private:
 	Database *database;
 	string* names;
 	string* scores;
+	std::string scoreStore;
 	int finalScore;
 	string m_username;
 

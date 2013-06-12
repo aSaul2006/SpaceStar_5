@@ -10,8 +10,13 @@ HighscoreScreen::HighscoreScreen()
 	database = new Database();
 	names = new string[10];
 	scores = new string[10];
+	scoreStore = "";
 	Initialize();
 	getHighscores();
+	for(int i =0;i < rows;i++)
+	{
+		scoreStore += names[i] + "    " + scores[i] + "\n\n";
+	}
 }
 
 HighscoreScreen::~HighscoreScreen(void)
@@ -22,7 +27,7 @@ HighscoreScreen::~HighscoreScreen(void)
 void HighscoreScreen::Initialize(void)
 {
 	D3DXCreateTextureFromFileEx(Initializer::GetInstance()->GetDevice(),
-		L"titlepic.png", 800, 600, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
+		L"TDDtitlePic.png", 800, 600, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
 		D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &bgTex);
 }
 
@@ -40,21 +45,21 @@ void HighscoreScreen::Render(void)
 	Initializer::GetInstance()->GetSprite()->Begin(D3DXSPRITE_ALPHABLEND);
 	Initializer::GetInstance()->GetSprite()->Draw(bgTex, 0, 0, 0, D3DCOLOR_ARGB(255, 255, 255, 255));
 	Initializer::GetInstance()->GetSprite()->End();
-	RECT rect;
+	RECT rect,scoreRect;
 	D3DCOLOR fontColor;
-	print = "Highscores\n";
-
-	for(int i =0;i < rows, i < 10;i++)
-	{
-		print += names[i] + "    " + scores[i] + "\n\n";
-	}
+	print = "H\ni\ng\nh\ns\nc\no\nr\ne\ns\n";
 	
-	SetRect(&rect, 350, 50, 450, 600);
+	SetRect(&rect, 25, 0, 400, 600);
+	SetRect(&scoreRect,300,0,800,600);
 	fontColor = D3DCOLOR_RGBA(192, 192, 192, 255);
 
 	//draw text
 	Initializer::GetInstance()->GetFont()->DrawTextA(0, print.c_str(), -1, &rect,
-		DT_CENTER | DT_NOCLIP, fontColor);
+		DT_LEFT | DT_NOCLIP, fontColor);
+
+	//draw scores
+	Initializer::GetInstance()->GetFont()->DrawTextA(0, scoreStore.c_str(), -1, &scoreRect,
+		DT_LEFT | DT_NOCLIP, fontColor);
 }
 
 void HighscoreScreen::Shutdown(void)
@@ -84,7 +89,7 @@ void HighscoreScreen::getHighscores()
 					rows ++;
 				}
 
-				if(res == SQLITE_DONE || res == SQLITE_ERROR)
+				if((res == SQLITE_DONE || res == SQLITE_ERROR) || rows == 10)
 				{
 					break;
 				}

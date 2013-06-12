@@ -23,6 +23,10 @@ void NewScoreScreen::Initialize(void)
 	D3DXCreateTextureFromFileEx(Initializer::GetInstance()->GetDevice(),
 		L"titlepic.png", 800, 600, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
 		D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &bgTex);
+
+	D3DXCreateTextureFromFileEx(Initializer::GetInstance()->GetDevice(),
+		L"inputColor.png", 250, 30, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
+		D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &bgInputBox);
 }
 
 void NewScoreScreen::Update(GameState& gameState, float dt)
@@ -45,11 +49,18 @@ void NewScoreScreen::Update(GameState& gameState, float dt)
 
 void NewScoreScreen::Render(void)
 {
+	D3DXVECTOR3 inputPos = D3DXVECTOR3(275,500,0);
 	//render background
 	Initializer::GetInstance()->GetSprite()->Begin(D3DXSPRITE_ALPHABLEND);
 	Initializer::GetInstance()->GetSprite()->Draw(bgTex, 0, 0, 0, D3DCOLOR_ARGB(255, 255, 255, 255));
+	Initializer::GetInstance()->GetSprite()->Draw(bgInputBox,0,0,&inputPos,D3DCOLOR_ARGB(255, 255, 255, 255));
 	Initializer::GetInstance()->GetSprite()->End();
+
 	RECT rect1,rect2,textBox;
+	SetRect(&rect1, 350, 400, 450, 450);
+	SetRect(&rect2, 350, 450, 450, 500);
+	SetRect(&textBox, 290, 500, 450, 550);
+
 	D3DCOLOR fontColor;
 	char temp[128];
 	itoa(finalScore,temp,10);
@@ -61,10 +72,6 @@ void NewScoreScreen::Render(void)
 			//"\n\nEnter Your Initials";
 	LPDIRECT3DSURFACE9 surf;
 
-	SetRect(&rect1, 350, 400, 450, 450);
-	SetRect(&rect2, 350, 450, 450, 500);
-	SetRect(&textBox,350,500,450,550);
-	
 	fontColor = D3DCOLOR_RGBA(192, 192, 192, 255);
 	
 	//draw text
@@ -75,7 +82,7 @@ void NewScoreScreen::Render(void)
 		DT_CENTER | DT_NOCLIP, fontColor);
 
 	Initializer::GetInstance()->GetFont()->DrawTextA(0,m_username.c_str(), -1, &textBox,
-	    DT_CENTER | DT_NOCLIP, fontColor);
+	    DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(0,0,0,255));
 
 	
 
