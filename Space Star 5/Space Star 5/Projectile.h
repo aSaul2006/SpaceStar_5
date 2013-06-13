@@ -10,6 +10,22 @@
 // safe release macro
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
+enum ProjectileType
+	{
+	DEFAULT_BULLET,
+	MISSILE1,
+	};
+
+
+//-----------------------------------------------------------------------------
+//************************* Abstract Projectile *******************************
+//-----------------------------------------------------------------------------
+/*
+ *
+ *
+ */
+//------------------------------------------------------------------------------
+
 class Projectile
 {
 protected:
@@ -18,6 +34,7 @@ protected:
 
 	AABB meshBox;		// mesh's collision box
 	bool destroyObject;	// use this bool to determine when to destroy the object
+	ProjectileType projectileType;
 
 public:
 
@@ -49,13 +66,22 @@ public:
 	void SetStartPosition(D3DXVECTOR3 position){startPosition = position;}
 	void SetDirection(D3DXVECTOR3 direction){this->direction = direction;}
 	void Destroy() {destroyObject = true;}
+	ProjectileType GetProjectileType() {return this->projectileType;}
 };
 
+//-----------------------------------------------------------------------------
+//************************* Default Bullet Class ******************************
+//-----------------------------------------------------------------------------
+/*
+ *
+ *
+ */
+//------------------------------------------------------------------------------
 
 class DefaultBullet : public Projectile
 {
 private:
-
+	
 public:
 	// Default constructor
 	DefaultBullet(void);
@@ -68,9 +94,39 @@ public:
 	void Shutdown();
 
 	// Spawn position is the position of the object firing the projectile
-	// Direction is the direction the projectile will be traveling
+	// Direction in the direction the projectile will be traveling
 	DefaultBullet(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction);
 	DefaultBullet(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction, float scale);
 
 };
 
+//-----------------------------------------------------------------------------
+//************************* Missile Class *************************************
+//-----------------------------------------------------------------------------
+/*
+ *
+ *
+ */
+//------------------------------------------------------------------------------
+
+class Missile1 : public Projectile
+{
+private:
+	float m_rotateAngle;
+public:
+	// Default constructor
+	Missile1(void);
+
+	~Missile1(void);
+
+	void Initialize();
+	void Update(float dt);
+	void Render(ID3DXEffect* shader);
+	void Shutdown();
+
+	// Spawn position is the position of the object firing the projectile
+	// Direction in the direction the projectile will be traveling
+	Missile1(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction);
+	Missile1(D3DXVECTOR3 spawnPos, D3DXVECTOR3 dir, float scale);
+
+};

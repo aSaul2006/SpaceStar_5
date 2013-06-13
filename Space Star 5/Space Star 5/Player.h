@@ -35,7 +35,8 @@ private:
 	int score;
 
 	//player attack power
-	int attackPower;
+	int defaultBulletAttackPower;
+	int missile1AttackPower;
 	
 	// player lives variable
 	short lives;
@@ -110,8 +111,10 @@ public:
 	int GetScore(void) {return score;}
 
 	//modify and access players attack power
-	void AugmentPower(int power){this->attackPower = power;}
-	int GetAttackPower(){return this->attackPower;}
+	void AugmentDefaultBulletPower(int power){this->defaultBulletAttackPower = power;}
+	int GetDefaultBulletPower(){return this->defaultBulletAttackPower;}
+	void AugmentMissile1AttackPower(int power) {this->missile1AttackPower = power;}
+	int GetMissile1AttackPower(){return this->missile1AttackPower;}
 
 	//modify and access players missile1 amount
 	void setMissile1Amount(int value) {missile1Ammo = value;}

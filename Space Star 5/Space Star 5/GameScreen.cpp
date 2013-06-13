@@ -171,10 +171,11 @@ void GameScreen::Update(GameState& gameState, float dt)
 		AudioManager::GetInstance()->PlaySFX(projSFX);
 	}
 
-	//fire missile
+	// fire missile
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_LCONTROL) &&
 		player.GetMissile1Amount() > 0)
 	{
+		pList.push_front(new Missile1(player.GetPosition(), D3DXVECTOR3(10.0f,0,0),0.3f));
 		player.DecrMissile1Amount(1);
 	}
 
@@ -196,7 +197,17 @@ void GameScreen::Update(GameState& gameState, float dt)
 			if(projectile->GetMeshBox().Intersects(enemy->GetMeshBox()))
 			{
 				projectile->Destroy();
-				enemy->calculateDamage(player.GetAttackPower());
+				
+				switch(projectile->GetProjectileType())
+				{
+				case DEFAULT_BULLET:
+					enemy->calculateDamage(player.GetDefaultBulletPower());
+					break;
+				case MISSILE1:
+					enemy->calculateDamage(player.GetMissile1AttackPower());
+					break;
+				}
+				
 
 				if(enemy->getHealth() <= 0)
 				{

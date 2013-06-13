@@ -18,10 +18,11 @@ Player::Player(void)
 	rollNum = 0;
 	currentGauge = 100.0f;
 	maxGauge = 100.0f;
-	attackPower = 50;
+	defaultBulletAttackPower = 50;
+	missile1AttackPower = 100;
 	status = Normal;
 	ambientBlue = 0.1f;
-	missile1Ammo = 0;
+	missile1Ammo = 2;
 	starCount = 0;
 }
 
