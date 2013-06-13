@@ -74,7 +74,7 @@ void Initializer::Initialize(HWND hWnd, IDirect3D9* m_pD3DObject,
 	// Create player mesh
 	playerMesh.Init(L"frigate.x");
 	//create projectile meshes
-	projectileMesh.Init(L"sphere.x");
+	defaultBulletMesh.Init(L"sphere.x");
 	missileMesh1.Init(L"missile1.X");
 	//create enemy ship meshes
 	viperMesh.Init(L"viperShip.x");
@@ -91,7 +91,7 @@ void Initializer::Shutdown()
 	fighterMesh.Shutdown();
 	scooterMesh.Shutdown();
 	viperMesh.Shutdown();
-	projectileMesh.Shutdown();
+	defaultBulletMesh.Shutdown();
 	playerMesh.Shutdown();
 	SAFE_RELEASE(m_pD3DSprite);
 	SAFE_RELEASE(gameFont);

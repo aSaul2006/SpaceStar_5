@@ -3,13 +3,21 @@
 
 Projectile::Projectile(void)
 {
+}
+
+Projectile::~Projectile(void)
+{
+}
+
+DefaultBullet::DefaultBullet(void)
+{
 	position = direction = startPosition = D3DXVECTOR3(0, 0, 0);
 	D3DXMatrixScaling(&scaleMat, 0.1f, 0.1f, 0.1f);
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
 	destroyObject = false;
 }
 
-Projectile::Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction)
+DefaultBullet::DefaultBullet(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction)
 {
 	position = startPosition = spawnPosition;
 	this->direction = direction;
@@ -20,7 +28,7 @@ Projectile::Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction)
 	Initialize();
 }
 
-Projectile::Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction,float scale)
+DefaultBullet::DefaultBullet(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction,float scale)
 {
 	position = startPosition = spawnPosition;
 	this->direction = direction;
@@ -31,28 +39,28 @@ Projectile::Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction,float sc
 	Initialize();
 }
 
-Projectile::~Projectile(void)
+DefaultBullet::~DefaultBullet(void)
 {
 	Shutdown();
 }
 
-void Projectile::Initialize()
+void DefaultBullet::Initialize()
 {
 	// build bounding box for the mesh
 	BYTE* vertices = NULL;
-	Initializer::GetInstance()->GetProjectileMesh().mesh->LockVertexBuffer(
+	Initializer::GetInstance()->GetDefaultBulletMesh().mesh->LockVertexBuffer(
 		D3DLOCK_READONLY, (LPVOID*)&vertices);
 
 	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, 
-		Initializer::GetInstance()->GetProjectileMesh().mesh->GetNumVertices(),
+		Initializer::GetInstance()->GetDefaultBulletMesh().mesh->GetNumVertices(),
 		D3DXGetFVFVertexSize(
-		Initializer::GetInstance()->GetProjectileMesh().mesh->GetFVF()), 
+		Initializer::GetInstance()->GetDefaultBulletMesh().mesh->GetFVF()), 
 		&meshBox.minPt, &meshBox.maxPt);
 
-	Initializer::GetInstance()->GetProjectileMesh().mesh->UnlockVertexBuffer();
+	Initializer::GetInstance()->GetDefaultBulletMesh().mesh->UnlockVertexBuffer();
 }
 	
-void Projectile::Update(float dt)
+void DefaultBullet::Update(float dt)
 {
 	// Update the bullet's position
 	position += direction * dt;
@@ -76,7 +84,7 @@ void Projectile::Update(float dt)
 	//meshBox.xform(worldMat, meshBox);
 }
 
-void Projectile::Render(ID3DXEffect* shader)
+void DefaultBullet::Render(ID3DXEffect* shader)
 {
 	// WVPMat - World View Projection Matrix
 	// WITMat - World Inverse Transverse Matrix
@@ -105,21 +113,21 @@ void Projectile::Render(ID3DXEffect* shader)
 	{
 		shader->BeginPass(i);
 		for(DWORD j = 0; j < 
-			Initializer::GetInstance()->GetProjectileMesh().numMaterials; j++)
+			Initializer::GetInstance()->GetDefaultBulletMesh().numMaterials; j++)
 		{
 			shader->SetValue("ambientMaterial",
-				&Initializer::GetInstance()->GetProjectileMesh().modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
+				&Initializer::GetInstance()->GetDefaultBulletMesh().modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
 			shader->SetValue("diffuseMaterial", 
-				&Initializer::GetInstance()->GetProjectileMesh().modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
+				&Initializer::GetInstance()->GetDefaultBulletMesh().modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
 			shader->SetValue("specularMaterial", 
-				&Initializer::GetInstance()->GetProjectileMesh().modelMaterial[j].Specular, sizeof(D3DXCOLOR));
+				&Initializer::GetInstance()->GetDefaultBulletMesh().modelMaterial[j].Specular, sizeof(D3DXCOLOR));
 			shader->SetFloat("specularPower", 
-				Initializer::GetInstance()->GetProjectileMesh().modelMaterial[j].Power);
+				Initializer::GetInstance()->GetDefaultBulletMesh().modelMaterial[j].Power);
 			shader->SetTexture("tex", 
-				Initializer::GetInstance()->GetProjectileMesh().texture[j]);
+				Initializer::GetInstance()->GetDefaultBulletMesh().texture[j]);
 			shader->SetBool("usingTexture", true);
 			shader->CommitChanges();
-			Initializer::GetInstance()->GetProjectileMesh().mesh->DrawSubset(j);
+			Initializer::GetInstance()->GetDefaultBulletMesh().mesh->DrawSubset(j);
 		}
 		shader->EndPass();
 	}
@@ -127,6 +135,6 @@ void Projectile::Render(ID3DXEffect* shader)
 }
 
 /// Release the object's variables
-void Projectile::Shutdown()
+void DefaultBullet::Shutdown()
 {
 }

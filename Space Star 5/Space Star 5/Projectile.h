@@ -12,26 +12,23 @@
 
 class Projectile
 {
-private:
+protected:
 	D3DXMATRIX scaleMat, rotateMat, translateMat, worldMat;
 	D3DXVECTOR3 position, startPosition, direction;
 
 	AABB meshBox;		// mesh's collision box
 	bool destroyObject;	// use this bool to determine when to destroy the object
+
 public:
+
 	// Default constructor
 	Projectile(void);
+	virtual ~Projectile(void);
 
-	// Spawn position is the position of the object firing the projectile
-	// Direction is the direction the projectile will be traveling
-	Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction);
-	Projectile(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction, float scale);
-	~Projectile(void);
-
-	void Initialize();
-	void Update(float dt);
-	void Render(ID3DXEffect* shader);
-	void Shutdown();
+	virtual void Initialize()=0;
+	virtual void Update(float dt)=0;
+	virtual void Render(ID3DXEffect* shader)=0;
+	virtual void Shutdown()=0;
 
 	// Checks to see if the object needs to be destroyed
 	// True - destroy object; False - keep object alive
@@ -52,5 +49,28 @@ public:
 	void SetStartPosition(D3DXVECTOR3 position){startPosition = position;}
 	void SetDirection(D3DXVECTOR3 direction){this->direction = direction;}
 	void Destroy() {destroyObject = true;}
+};
+
+
+class DefaultBullet : public Projectile
+{
+private:
+
+public:
+	// Default constructor
+	DefaultBullet(void);
+
+	~DefaultBullet(void);
+
+	void Initialize();
+	void Update(float dt);
+	void Render(ID3DXEffect* shader);
+	void Shutdown();
+
+	// Spawn position is the position of the object firing the projectile
+	// Direction is the direction the projectile will be traveling
+	DefaultBullet(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction);
+	DefaultBullet(D3DXVECTOR3 spawnPosition, D3DXVECTOR3 direction, float scale);
+
 };
 

@@ -130,7 +130,7 @@ void Viper::Render(ID3DXEffect* shader)
 
 void Viper::fireWeapon(int fireRate, Player* player)
 {
-	enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(-10.0f,0.0,0.0)));
+	enemyBullet.push_front(new DefaultBullet(m_position, D3DXVECTOR3(-10.0f,0.0,0.0)));
 	AudioManager::GetInstance()->PlaySFX(enemySFX);
 }
 
@@ -498,7 +498,7 @@ void Scooter::Render(ID3DXEffect* shader)
 
 void Scooter::fireWeapon(int fireRate, Player* player)
 {
-	enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(-10.0f,0.0,0.0)));
+	enemyBullet.push_front(new DefaultBullet(m_position, D3DXVECTOR3(-10.0f,0.0,0.0)));
 	AudioManager::GetInstance()->PlaySFX(enemySFX);
 }
 
@@ -776,12 +776,12 @@ void Fighter::fireWeapon(int fireRate, Player* player)
 {
 	if(m_attackType == ATTACK1)
 	{
-		enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(0.0,-10.0f,0.0),0.2f));
+		enemyBullet.push_front(new DefaultBullet(m_position, D3DXVECTOR3(0.0,-10.0f,0.0),0.2f));
 		AudioManager::GetInstance()->PlaySFX(enemySFX);
 	}
 	else
 	{
-		enemyBullet.push_front(new Projectile(m_position, D3DXVECTOR3(-10.0,0.0f,0.0),0.1f));
+		enemyBullet.push_front(new DefaultBullet(m_position, D3DXVECTOR3(-10.0,0.0f,0.0),0.1f));
 		AudioManager::GetInstance()->PlaySFX(enemySFX);
 	}
 }

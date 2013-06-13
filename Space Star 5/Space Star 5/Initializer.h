@@ -96,7 +96,7 @@ public:
 				delete[] texture;
 			}
 		}
-	}playerMesh, projectileMesh, missileMesh1, viperMesh, scooterMesh, fighterMesh,
+	}playerMesh, defaultBulletMesh, missileMesh1, viperMesh, scooterMesh, fighterMesh,
 		healthPickup, missilePickup1, starDust;
 
 	~Initializer(void);
@@ -118,7 +118,7 @@ public:
 	MeshObject GetPlayerMesh() {return playerMesh;}
 	
 	//projectile mesh
-	MeshObject GetProjectileMesh() {return projectileMesh;}
+	MeshObject GetDefaultBulletMesh() {return defaultBulletMesh;}
 	MeshObject GetMissileMesh1() {return missileMesh1;}
 
 	//Pickup meshes
