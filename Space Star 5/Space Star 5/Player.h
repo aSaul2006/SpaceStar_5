@@ -65,6 +65,12 @@ private:
 	static const float speed;
 	static const float rotateSpeed;
 
+	// variables indicate whether the player takes damage or
+	// player heals
+	bool takeDamage;
+	bool heal;
+	float colorCounter;	// used to change color for a period of time
+
 public:
 	Player(void);
 	~Player(void);
@@ -90,8 +96,8 @@ public:
 	void SetPosition(D3DXVECTOR3 pos) {position = pos;}
 
 	// Modify player's current health
-	void IncrCurrHlth(float incrNum) {currentHealth += incrNum;}
-	void DecrCurrHlth(float decrNum) {currentHealth -= decrNum;}
+	void IncrCurrHlth(float incrNum) {currentHealth += incrNum; heal = true;}
+	void DecrCurrHlth(float decrNum) {currentHealth -= decrNum; takeDamage = true;}
 	void SetCurrHlth(float setHlth)	{currentHealth = setHlth;}
 
 	// Modify player's max health

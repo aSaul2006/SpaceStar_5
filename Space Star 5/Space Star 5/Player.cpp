@@ -24,6 +24,9 @@ Player::Player(void)
 	ambientBlue = 0.1f;
 	missile1Ammo = 2;
 	starCount = 0;
+	takeDamage = false;
+	heal = false;
+	colorCounter = 0.0f;
 }
 
 Player::~Player(void)
@@ -93,6 +96,64 @@ void Player::Update(float dt)
 			rotateAngle += rotateSpeed;
 		if(rotateAngle > 0)
 			rotateAngle -= rotateSpeed;
+	}
+
+	// check when the player takes damage
+	if(takeDamage && colorCounter <= 1.0f)
+	{
+		float color = 10.0f;
+		for(int i = 0; 
+			i < Initializer::GetInstance()->playerMesh.numMaterials; i++)
+		{
+			if(Initializer::GetInstance()->playerMesh.modelMaterial[i].Ambient.r <= 0.1f)
+				Initializer::GetInstance()->playerMesh.modelMaterial[i].Ambient.r = color;
+			else
+				Initializer::GetInstance()->playerMesh.modelMaterial[i].Ambient.r = 0.1f;
+		}
+		colorCounter += dt;
+
+		if(colorCounter >= 1.0f)
+		{
+			takeDamage = false;
+			colorCounter = 0.0f;
+		}
+	}
+	else
+	{
+		for(int i = 0; 
+			i < Initializer::GetInstance()->playerMesh.numMaterials; i++)
+		{
+			Initializer::GetInstance()->playerMesh.modelMaterial[i].Ambient.r = 0.1f;
+		}
+	}
+
+	// checks when the player heals
+	if(heal && colorCounter <= 1.0f)
+	{
+		float color = 10.0f;
+		for(int i = 0; 
+			i < Initializer::GetInstance()->playerMesh.numMaterials; i++)
+		{
+			if(Initializer::GetInstance()->playerMesh.modelMaterial[i].Ambient.b <= 0.1f)
+				Initializer::GetInstance()->playerMesh.modelMaterial[i].Ambient.b = color;
+			else
+				Initializer::GetInstance()->playerMesh.modelMaterial[i].Ambient.b = 0.1f;
+		}
+		colorCounter += dt;
+
+		if(colorCounter >= 1.0f)
+		{
+			heal = false;
+			colorCounter = 0.0f;
+		}
+	}
+	else
+	{
+		for(int i = 0; 
+			i < Initializer::GetInstance()->playerMesh.numMaterials; i++)
+		{
+			Initializer::GetInstance()->playerMesh.modelMaterial[i].Ambient.b = 0.1f;
+		}
 	}
 
 	// Set rotation matrix to rotate the player
