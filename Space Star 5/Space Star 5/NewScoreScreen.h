@@ -4,9 +4,6 @@
 #include <iostream>
 #include "Database.h"
 
-//safe release
-#define SAFE_RELEASE(x) if(x){x->Release(); x=0;}
-
 class NewScoreScreen : public CScreen
 {
 private:

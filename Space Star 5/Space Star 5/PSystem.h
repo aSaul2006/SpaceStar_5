@@ -136,7 +136,7 @@ public:
 		// Start color at 50-100% intensity when born for
 		// variation
 		D3DCOLOR WHITE = D3DCOLOR_RGBA(255, 255, 255, 255);
-		out.initColor = GetRandomFloat(0.5f, 1.0f) * WHITE;
+		out.initColor = (D3DCOLOR)GetRandomFloat(0.5f, 1.0f) * WHITE;
 
 		// generate random particle on the ring in polar
 		// coordinates: random radius and random angle

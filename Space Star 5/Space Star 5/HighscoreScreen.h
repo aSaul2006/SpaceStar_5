@@ -4,9 +4,6 @@
 #include <iostream>
 #include "Database.h"
 
-//safe release
-#define SAFE_RELEASE(x) if(x){x->Release(); x=0;}
-
 class HighscoreScreen : public CScreen
 {
 private:
@@ -19,6 +16,7 @@ private:
 	string m_username;
 
 	int rows;
+	std::string scoreInTenthRow;
 
 public:
 	HighscoreScreen(void);
@@ -30,5 +28,5 @@ public:
 	void Shutdown(void);
 
 	void getHighscores();
-
+	void DeleteRemainingEntries();	
 };

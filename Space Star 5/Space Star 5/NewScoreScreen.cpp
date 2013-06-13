@@ -62,15 +62,14 @@ void NewScoreScreen::Render(void)
 	SetRect(&textBox, 290, 500, 450, 550);
 
 	D3DCOLOR fontColor;
-	char temp[128];
-	itoa(finalScore,temp,10);
-	std::string score = temp;
+
+	std::string score = to_string(static_cast<long long>(finalScore));
+
 
 	print = "New High Score!";
 	std::string msg = "Enter Your Initials: ";
 	//print = "New High Score!\n" + score +
 			//"\n\nEnter Your Initials";
-	LPDIRECT3DSURFACE9 surf;
 
 	fontColor = D3DCOLOR_RGBA(192, 192, 192, 255);
 	

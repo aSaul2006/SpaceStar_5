@@ -80,7 +80,7 @@ void HealthItemActor::Update(float dt)
 {
 	m_position.x -= m_speed * dt;
 
-	m_rotateAngle.y += .05;
+	m_rotateAngle.y += .05f;
 
 	if(m_rotateAngle.y == 360)
 		m_rotateAngle.y = 0;
@@ -178,7 +178,7 @@ StarDustItemActor::StarDustItemActor()
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 0, 0, 0);
 	D3DXMatrixTranslation(&translateMat, 0, 0, 0);
 	xpos = 12.0;
-	ypos = (rand()%(5-(-7)))+(-7);
+	ypos = (float)(rand()%(5-(-7)))+(-7);
 	this->SetPosition();
 	m_rotateAngle = D3DXVECTOR3(0.0f,0.0f,0.0f);
 	m_speed = 3.0;

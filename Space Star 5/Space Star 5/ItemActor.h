@@ -13,9 +13,6 @@
 #include "EnemyShip.h"
 #include "ItemTypes.h"
 
-// safe release macro
-#define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
-
 class ItemActor
 {
 protected:

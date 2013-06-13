@@ -81,7 +81,7 @@ void GameScreen::Initialize(void)
 
 void GameScreen::Update(GameState& gameState, float dt)
 {
-	srand(time(NULL));
+	srand((int)time(NULL));
 	Camera::GetInstance()->Update(dt);
 	player.Update(dt);
 	skybox.Update(dt);
@@ -239,7 +239,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 	}
 
 	//Intermittenly produce a stardust mesh
-	if(fmod(dt*(float)track,GetRandDropRate()) == 0)
+	if(fmod(dt*(float)track,(float)GetRandDropRate()) == 0)
 	{
 		pItemsDropped.push_front(new StarDustItemActor());
 	}

@@ -5,9 +5,6 @@
 #include "GameScreen.h"
 #include "Database.h"
 
-//safe release
-#define SAFE_RELEASE(x) if(x){x->Release(); x=0;}
-
 class GameOverScreen : public CScreen
 {
 private:

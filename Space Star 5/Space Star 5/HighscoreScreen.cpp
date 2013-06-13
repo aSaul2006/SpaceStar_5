@@ -9,10 +9,18 @@ HighscoreScreen::HighscoreScreen()
 	names = new string[10];
 	scores = new string[10];
 	rows = 0;
+	scoreInTenthRow = "";
 	scoreStore = "";
 	Initialize();
 	getHighscores();
 
+	if(rows >= 10)
+		DeleteRemainingEntries();
+
+	for(int i =0;i < rows;i++)
+	{
+		scoreStore += names[i] + "    " + scores[i] + "\n\n";
+	}
 }
 
 HighscoreScreen::~HighscoreScreen(void)
@@ -45,11 +53,6 @@ void HighscoreScreen::Render(void)
 	D3DCOLOR fontColor;
 	print = "H\ni\ng\nh\ns\nc\no\nr\ne\ns\n";
 	
-	for(int i =0;i < rows;i++)
-	{
-		scoreStore += names[i] + "    " + scores[i] + "\n\n";
-	}
-
 	SetRect(&rect, 25, 0, 400, 600);
 	SetRect(&scoreRect,300,0,800,600);
 	fontColor = D3DCOLOR_RGBA(192, 192, 192, 255);
@@ -91,16 +94,54 @@ void HighscoreScreen::getHighscores()
 					scores[index] = (char*)sqlite3_column_text(statement, 1);
 					index ++;
 					rows ++;
+
+					if(rows == 10)
+						scoreInTenthRow = (char*)sqlite3_column_text(statement,1);
 				}
 
 				if((res == SQLITE_DONE || res == SQLITE_ERROR) || rows == 10)
 				{
 					break;
 				}
-			
+		
 			}
 			sqlite3_finalize(statement);
 		}
+	}
+	sqlite3_close(database);
+}
+
+void HighscoreScreen::DeleteRemainingEntries()
+{
+	sqlite3 *database;
+
+	if(sqlite3_open("Database/spacestarDB.sqlite", &database) == SQLITE_OK)
+	{
+		int res = 0;
+		/*sqlite3_stmt *query;
+		sqlite3_stmt *deleteEntries;*/
+
+		std::string query = "SELECT * FROM highscores ORDER BY score DESC;";
+		std::string deleteEntries = "DELETE FROM highscores WHERE score < " + scoreInTenthRow + ";";
+
+		//start sqlite transaction block
+		sqlite3_exec(database,"BEGIN",0,0,0);
+
+		res = sqlite3_exec(database, query.c_str(), 0,0,0);
+		if(res == SQLITE_OK)
+		{	
+			res = sqlite3_exec(database,deleteEntries.c_str(),0,0,0);
+			if(res != SQLITE_OK)
+				sqlite3_exec(database,"ROLLBACK",0,0,0);
+
+		}
+		else
+		{
+			sqlite3_exec(database,"ROLLBACK",0,0,0);
+		}
+
+		// commit all to sqlite db
+		sqlite3_exec(database, "COMMIT",0,0,0);
 	}
 	sqlite3_close(database);
 }
