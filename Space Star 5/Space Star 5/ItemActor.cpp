@@ -81,12 +81,15 @@ void HealthItemActor::Update(float dt)
 	m_position.x -= m_speed * dt;
 
 	m_rotateAngle.y += .05f;
+	m_rotateAngle.z += .1f;
 
 	if(m_rotateAngle.y == 360)
 		m_rotateAngle.y = 0;
+	if(m_rotateAngle.z == 360)
+		m_rotateAngle.z = 0;
 
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
-		D3DXToRadian(m_rotateAngle.y), 0, 0);
+		D3DXToRadian(m_rotateAngle.y), 0,D3DXToRadian(m_rotateAngle.z));
 
 	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
 
@@ -196,11 +199,12 @@ void StarDustItemActor::Update(float dt)
 	m_position.x -= m_speed * dt;
 
 	m_rotateAngle.y += .05f;
-	m_rotateAngle.z += .05f;
-	if(m_rotateAngle.z == 180)
-		m_rotateAngle.z = 0;
+	m_rotateAngle.z += .1f;
+
 	if(m_rotateAngle.y == 360)
 		m_rotateAngle.y = 0;
+	if(m_rotateAngle.z == 360)
+		m_rotateAngle.z = 0;
 
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
 		D3DXToRadian(m_rotateAngle.y), 0,D3DXToRadian(m_rotateAngle.z));
@@ -314,14 +318,15 @@ void Missile1ItemActor::Update(float dt)
 	m_position.x -= m_speed * dt;
 
 	m_rotateAngle.y += .05f;
-	m_rotateAngle.z += .05f;
-	if(m_rotateAngle.z == 180)
-		m_rotateAngle.z = 0;
+	m_rotateAngle.z += .1f;
+
 	if(m_rotateAngle.y == 360)
 		m_rotateAngle.y = 0;
+	if(m_rotateAngle.z == 360)
+		m_rotateAngle.z = 0;
 
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
-		D3DXToRadian(m_rotateAngle.y), 0,0);
+		D3DXToRadian(m_rotateAngle.y), 0,D3DXToRadian(m_rotateAngle.z));
 
 	D3DXMatrixTranslation(&translateMat, m_position.x, m_position.y, m_position.z);
 

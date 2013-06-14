@@ -23,6 +23,11 @@ template Material {
  [...]
 }
 
+template TextureFilename {
+ <a42790e1-7810-11cf-8f52-0040333594a3>
+ STRING filename;
+}
+
 template Frame {
  <3d82ab46-62da-11cf-ab39-0020af71e433>
  [...]
@@ -107,10 +112,14 @@ template AnimationKey {
 
 
 Material PDX01_-_Default {
- 1.000000;0.803922;0.203922;1.000000;;
+ 1.000000;1.000000;1.000000;1.000000;;
  3.200000;
  0.000000;0.000000;0.000000;;
  0.000000;0.000000;0.000000;;
+
+ TextureFilename {
+  "yellow.bmp";
+ }
 }
 
 Frame FreeStar-by-Seth2o {

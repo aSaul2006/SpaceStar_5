@@ -168,21 +168,21 @@ void ViperWave3::AttackPattern(list<baseEnemyShip*> &enemies)
 	Scooter* scoot3 = new Scooter();
 	Scooter* scoot4 = new Scooter();
 
-	viper1->SetEnemyAttrib2(100.0,5.0,1.0,ATTACK3,D3DXVECTOR3(12,0,0));
-	viper2->SetEnemyAttrib2(100.0,5.0,1.0,ATTACK5,D3DXVECTOR3(18,-3,0));
-	viper3->SetEnemyAttrib2(100.0,5.0,1.0,ATTACK2,D3DXVECTOR3(18,3,0));
-	viper4->SetEnemyAttrib2(100.0,5.0,1.0,AVOID1,D3DXVECTOR3(35,5,0));
-	viper5->SetEnemyAttrib2(100.0,5.0,1.0,AVOID2,D3DXVECTOR3(35,-7,0));
-	viper6->SetEnemyAttrib2(100.0,5.0,1.0,ATTACK4,D3DXVECTOR3(42,-7,0));
-	viper7->SetEnemyAttrib2(150.0,7.0,0.5,ATTACK3,D3DXVECTOR3(80,0,0));
-	viper8->SetEnemyAttrib2(150.0,7.0,0.5,ATTACK5,D3DXVECTOR3(90,0,0));
-	viper9->SetEnemyAttrib2(150.0,7.0,0.5,ATTACK2,D3DXVECTOR3(100,2,0));
-	viper10->SetEnemyAttrib2(150.0,7.0,0.5,ATTACK4,D3DXVECTOR3(100,-4,0));
+	viper1->SetEnemyAttrib2(100,5.0,1.0,ATTACK3,D3DXVECTOR3(12,0,0));
+	viper2->SetEnemyAttrib2(100,5.0,1.0,ATTACK5,D3DXVECTOR3(18,-3,0));
+	viper3->SetEnemyAttrib2(100,5.0,1.0,ATTACK2,D3DXVECTOR3(18,3,0));
+	viper4->SetEnemyAttrib2(100,5.0,1.0,AVOID1,D3DXVECTOR3(35,5,0));
+	viper5->SetEnemyAttrib2(100,5.0,1.0,AVOID2,D3DXVECTOR3(35,-7,0));
+	viper6->SetEnemyAttrib2(100,5.0,1.0,ATTACK4,D3DXVECTOR3(42,-7,0));
+	viper7->SetEnemyAttrib2(150,7.0,0.5,ATTACK3,D3DXVECTOR3(80,0,0));
+	viper8->SetEnemyAttrib2(150,7.0,0.5,ATTACK5,D3DXVECTOR3(90,0,0));
+	viper9->SetEnemyAttrib2(150,7.0,0.5,ATTACK2,D3DXVECTOR3(100,2,0));
+	viper10->SetEnemyAttrib2(150,7.0,0.5,ATTACK4,D3DXVECTOR3(100,-4,0));
 
-	scoot1->SetEnemyAttrib2(50.0,5.0,0.5,ATTACK5,D3DXVECTOR3(25,4,0));
-	scoot2->SetEnemyAttrib2(50.0,5.0,0.5,ATTACK5,D3DXVECTOR3(25,-7,0));
-	scoot3->SetEnemyAttrib2(50.0,5.0,0.5,ATTACK5,D3DXVECTOR3(50,0,0));
-	scoot4->SetEnemyAttrib2(50.0,5.0,0.5,ATTACK5,D3DXVECTOR3(55,0,0));
+	scoot1->SetEnemyAttrib2(50,5.0,0.5,ATTACK5,D3DXVECTOR3(25,4,0));
+	scoot2->SetEnemyAttrib2(50,5.0,0.5,ATTACK5,D3DXVECTOR3(25,-7,0));
+	scoot3->SetEnemyAttrib2(50,5.0,0.5,ATTACK5,D3DXVECTOR3(50,0,0));
+	scoot4->SetEnemyAttrib2(50,5.0,0.5,ATTACK5,D3DXVECTOR3(55,0,0));
 
 	enemies.push_front(viper1);enemies.push_front(viper2); enemies.push_front(viper3);
 	enemies.push_front(viper4);enemies.push_front(viper5); enemies.push_front(viper6);
