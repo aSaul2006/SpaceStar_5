@@ -78,10 +78,10 @@ void GameScreen::Initialize(void)
 	psysTime = 0;
 
 
-	//blast radius items
-	isMissle = false;
-	inRadius = true;
-	projectilePos = D3DXVECTOR3(0, 0, 0);
+	////blast radius items
+	//isMissle = false;
+	//inRadius = true;
+	//projectilePos = D3DXVECTOR3(0, 0, 0);
 	
 }
 
@@ -195,10 +195,10 @@ void GameScreen::Update(GameState& gameState, float dt)
 		// update projectile
 		projectile->Update(dt);
 
-		if(isMissle)
-		{
-			isMissle = false;
-		}
+		//if(isMissle)
+		//{
+		//	isMissle = false;
+		//}
 		
 		// testing collision
 		for each(baseEnemyShip* enemy in pEnemies)
@@ -215,8 +215,8 @@ void GameScreen::Update(GameState& gameState, float dt)
 					break;
 				case MISSILE1:
 					enemy->calculateDamage(player.GetMissile1AttackPower());
-					isMissle = true;
-					projectilePos = projectile->GetPosition();
+					//isMissle = true;
+					//projectilePos = projectile->GetPosition();
 					break;
 				}
 				
@@ -249,32 +249,32 @@ void GameScreen::Update(GameState& gameState, float dt)
 			}
 		}
 
-		//this code is to check a radius around the missle for enemies caught within the blast
-		if(isMissle)
-		{
-			for each(baseEnemyShip* enemy in pEnemies)
-			{
-				if(!inRadius)
-				{
-					inRadius = true;
-				}
+		////this code is to check a radius around the missle for enemies caught within the blast
+		//if(isMissle)
+		//{
+		//	for each(baseEnemyShip* enemy in pEnemies)
+		//	{
+		//		if(!inRadius)
+		//		{
+		//			inRadius = true;
+		//		}
 
-				if((projectilePos.x - enemy->getPosition().x) < -300 || (projectilePos.x - enemy->getPosition().x) > 300)
-				{
-					inRadius = false;
-				}
+		//		if((projectilePos.x - enemy->getPosition().x) < -300 || (projectilePos.x - enemy->getPosition().x) > 300)
+		//		{
+		//			inRadius = false;
+		//		}
 
-				if((projectilePos.y - enemy->getPosition().y) < -300 || (projectilePos.y - enemy->getPosition().y) > 300)
-				{
-					inRadius = false;
-				}
+		//		if((projectilePos.y - enemy->getPosition().y) < -300 || (projectilePos.y - enemy->getPosition().y) > 300)
+		//		{
+		//			inRadius = false;
+		//		}
 
-				if(inRadius)
-				{
-					enemy->calculateDamage(player.GetMissile1AttackPower());
-				}
-			}
-		}
+		//		if(inRadius)
+		//		{
+		//			enemy->calculateDamage(player.GetMissile1AttackPower());
+		//		}
+		//	}
+		//}
 	}
 
 	//Intermittenly produce a stardust mesh

@@ -45,10 +45,10 @@ private:
 	//drop rate....does this even make sense lol
 	int track;
 
-	//used for missle blast radius
-	bool isMissle;
-	bool inRadius;
-	D3DXVECTOR3 projectilePos;
+	////used for missle blast radius
+	//bool isMissle;
+	//bool inRadius;
+	//D3DXVECTOR3 projectilePos;
 
 public:
 	GameScreen(void);
