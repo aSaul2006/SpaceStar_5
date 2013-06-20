@@ -5,7 +5,6 @@ HighscoreScreen::HighscoreScreen()
 {
 	print = "";
 	type = HighScoreType;
-	database = new Database();
 	names = new string[10];
 	scores = new string[10];
 	rows = 0;
@@ -69,7 +68,6 @@ void HighscoreScreen::Render(void)
 void HighscoreScreen::Shutdown(void)
 {
 	SAFE_RELEASE(bgTex);
-	delete database;
 	delete names;
 	delete scores;
 }

@@ -9,13 +9,7 @@ GameOverScreen::GameOverScreen()
 	type = GameOverType;
 	finalScore = Initializer::GetInstance()->getfinalscore();
 
-	database = new Database();
-	char *name = "ZMF";
-	//newScore = false;
-
-	database->open();
-	newScore = database->checkForHighScore(finalScore);
-	database->close();
+	newScore = checkForHighScore(finalScore);
 
 	Initialize();
 }
@@ -31,7 +25,6 @@ void GameOverScreen::Initialize(void)
 		L"titlepic.png", 800, 600, 0, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
 		D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &bgTex);
 	
-
 }
 
 void GameOverScreen::Update(GameState& gameState, float dt)
@@ -40,7 +33,6 @@ void GameOverScreen::Update(GameState& gameState, float dt)
 	{
 		if(newScore)
 			gameState= NewScore;
-			//gameState = HighScore;//inserted for testing purposes
 		else
 			gameState = MainMenu;
 	}
@@ -54,9 +46,7 @@ void GameOverScreen::Render(void)
 	Initializer::GetInstance()->GetSprite()->End();
 	RECT rect;
 	D3DCOLOR fontColor;
-	char temp[128];
-	itoa(finalScore,temp,10);
-	std::string score = temp;
+	std::string score = to_string(static_cast<long long>(finalScore));
 
 	print = "Game Over Man.\nFinal Score = " + score;
 
@@ -74,4 +64,34 @@ void GameOverScreen::Render(void)
 void GameOverScreen::Shutdown(void)
 {
 	SAFE_RELEASE(bgTex);
+}
+
+bool GameOverScreen::checkForHighScore(int score)
+{
+	sqlite3_stmt *statement;
+	int rows = 10;
+	bool check = false;
+	sqlite3* db;
+	if(sqlite3_open("Database/spacestarDB.sqlite", &db) == SQLITE_OK)
+	{
+		if(sqlite3_prepare_v2(db, "SELECT * FROM highscores ORDER BY score DESC;", -1, &statement, 0) == SQLITE_OK)
+		{
+			int value = 0;
+			while(rows > 0)
+			{
+				sqlite3_step(statement);
+				value = sqlite3_column_int(statement, 1);
+				if(score > value)
+				{
+					check = true;
+					rows = 0;
+					break;
+				}
+				rows--;
+			}
+
+			sqlite3_finalize(statement);
+		}
+	}
+	return check;
 }
