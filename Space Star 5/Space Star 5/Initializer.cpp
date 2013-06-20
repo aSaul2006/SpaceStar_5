@@ -84,10 +84,45 @@ void Initializer::Initialize(HWND hWnd, IDirect3D9* m_pD3DObject,
 	missilePickup1.Init(L"missileItemActor.X");
 	healthPickup.Init(L"healthItemActor.X");
 	starDust.Init(L"starDustItemActor.X");
+
+	// initialize decl
+	D3DVERTEXELEMENT9 particleElements[] =
+	{
+		{0, 0,  D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
+		{0, 12, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
+		{0, 24, D3DDECLTYPE_FLOAT1, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1},
+		{0, 28, D3DDECLTYPE_FLOAT1, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 2},
+		{0, 32, D3DDECLTYPE_FLOAT1, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 3},
+		{0, 36, D3DDECLTYPE_FLOAT1, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 4},
+		{0, 40, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0},
+		D3DDECL_END()
+	};
+
+	m_pD3DDevice->CreateVertexDeclaration(particleElements, &Decl);
+
+	// Create PSystem Texture
+	D3DXCreateTextureFromFileA(Initializer::GetInstance()->GetDevice(),
+		"torch.dds", &mPSysTex);
+
+	// create PSys shader effect
+	ID3DXBuffer* errorCheck;
+	D3DXCreateEffectFromFileA(Initializer::GetInstance()->GetDevice(),
+		"firering.fx", 0, 0, 0, 0, 
+		&mPSysFX, &errorCheck);
+
+	if(errorCheck)
+	{
+		MessageBoxA(0,(char*)errorCheck->GetBufferPointer(), 0, 0);
+	}
+
+	SAFE_RELEASE(errorCheck);
 }
 
 void Initializer::Shutdown()
 {
+	SAFE_RELEASE(mPSysFX);
+	SAFE_RELEASE(mPSysTex);
+	SAFE_RELEASE(Decl);
 	fighterMesh.Shutdown();
 	scooterMesh.Shutdown();
 	viperMesh.Shutdown();

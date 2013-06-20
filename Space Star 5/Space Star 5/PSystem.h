@@ -18,14 +18,11 @@ struct Particle
 	float		lifeTime;	// life time of the particle
 	float		mass;		// mass of the particle
 	D3DCOLOR	initColor;	// initial color
-
-	static IDirect3DVertexDeclaration9* Decl;
 };
 
 class PSystem
 {
 protected:
-	ID3DXEffect* mFX;
 	D3DXHANDLE mhTech;
 	D3DXHANDLE mhWVP;
 	D3DXHANDLE mhEyePosL;
@@ -34,7 +31,7 @@ protected:
 	D3DXHANDLE mhAccel;
 	D3DXHANDLE mhViewportHeight;
 
-	IDirect3DTexture9* mTex;
+	
 	IDirect3DVertexBuffer9* mVB;
 	D3DXMATRIX mWorld;
 	D3DXMATRIX mInvWorld;
@@ -43,15 +40,13 @@ protected:
 	AABB mBox;
 	int mMaxNumParticles;
 	float mTimePerParticle;
+	bool destroyObject;
 
 	vector<Particle> mParticles;
 	vector<Particle*> mAliveParticles;
 	vector<Particle*> mDeadParticles;
 public:
 	PSystem(
-		const string& fxName,
-		const string& techName,
-		const string& texName,
 		const D3DXVECTOR3 accel,
 		const AABB& box,
 		int maxNumParticles,
@@ -73,20 +68,20 @@ public:
 
 	bool play;
 	void ResetTime(void){mTime = 0;}
+
+	bool CheckObject(void) {return destroyObject;}
+	void Destroy(void) {destroyObject = true;}
 };
 
 class FireRing : public PSystem
 {
 public:
 	FireRing(
-		const string& fxName,
-		const string& techName,
-		const string& texName,
 		const D3DXVECTOR3 accel,
 		const AABB& box,
 		int maxNumParticles,
 		float timePerParticle)
-		: PSystem(fxName, techName, texName, accel, box, 
+		: PSystem(accel, box, 
 		maxNumParticles, timePerParticle)
 	{
 	}

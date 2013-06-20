@@ -69,14 +69,8 @@ void GameScreen::Initialize(void)
 	// initialize particle system
 	D3DXMATRIX psysWorld;
 	D3DXMatrixTranslation(&psysWorld, 0.0f, 0.0f, 0.0f);
-	AABB psysBox;
 	psysBox.minPt = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
 	psysBox.maxPt = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	PSys = new FireRing("firering.fx", "FireRingTech", "torch.dds",
-		D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 100, 0.0025f);
-	//PSys->SetWorldMat(psysWorld);
-	psysTime = 0;
-
 
 	////blast radius items
 	//isMissle = false;
@@ -87,21 +81,32 @@ void GameScreen::Initialize(void)
 
 void GameScreen::Update(GameState& gameState, float dt)
 {
+	// seed randomizer
 	srand((int)time(NULL));
-	Camera::GetInstance()->Update(dt);
-	player.Update(dt);
-	skybox.Update(dt);
-	
-	PSys->Update(dt);
-	psysTime += dt;
 
-	if(psysTime >= 1.5f)
+	// update camera instance
+	Camera::GetInstance()->Update(dt);
+
+	// update player
+	player.Update(dt);
+
+	// update skybox
+	skybox.Update(dt);
+
+	//////////////////////////////////////////////////////////////////////////
+	/// Update PSys List
+	//////////////////////////////////////////////////////////////////////////
+	for each(PSystem* psys in pPSys)
 	{
-		PSys->play = false;
-		psysTime = 0;
-		PSys->ResetTime();
+		psys->Update(dt);
+
+		if(psys->GetTime() >= 1.5f)
+		{
+			psys->Destroy();
+		}
 	}
 
+	// check if enemy list is empty
 	if(pEnemies.empty())
 	{
 		int pickAWave = rand() % 5;
@@ -119,6 +124,9 @@ void GameScreen::Update(GameState& gameState, float dt)
 		}
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	/// Update enemy List
+	//////////////////////////////////////////////////////////////////////////
 	for each(baseEnemyShip* enemy in pEnemies)
 	{
 		enemy->update(dt,&player);
@@ -147,16 +155,19 @@ void GameScreen::Update(GameState& gameState, float dt)
 			enemy->destroyShip();
 			enemiesSpawned --;
 
-			PSys->play = true;
+			pPSys.push_back(new FireRing(D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 100, 0.0025f));
 			D3DXMATRIX worldMat;
 			D3DXMatrixTranslation(&worldMat, 
 				enemy->getPosition().x, enemy->getPosition().y, enemy->getPosition().z);
-			PSys->SetWorldMat(worldMat);
+			pPSys.back()->SetWorldMat(worldMat);
 
 		}
 				
 	}
-	
+
+	///////////////////////////////////////////////////////////////////////////
+	/// Player Input Check
+	///////////////////////////////////////////////////////////////////////////
 	//zoom in and out for debugging purposes ehh
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_0))
 	{
@@ -227,11 +238,11 @@ void GameScreen::Update(GameState& gameState, float dt)
 					enemiesSpawned --;
 					player.IncrScore(enemy->getShipScoreWorth());
 
-					PSys->play = true;
+					pPSys.push_back(new FireRing(D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 100, 0.0025f));
 					D3DXMATRIX worldMat;
 					D3DXMatrixTranslation(&worldMat, 
 						enemy->getPosition().x, enemy->getPosition().y, enemy->getPosition().z);
-					PSys->SetWorldMat(worldMat);
+					pPSys.back()->SetWorldMat(worldMat);
 
 					// Drop at least one item for each 5 enemies killed
 					int chanceToDropItem = (rand() % 5) + 1;
@@ -344,6 +355,8 @@ void GameScreen::Update(GameState& gameState, float dt)
 		else
 			i++;		
 	}
+
+	// check for enemies that need to be removed from their list
 	for(list<baseEnemyShip*>::const_iterator i = pEnemies.begin(), end = pEnemies.end(); i != end;)
 	{
 		if((*i)->CheckObject())
@@ -355,6 +368,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 			i++;
 	}
 
+	// check for items that need to be removed from their list
 	if(pItemsDropped.size() > 0)
 	{
 		for(list<ItemActor*>::const_iterator i = pItemsDropped.begin(), end = pItemsDropped.end(); i != end;)
@@ -370,6 +384,18 @@ void GameScreen::Update(GameState& gameState, float dt)
 			else
 				i ++;
 		}
+	}
+
+	// check for particles that need to be removed from their list
+	for(list<PSystem*>::const_iterator i = pPSys.begin(), end = pPSys.end(); i != end;)
+	{	
+		if((*i)->CheckObject())
+		{
+			delete (*i);
+			i = pPSys.erase(i);
+		}
+		else
+			i++;
 	}
 
 	//end the game if the player is out of health and lives
@@ -405,8 +431,10 @@ void GameScreen::Render(void)
 	player.Render(shader);
 
 	// Render particle system
-	if(PSys->play)
-		PSys->Render();
+	for each(PSystem* psys in pPSys)
+	{
+		psys->Render();
+	}
 
 	for each(Projectile* projectile in pList)
 	{
@@ -436,9 +464,7 @@ void GameScreen::Render(void)
 
 void GameScreen::Shutdown(void)
 {
-	// Delete Test variables
-	delete PSys;
-	PSys = NULL;
+	// Delete variables
 	projSFX->release();
 	SAFE_RELEASE(shader);
 	SAFE_RELEASE(errorCheck);
@@ -470,6 +496,16 @@ void GameScreen::Shutdown(void)
 		{
 			delete (*i);
 			i = pItemsDropped.erase(i);
+		}
+	}
+
+	if(pPSys.size() > 0)
+	{
+		for(list<PSystem*>::const_iterator i = pPSys.begin(),
+			end = pPSys.end(); i != end;)
+		{
+			delete (*i);
+			i = pPSys.erase(i);
 		}
 	}
 }

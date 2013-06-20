@@ -31,6 +31,7 @@ private:
 	list<baseEnemyShip*> pEnemies;
 	list<AttackWaves*> pWave;
 	list<ItemActor*> pItemsDropped;
+	list<PSystem*> pPSys;
 	Viper viper;
 
 	double spawnTime;
@@ -39,8 +40,7 @@ private:
 	FMOD::Sound* projSFX;	// SFX for the player's projectile
 
 	int enemyDestroyedCount;
-	PSystem* PSys;
-	float psysTime;
+	AABB psysBox;
 
 	//drop rate....does this even make sense lol
 	int track;

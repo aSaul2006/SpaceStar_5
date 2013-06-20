@@ -34,6 +34,11 @@ private:
 	std::string g_userName;
 
 	bool isOnNewScoreScreen;
+
+	// initialize variables for PSystem
+	IDirect3DVertexDeclaration9* Decl;
+	IDirect3DTexture9* mPSysTex;
+	ID3DXEffect* mPSysFX;
 public:
 
 	// mesh object
@@ -145,4 +150,8 @@ public:
 	
 	void setIsOnNewScoreScreen(bool value){this->isOnNewScoreScreen = value;}
 	bool IsNewScoreScreenInView(){return this->isOnNewScoreScreen;}
+
+	IDirect3DVertexDeclaration9* GetDecl(void) {return Decl;}
+	IDirect3DTexture9* GetPSysTex(void) {return mPSysTex;}
+	ID3DXEffect* GetPSysFX(void) {return mPSysFX;}
 };
