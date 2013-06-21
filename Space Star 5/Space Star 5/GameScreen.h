@@ -46,9 +46,10 @@ private:
 	int track;
 
 	////used for missle blast radius
-	//bool isMissle;
-	//bool inRadius;
-	//D3DXVECTOR3 projectilePos;
+	bool isMissle;
+	bool inRadius;
+	D3DXVECTOR3 projectilePos;
+	double timeTrack;
 
 public:
 	GameScreen(void);

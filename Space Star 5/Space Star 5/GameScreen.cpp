@@ -11,16 +11,13 @@ ViperWave4 * wave4;
 ViperWave5 * wave5;
 ItemActor* ItemManager;
 
-default_random_engine generator;
-uniform_int_distribution<int> randSpeed(4,6);
-uniform_int_distribution<float> randYpos(-7,5);
 
 GameScreen::GameScreen(void)
 {
 	type = GameType;
 	Initialize();
 	enemiesSpawned = 0;
-	spawnTime = 0.0;
+	spawnTime = timeTrack = 0.0;
 	enemyDestroyedCount = 0;
 	track = 0;
 }
@@ -189,7 +186,7 @@ void GameScreen::Update(GameState& gameState, float dt)
 
 	// fire missile
 	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_LCONTROL) &&
-		player.GetMissile1Amount() > 0)
+		player.GetMissile1Amount() > 0 )
 	{
 		pList.push_front(new Missile1(player.GetPosition(), D3DXVECTOR3(10.0f,0,0),0.3f));
 		player.DecrMissile1Amount(1);
@@ -205,33 +202,30 @@ void GameScreen::Update(GameState& gameState, float dt)
 	{
 		// update projectile
 		projectile->Update(dt);
-
-		//if(isMissle)
-		//{
-		//	isMissle = false;
-		//}
 		
 		// testing collision
 		for each(baseEnemyShip* enemy in pEnemies)
 		{
 
 			if(projectile->GetMeshBox().Intersects(enemy->GetMeshBox()))
-			{
-				projectile->Destroy();
-				
+			{				
 				switch(projectile->GetProjectileType())
 				{
 				case DEFAULT_BULLET:
+					projectile->Destroy();
 					enemy->calculateDamage(player.GetDefaultBulletPower());
 					break;
 				case MISSILE1:
+					projectile->Destroy();
 					enemy->calculateDamage(player.GetMissile1AttackPower());
-					//isMissle = true;
-					//projectilePos = projectile->GetPosition();
+					pList.push_front(new BlastRadius(projectile->GetPosition(),0.1f));
+					
+					break;
+				case BLAST_RADIUS:
+					enemy->calculateDamage(player.GetMissile1Amount());
 					break;
 				}
-				
-
+								
 				if(enemy->getHealth() <= 0)
 				{
 					enemy->destroyShip();
@@ -257,6 +251,32 @@ void GameScreen::Update(GameState& gameState, float dt)
 					case 5: break;
 					}
 				}
+			}
+		}
+
+		// Create an expanding radius that acts like an explosion perhaps
+		if(projectile->GetIsBlastMesh() == true && projectile->GetProjectileType() == BLAST_RADIUS)
+		{
+			//scale the bullet mesh 
+			if(projectile->GetIsExpanding())
+			{
+				if(projectile->GetRadiusScale() < 1.5)
+				{
+					projectile->IncrRadiusScale(2.0f * dt);
+					projectile->SetScale(projectile->GetRadiusScale());
+				}
+				if(projectile->GetRadiusScale() >= 1.5)
+					projectile->ContractRadius();
+			}
+			else
+			{
+				if(projectile->GetRadiusScale() > 0.1)
+				{
+					projectile->DecrRadiusScale(3.0f * dt);
+					projectile->SetScale(projectile->GetRadiusScale());
+				}
+				if(projectile->GetRadiusScale() <= 0.1)
+					projectile->Destroy();
 			}
 		}
 

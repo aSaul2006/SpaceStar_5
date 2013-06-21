@@ -136,6 +136,9 @@ public:
 	MeshObject GetScooterMesh() {return scooterMesh;}
 	MeshObject GetFighterMesh() {return fighterMesh;}
 
+	//Blast Meshes
+	//MeshObject GetBlastMesh1() {return blastMesh1;}
+
 	//NewScoreScreen Accessors
 	void setfinalscore(int value){finalScore = value;}
 	int getfinalscore(){return finalScore;}
