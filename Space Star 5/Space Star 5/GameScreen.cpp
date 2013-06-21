@@ -4,11 +4,7 @@
 #include "AttackWaves.h"
 #include "GameOverScreen.h"
 
-ViperWave1 * wave;
-ViperWave2 * wave2;
-ViperWave3 * wave3;
-ViperWave4 * wave4;
-ViperWave5 * wave5;
+AttackWaves* waves;
 ItemActor* ItemManager;
 
 
@@ -17,7 +13,7 @@ GameScreen::GameScreen(void)
 	type = GameType;
 	Initialize();
 	enemiesSpawned = 0;
-	spawnTime = timeTrack = 0.0;
+	spawnTime = 0.0;
 	enemyDestroyedCount = 0;
 	track = 0;
 }
@@ -56,23 +52,16 @@ void GameScreen::Initialize(void)
 	// Initialize SFX
 	AudioManager::GetInstance()->GetSystem()->createSound("8bitLaser1.wav", 
 		FMOD_DEFAULT, 0, &projSFX);
-	wave = new ViperWave1();
-	wave2 = new ViperWave2();
-	wave3 = new ViperWave3();
-	wave4 = new ViperWave4();
-	wave5 = new ViperWave5();
-	wave->AttackPattern(pEnemies);
-	
+
+	waves = new ViperWave1();
+	waves->AttackPattern(pEnemies);
+	//wave->AttackPattern(pEnemies);
+		
 	// initialize particle system
 	D3DXMATRIX psysWorld;
 	D3DXMatrixTranslation(&psysWorld, 0.0f, 0.0f, 0.0f);
 	psysBox.minPt = D3DXVECTOR3(-1.0f, -1.0f, -1.0f);
 	psysBox.maxPt = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-
-	////blast radius items
-	//isMissle = false;
-	//inRadius = true;
-	//projectilePos = D3DXVECTOR3(0, 0, 0);
 	
 }
 
@@ -110,13 +99,16 @@ void GameScreen::Update(GameState& gameState, float dt)
 		switch(pickAWave)
 		{
 		case 0:
-			wave->AttackPattern(pEnemies);
+			waves = new ViperWave1();
+			waves->AttackPattern(pEnemies);
 			break;
 		case 1:
-			wave2->AttackPattern(pEnemies);
+			waves = new ViperWave2();
+			waves->AttackPattern(pEnemies);
 			break;
 		case 2:
-			wave3->AttackPattern(pEnemies);
+			waves = new ViperWave3();
+			waves->AttackPattern(pEnemies);
 			break;
 		}
 	}
@@ -280,32 +272,6 @@ void GameScreen::Update(GameState& gameState, float dt)
 			}
 		}
 
-		////this code is to check a radius around the missle for enemies caught within the blast
-		//if(isMissle)
-		//{
-		//	for each(baseEnemyShip* enemy in pEnemies)
-		//	{
-		//		if(!inRadius)
-		//		{
-		//			inRadius = true;
-		//		}
-
-		//		if((projectilePos.x - enemy->getPosition().x) < -300 || (projectilePos.x - enemy->getPosition().x) > 300)
-		//		{
-		//			inRadius = false;
-		//		}
-
-		//		if((projectilePos.y - enemy->getPosition().y) < -300 || (projectilePos.y - enemy->getPosition().y) > 300)
-		//		{
-		//			inRadius = false;
-		//		}
-
-		//		if(inRadius)
-		//		{
-		//			enemy->calculateDamage(player.GetMissile1AttackPower());
-		//		}
-		//	}
-		//}
 	}
 
 	//Intermittenly produce a stardust mesh
