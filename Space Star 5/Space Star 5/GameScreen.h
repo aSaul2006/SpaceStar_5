@@ -62,6 +62,6 @@ public:
 
 	int GetFinalScore() {return player.GetScore();}
 
-	int GetRandDropRate(){return (rand() % 20 + 1) - (rand() % 10 + 5);}
+	int GetRandDropRate(){return ((rand() % 80 + 40) - (rand() % 15 + 5));}
 };
 
