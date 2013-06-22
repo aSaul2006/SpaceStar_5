@@ -379,24 +379,26 @@ void BlastRadius::Initialize()
 {
 	// build bounding box for the mesh
 	BYTE* vertices = NULL;
-	Initializer::GetInstance()->GetDefaultBulletMesh().mesh->LockVertexBuffer(
+	Initializer::GetInstance()->GetBlastMesh1().mesh->LockVertexBuffer(
 		D3DLOCK_READONLY, (LPVOID*)&vertices);
 
 	D3DXComputeBoundingBox((D3DXVECTOR3*)vertices, 
-		Initializer::GetInstance()->GetDefaultBulletMesh().mesh->GetNumVertices(),
+		Initializer::GetInstance()->GetBlastMesh1().mesh->GetNumVertices(),
 		D3DXGetFVFVertexSize(
-		Initializer::GetInstance()->GetDefaultBulletMesh().mesh->GetFVF()), 
+		Initializer::GetInstance()->GetBlastMesh1().mesh->GetFVF()), 
 		&meshBox.minPt, &meshBox.maxPt);
 
-	Initializer::GetInstance()->GetDefaultBulletMesh().mesh->UnlockVertexBuffer();
+	Initializer::GetInstance()->GetBlastMesh1().mesh->UnlockVertexBuffer();
 }
 	
 void BlastRadius::Update(float dt)
 {
-	m_rotateAngle += 2 * dt;
+	m_rotateAngle += 0.5 ;
+
+	if(m_rotateAngle >=360) m_rotateAngle = 0;
 
 	D3DXMatrixRotationYawPitchRoll(&rotateMat, 
-		D3DXToRadian(0.0f), D3DXToRadian(m_rotateAngle), 0);
+		D3DXToRadian(m_rotateAngle), D3DXToRadian(0), 0);
 	// Set the translate matrix based on the player's current position
 	D3DXMatrixTranslation(&translateMat, position.x, position.y, position.z);
 
@@ -437,21 +439,21 @@ void BlastRadius::Render(ID3DXEffect* shader)
 	{
 		shader->BeginPass(i);
 		for(DWORD j = 0; j < 
-			Initializer::GetInstance()->GetDefaultBulletMesh().numMaterials; j++)
+			Initializer::GetInstance()->GetBlastMesh1().numMaterials; j++)
 		{
 			shader->SetValue("ambientMaterial",
-				&Initializer::GetInstance()->GetDefaultBulletMesh().modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
+				&Initializer::GetInstance()->GetBlastMesh1().modelMaterial[j].Ambient, sizeof(D3DXCOLOR));
 			shader->SetValue("diffuseMaterial", 
-				&Initializer::GetInstance()->GetDefaultBulletMesh().modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
+				&Initializer::GetInstance()->GetBlastMesh1().modelMaterial[j].Diffuse, sizeof(D3DXCOLOR));
 			shader->SetValue("specularMaterial", 
-				&Initializer::GetInstance()->GetDefaultBulletMesh().modelMaterial[j].Specular, sizeof(D3DXCOLOR));
+				&Initializer::GetInstance()->GetBlastMesh1().modelMaterial[j].Specular, sizeof(D3DXCOLOR));
 			shader->SetFloat("specularPower", 
-				Initializer::GetInstance()->GetDefaultBulletMesh().modelMaterial[j].Power);
+				Initializer::GetInstance()->GetBlastMesh1().modelMaterial[j].Power);
 			shader->SetTexture("tex", 
-				Initializer::GetInstance()->GetDefaultBulletMesh().texture[j]);
+				Initializer::GetInstance()->GetBlastMesh1().texture[j]);
 			shader->SetBool("usingTexture", true);
 			shader->CommitChanges();
-			Initializer::GetInstance()->GetDefaultBulletMesh().mesh->DrawSubset(j);
+			Initializer::GetInstance()->GetBlastMesh1().mesh->DrawSubset(j);
 		}
 		shader->EndPass();
 	}

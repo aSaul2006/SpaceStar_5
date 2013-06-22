@@ -85,7 +85,7 @@ void Initializer::Initialize(HWND hWnd, IDirect3D9* m_pD3DObject,
 	healthPickup.Init(L"healthItemActor.X");
 	starDust.Init(L"starDustItemActor.X");
 	//create blast mesh
-	//blastMesh1.Init(L"blastMesh1.X");
+	blastRadiusMesh1.Init(L"blastRadius1.X");
 
 	// initialize decl
 	D3DVERTEXELEMENT9 particleElements[] =

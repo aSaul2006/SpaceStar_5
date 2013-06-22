@@ -17,6 +17,8 @@ private:
 	string missiles1;
 	string stardust;
 
+	int timeTrack;
+
 	RECT gaugeRect;
 public:
 	HUD(void);
