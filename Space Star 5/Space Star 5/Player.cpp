@@ -27,6 +27,8 @@ Player::Player(void)
 	takeDamage = false;
 	heal = false;
 	colorCounter = 0.0f;
+	isTutorial = false;
+	rotate = false;
 }
 
 Player::~Player(void)
@@ -63,8 +65,6 @@ void Player::Update(float dt)
 		lives--;
 	}
 
-	rotate = false;
-
 	// check the player's status
 	switch(status)
 	{
@@ -97,6 +97,8 @@ void Player::Update(float dt)
 		if(rotateAngle > 0)
 			rotateAngle -= rotateSpeed;
 	}
+
+	rotate = false;
 
 	// check when the player takes damage
 	if(takeDamage && colorCounter <= 1.0f)
@@ -171,87 +173,90 @@ void Player::Update(float dt)
 
 void Player::CheckPlayerInput(float dt)
 {
-	// Move player up
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_UP))
+	if(!isTutorial)
 	{
-		if(position.y < 5)
+		// Move player up
+		if(InputManager::GetInstance()->KeyboardKeyDown(DIK_UP))
 		{
-			position.y += speed * dt;
-			rotateAngle -= rotateSpeed;
-			rotate = true;
+			if(position.y < 5)
+			{
+				position.y += speed * dt;
+				rotateAngle -= rotateSpeed;
+				rotate = true;
+			}
 		}
-	}
 
-	// move player down
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_DOWN))
-	{
-		if(position.y > -7)
+		// move player down
+		if(InputManager::GetInstance()->KeyboardKeyDown(DIK_DOWN))
 		{
-			position.y -= speed * dt;
-			rotateAngle += rotateSpeed;
-			rotate = true;
+			if(position.y > -7)
+			{
+				position.y -= speed * dt;
+				rotateAngle += rotateSpeed;
+				rotate = true;
+			}
 		}
-	}
 
-	// move player left
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_LEFT))
-	{
-		if(!inBG)
+		// move player left
+		if(InputManager::GetInstance()->KeyboardKeyDown(DIK_LEFT))
 		{
-			if(position.x > -7)
-				position.x -= speed * dt;
+			if(!inBG)
+			{
+				if(position.x > -7)
+					position.x -= speed * dt;
+			}
+			else
+			{
+				if(position.x < 8)
+					position.x += speed * dt;
+			}
 		}
-		else
+
+		// move player right
+		if(InputManager::GetInstance()->KeyboardKeyDown(DIK_RIGHT))
 		{
-			if(position.x < 8)
-				position.x += speed * dt;
+			if(!inBG)
+			{
+				if(position.x < 8)
+					position.x += speed * dt;
+			}
+			else
+			{
+				if(position.x > -7)
+					position.x -= speed * dt;
+			}
 		}
-	}
 
-	// move player right
-	if(InputManager::GetInstance()->KeyboardKeyDown(DIK_RIGHT))
-	{
-		if(!inBG)
+		// initiate barrel roll
+		if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_Z) && currentGauge == 100.0f)
 		{
-			if(position.x < 8)
-				position.x += speed * dt;
+			status = BarrelRoll;
+			rotateAngle = 0.0f;	// reset object's rotation angle
 		}
-		else
+
+		// initiate dodge
+		else if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_X) && currentGauge == 100.0f)
 		{
-			if(position.x > -7)
-				position.x -= speed * dt;
-		}
-	}
-
-	// initiate barrel roll
-	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_Z) && currentGauge == 100.0f)
-	{
-		status = BarrelRoll;
-		rotateAngle = 0.0f;	// reset object's rotation angle
-	}
-
-	// initiate dodge
-	else if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_X) && currentGauge == 100.0f)
-	{
-		status = Dodge;
-		moveToBG = true;
-		rotateAngle = 0.0f;
-	}
-
-	// move to the second plane
-	if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_A))
-	{
-		status = MovePlane;
-		rotateAngle = 0.0f;
-		if(position.z == 0.0f)
-		{
+			status = Dodge;
 			moveToBG = true;
-			moveToFG = false;
+			rotateAngle = 0.0f;
 		}
-		else
+
+		// move to the second plane
+		if(InputManager::GetInstance()->KeyboardKeyPressed(DIK_A))
 		{
-			moveToBG = false;
-			moveToFG = true;
+			status = MovePlane;
+			rotateAngle = 0.0f;
+			if(position.z == 0.0f)
+			{
+				moveToBG = true;
+				moveToFG = false;
+			}
+			else
+			{
+				moveToBG = false;
+				moveToFG = true;
+			}
 		}
 	}
 

@@ -11,7 +11,7 @@ float3 lightPos : Position <
 	string Object = "PointLight0";
 	string UIName = "Light Position";
 	string Space = "World";
-	> = {-0.5f, 2.0f, 1.25f}; // light position
+	> = {-0.5f, 8.0f, 1.25f}; // light position
 	
 float3 ambientLight : Ambient <
 	string UIName = "Ambient Light";

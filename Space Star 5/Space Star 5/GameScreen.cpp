@@ -415,6 +415,7 @@ void GameScreen::Render(void)
 
 	// Render player ship
 	player.Render(shader);
+	player.SetTutorial(false);
 
 	// Render particle system
 	for each(PSystem* psys in pPSys)

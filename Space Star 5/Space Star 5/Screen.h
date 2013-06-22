@@ -12,6 +12,7 @@ enum GameState
 	GameOver,
 	NewScore,
 	HighScore,
+	Tutorial,
 	Exit
 };
 
@@ -23,6 +24,7 @@ enum ScreenType
 	GameOverType,
 	NewScoreType,
 	HighScoreType,
+	TutorialType,
 	ExitType
 };
 

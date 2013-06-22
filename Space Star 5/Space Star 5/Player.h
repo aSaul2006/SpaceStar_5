@@ -12,7 +12,7 @@ enum PlayerStatus
 		Normal,
 		BarrelRoll,
 		Dodge,
-		MovePlane
+		MovePlane,
 	};
 
 class Player
@@ -71,6 +71,8 @@ private:
 	bool heal;
 	float colorCounter;	// used to change color for a period of time
 
+	bool isTutorial;	// puts the player in its tutorial state
+
 public:
 	Player(void);
 	~Player(void);
@@ -81,7 +83,7 @@ public:
 	void Shutdown();
 
 	// Accessors
-	D3DXVECTOR3 GetPosition() {return position;}				// get position
+	D3DXVECTOR3 GetPosition() {return position;} // get position
 	
 	// get collision box
 	AABB GetMeshBox()
@@ -143,4 +145,95 @@ public:
 	void UpdateDodge(float dt);
 	void MoveToSecondPlane(float dt);
 	PlayerStatus GetStatus(void) {return status;}
+
+	// set player's tutorial state
+	void SetTutorial(bool tutorial) {isTutorial = tutorial;}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// tutorial functions
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Note: only use these functions in the tutorial screen
+	void ModifyPosition(D3DXVECTOR3 newPos, float dt) 
+	{
+		position += newPos * dt;
+
+		if(newPos.y != 0.0f)
+		{
+			if(newPos.y > 0.0f)
+			{
+				rotateAngle -= rotateSpeed;
+				rotate = true;
+			}
+			if(newPos.y < 0.0f)
+			{
+				rotateAngle += rotateSpeed;
+				rotate = true;
+			}
+		}
+
+		// clip player
+		if(position.y >= 5.0f)
+			position.y = 5.0f;
+		if(position.y <= 0.0f)
+			position.y = 0.0f;
+		if(position.x >= 0.0f)
+			position.x = 0.0f;
+		if(position.x <= -7.0f)
+			position.x = -7.0f;
+	}
+
+	// Note: only use these functions in the tutorial screen
+	void DoBarrelRoll(void)
+	{
+		if(currentGauge == 100.0f)
+		{
+			status = BarrelRoll;
+			rotateAngle = 0.0f;	// reset object's rotation angle
+		}
+	}
+
+	// Note: only use these functions in the tutorial screen
+	void DoDodge(void)
+	{
+		if(currentGauge == 100.0f)
+		{
+			status = Dodge;
+			moveToBG = true;
+			rotateAngle = 0.0f;
+		}
+	}
+
+	// Note: only use these functions in the tutorial screen
+	void DoPlaneChange(void)
+	{
+		status = MovePlane;
+		rotateAngle = 0.0f;
+		if(position.z == 0.0f)
+		{
+			moveToBG = true;
+			moveToFG = false;
+		}
+		else
+		{
+			moveToBG = false;
+			moveToFG = true;
+		}
+	}
+
+	// Note: only use these functions in the tutorial screen
+	void ResetPlayer(void)
+	{
+		position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		rotateAngle = 0.0f;
+		rotate = false;
+		moveToBG = false;
+		moveToFG = false;
+		status = Normal;
+		Camera::GetInstance()->SetEyePos(D3DXVECTOR3(
+			Camera::GetInstance()->GetEyePos().x,
+				Camera::GetInstance()->GetEyePos().y,
+				-10.0f));
+		currentGauge = 100.0f;
+	}
 };

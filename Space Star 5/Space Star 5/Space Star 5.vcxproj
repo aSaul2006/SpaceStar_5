@@ -98,6 +98,7 @@
     <ClCompile Include="sqlite3.c" />
     <ClCompile Include="State\MessageDispatcher.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
+    <ClCompile Include="TutorialScreen.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +137,7 @@
     <ClInclude Include="State\StateMachine.h" />
     <ClInclude Include="State\Telegram.h" />
     <ClInclude Include="TitleScreen.h" />
+    <ClInclude Include="TutorialScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
