@@ -40,5 +40,6 @@ public:
 	void PageUpdate4(float dt);
 	void PageUpdate5(float dt);
 	void PageUpdate6(float dt);
+	void PageUpdate7(float dt);
 };
 

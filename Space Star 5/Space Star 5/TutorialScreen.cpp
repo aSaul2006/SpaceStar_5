@@ -1,6 +1,6 @@
 #include "TutorialScreen.h"
 
-const short TutorialScreen::maxChoice = 6;
+const short TutorialScreen::maxChoice = 7;
 
 TutorialScreen::TutorialScreen(void)
 {
@@ -76,6 +76,9 @@ void TutorialScreen::Update(GameState& gameState, float dt)
 	case 6:
 		PageUpdate6(dt);
 		break;
+	case 7:
+		PageUpdate7(dt);
+		break;
 	}
 
 	if(pause)
@@ -118,7 +121,7 @@ void TutorialScreen::Update(GameState& gameState, float dt)
 	}
 
 	// delete projectiles from list if it's not the correct tutorial page
-	if(choice != 3)
+	if(choice != 3 && choice != 4)
 	{
 		for each(Projectile* projectile in pList)
 		{
@@ -212,6 +215,24 @@ void TutorialScreen::PageUpdate4(float dt)
 {
 	if(!pause)
 	{
+		pList.push_front(new Missile1(player.GetPosition(), D3DXVECTOR3(10.0f,0,0),0.3f));
+		pause = true;
+	}
+
+	// update the projectiles in pList
+	for each(Projectile* projectile in pList)
+	{
+		// update projectile
+		projectile->Update(dt);
+	}
+
+	print = "Press \"Left Ctrl\" key to fire a missle";
+}
+
+void TutorialScreen::PageUpdate5(float dt)
+{
+	if(!pause)
+	{
 		player.DoBarrelRoll();
 		pause = true;
 	}
@@ -219,7 +240,7 @@ void TutorialScreen::PageUpdate4(float dt)
 	print = "Press \"Z\" key to do a barrel roll";
 }
 
-void TutorialScreen::PageUpdate5(float dt)
+void TutorialScreen::PageUpdate6(float dt)
 {
 	if(!pause)
 	{
@@ -230,7 +251,7 @@ void TutorialScreen::PageUpdate5(float dt)
 	print = "Press \"X\" key to dodge";
 }
 
-void TutorialScreen::PageUpdate6(float dt)
+void TutorialScreen::PageUpdate7(float dt)
 {
 	if(!pause)
 	{
