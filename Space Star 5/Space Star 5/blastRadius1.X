@@ -101,7 +101,7 @@ Material PDX07_-_Default {
  0.690196;0.325490;0.000000;;
 
  TextureFilename {
-  "E:\\\\SpaceStar\\\\Space Star 5\\\\Space Star 5\\\\Agni-Baume-land.bmp";
+  "Agni-Baume-land.bmp";
  }
 }
 
