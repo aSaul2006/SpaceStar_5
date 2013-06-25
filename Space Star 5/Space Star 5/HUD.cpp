@@ -1,4 +1,5 @@
 #include "HUD.h"
+#include "Misc\CrudeTimer.h"
 
 HUD::HUD(void)
 {
@@ -26,6 +27,7 @@ HUD::HUD(void)
 	barPosition[2] = D3DXVECTOR3(92.0f, 52.0f, 0);
 
 	score = "";
+	timeTrack = 0;
 
 	SetRect(&gaugeRect, 0, 0, 284, 10);
 }

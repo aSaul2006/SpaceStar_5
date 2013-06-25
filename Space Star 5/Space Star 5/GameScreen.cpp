@@ -252,12 +252,12 @@ void GameScreen::Update(GameState& gameState, float dt)
 			//scale the bullet mesh 
 			if(projectile->GetIsExpanding())
 			{
-				if(projectile->GetRadiusScale() < 1.5)
+				if(projectile->GetRadiusScale() < 1.3)
 				{
 					projectile->IncrRadiusScale(2.0f * dt);
 					projectile->SetScale(projectile->GetRadiusScale());
 				}
-				if(projectile->GetRadiusScale() >= 1.5)
+				if(projectile->GetRadiusScale() >= 1.3)
 					projectile->ContractRadius();
 			}
 			else

@@ -102,7 +102,7 @@ public:
 			}
 		}
 	}playerMesh, defaultBulletMesh, missileMesh1, viperMesh, scooterMesh, fighterMesh,
-		healthPickup, missilePickup1, starDust;
+		healthPickup, missilePickup1, starDust, blastRadiusMesh1;
 
 	~Initializer(void);
 
@@ -137,7 +137,7 @@ public:
 	MeshObject GetFighterMesh() {return fighterMesh;}
 
 	//Blast Meshes
-	//MeshObject GetBlastMesh1() {return blastMesh1;}
+	MeshObject GetBlastMesh1() {return blastRadiusMesh1;}
 
 	//NewScoreScreen Accessors
 	void setfinalscore(int value){finalScore = value;}
